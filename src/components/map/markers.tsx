@@ -15,7 +15,6 @@ const Markers = ({points}: Props) => {
         if(!map) return
         if(!clusterer.current) {
             clusterer.current = new MarkerClusterer({map})
-
         }
     }, [map])
 

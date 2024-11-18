@@ -2,10 +2,12 @@ import { useEffect, useState } from "react"
 import IOffice from "../../../interfaces/IOffice"
 import getOffices from "../../../utils/getOffices"
 import OfficeCardLong from "../../cards/officecardlong"
+import { SaveSearchButton } from "./savesearchbuttont"
 
 const LedigaLokaler = () => {
     const [offices, setOffices] = useState<Array<IOffice>>([])
     const [search, setSearch] = useState<string | undefined>(undefined)
+    const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
     const [price, setPrice] = useState<number>(0)
     const [size, setSize] = useState<number>(0)
     const [type, setType] = useState<string>("kontor")
@@ -52,7 +54,7 @@ const LedigaLokaler = () => {
                             required 
                         />
                         <button 
-                            onClick={(e) => { e.preventDefault(); loadOffices(search) }} 
+                            onClick={(e) => { e.preventDefault(); loadOffices(search); setSubmittedSearch(search) }} 
                             type="submit" 
                             className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300"
                         >
@@ -101,29 +103,15 @@ const LedigaLokaler = () => {
                     </div>
                 </div>
 
-                {/*
-                <div className="w-full flex justify-center gap-8 mt-4">
-                    <OfficeTypeRing name={"Kontor"} Icon={HiBuildingOffice} />
-                    <OfficeTypeRing name={"Kontor"} Icon={HiBuildingOffice} />
-                    <OfficeTypeRing name={"Kontor"} Icon={HiBuildingOffice} />
-                    <OfficeTypeRing name={"Kontor"} Icon={HiBuildingOffice} />
-                    <OfficeTypeRing name={"Kontor"} Icon={HiBuildingOffice} />
-                </div>
-                */}
                 <div className="grid gap-8 w-full mx-auto mt-8">
-                    <div className="flex justify-between">
-                        <div>
+                    <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
                             <select
-                                id="location" 
-                                className="mt-2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                className="px-4 py-2 text-gray-700 font-semibold border border-gray-700 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
                                 onChange={(e) => setType(e.target.value)} 
                             >
                                 <option value="kontor" selected>Kontor</option>
                             </select>
-                        </div>
-                        <button className="">
-
-                        </button>
+                            <SaveSearchButton submittedSearch={submittedSearch} />
                     </div>
                     {offices.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
                 </div>
@@ -131,5 +119,7 @@ const LedigaLokaler = () => {
         </div>
     )
 }
+
+
 
 export default LedigaLokaler

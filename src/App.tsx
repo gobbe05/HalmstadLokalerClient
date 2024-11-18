@@ -8,10 +8,10 @@ import Layout from "./components/layout/layout";
 import Register from "./components/pages/register/register";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import LedigaLokaler from "./components/pages/lediga-lokaler/LedigaLokaler";
+import LedigaLokaler from "./components/pages/lediga-lokaler/ledigalokaler";
 import HyrUtLokal from "./components/pages/hyr-ut-lokal/hyrutlokal";
-import CreateOffice from "./components/pages/hyr-ut-lokal/createoffice";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Bevakningar from "./components/pages/bevakningar/bevakningar";
 
 const App: React.FC = () => {
   return (
@@ -25,10 +25,12 @@ const App: React.FC = () => {
             <Route index element={<Home />} />
             <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
               <Route index element={<HyrUtLokal />} />
-              <Route path="/hyr-ut-lokal/:type" element={<CreateOffice />} />
             </Route>
             <Route path="/lediga-lokaler">
               <Route index element={<LedigaLokaler />} />
+            </Route>
+            <Route path="/bevakningar">
+              <Route index element={<Bevakningar />}/>
             </Route>
           </Route>
         </Routes>

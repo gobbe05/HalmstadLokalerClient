@@ -22,7 +22,7 @@ const LedigaLokaler = () => {
     }, [])
 
     return (
-    <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 mt-16 rounded">
+    <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-16 rounded">
             <h1 className="text-2xl font-semibold text-center">Hitta en lokal som passar dig</h1>
             <div className="mx-auto mt-8">
                 <form className="w-full mt-8">

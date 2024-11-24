@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HiOutlineBell, HiOutlineUserCircle } from "react-icons/hi2";
+import { HiOutlineBell, HiOutlineChatBubbleLeftEllipsis, HiOutlineUserCircle } from "react-icons/hi2";
 import { HiOutlineLogout, HiOutlineSearch } from "react-icons/hi";
 import { useAuth } from "../../context/Auth/AuthContext";
 import NewOfficeButton from "../buttons/newofficebutton";
@@ -13,9 +13,15 @@ export default function Links() {
             <NewOfficeButton link="/hyr-ut-lokal"/>
             <HeaderLink text="Lediga lokaler" link="/lediga-lokaler" Icon={HiOutlineSearch}/>
             <HeaderLink text="Bevakningar" link="/bevakningar" Icon={HiOutlineBell}/>
+            
             {isAuthenticated ? 
-                <button className="hover:text-red-500 transition-colors duration-300" onClick={logout}><HiOutlineLogout className="mx-auto" size={24}/><p className="text-sm">Logout</p></button> : 
-                <Link to="/login" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineUserCircle className="mx-auto" size={24}/><p className="text-sm">Logga in</p></Link>}
+            
+           <>
+                <Link to="/meddelanden" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineChatBubbleLeftEllipsis className="mx-auto" size={24}/><p className="text-sm">Meddelanden</p></Link>   
+                <button className="hover:text-red-500 transition-colors duration-300" onClick={logout}><HiOutlineLogout className="mx-auto" size={24}/><p className="text-sm">Logout</p></button>
+           </> : 
+            <Link to="/login" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineUserCircle className="mx-auto" size={24}/><p className="text-sm">Logga in</p></Link>}
+            
             {/*<Link to="/meddelanden"><HiOutlineChatBubbleBottomCenterText className="mx-auto" size={24}/><p className="text-sm">Meddelanden</p></Link>*/}
         </div>
     )

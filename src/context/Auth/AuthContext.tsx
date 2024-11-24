@@ -5,6 +5,7 @@ import initializeAuth from "./initializeAuth";
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  authId: string | undefined,
   isLoading: boolean,
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   login: (username: string, password: string) => Promise<number>;
@@ -16,11 +17,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authId, setAuthId] = useState<string | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
 
   // Check authentication status on initial load
   useEffect(() => {
-    initializeAuth(setIsAuthenticated, setIsLoading)
+    initializeAuth(setIsAuthenticated, setIsLoading, setAuthId)
   }, []);
   
   const login = async (username: string, password: string): Promise<number> => {
@@ -32,8 +34,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             "Content-Type": "application/json"
         }
     })
-    if(response.status == 200) { 
+    if(response.status == 200) {
+        const data = await response.json()   
         setIsAuthenticated(true)
+        setAuthId(data._id)
         localStorage.setItem("isAuthenticated", "true"); // Save to localStorage
         return response.status
     }
@@ -51,7 +55,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, logout, login, register, isLoading }}>
+    <AuthContext.Provider value={{ isAuthenticated, authId, setIsAuthenticated, logout, login, register, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

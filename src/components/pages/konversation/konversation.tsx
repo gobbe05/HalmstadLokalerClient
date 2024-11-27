@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useState } from "react"
+import { useParams } from "react-router-dom"
 import IMessage from "../../../interfaces/IMessage"
 import SendMessageForm from "./sendmessage"
 import { useQuery } from "@tanstack/react-query"
-import { useAuth } from "../../../context/Auth/AuthContext"
+import Message from "./message"
+import LoadingMessage from "./loadingmessage"
 
 export default function Konversation() {
     const {id} = useParams()
-    const navigate = useNavigate()
     
     const [messages, setMessages] = useState<Array<IMessage>>([])
 
@@ -21,7 +21,7 @@ export default function Konversation() {
         }
     })
 
-    if(isPending || !id) return (<>Loading...</>);
+    if(isPending || !id) return (<LoadingMessage />);
     if(error) return 'An error has occurred: ' + error.message;
 
     return (
@@ -34,27 +34,3 @@ export default function Konversation() {
     )
 }
 
-type MessageProps = {
-    message: IMessage    
-}
-const Message = ({message} : MessageProps) => {
-    const [sender, setSender] = useState<string>("")
-    const {authId} = useAuth()
-
-    const GetSenderName = async () => {
-        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/auth/username/${message.sender}`)
-        const data = await response.json() 
-        setSender(data.username)
-    }
-
-    useEffect(() => {
-        GetSenderName()
-    }, [message])
-
-    return (
-        <div className={`${message.sender == authId ? "bg-blue-500 text-white" : "bg-gray-200"} p-2`}>
-            <h1>{sender}</h1>
-            <p>{message.message}</p>
-        </div>
-    )
-}

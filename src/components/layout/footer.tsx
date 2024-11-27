@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <div className="w-full text-gray-700 bg-white p-8">
+        <div className="w-full text-gray-700 bg-white p-8 mt-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mt-4">
                 <div>
                     <h3 className="text-xl font-semibold text-gray-800">HalmstadLokaler</h3>

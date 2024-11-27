@@ -1,33 +1,35 @@
-import { useEffect, useState } from "react"
 import IConversation from "../../../interfaces/IConversation"
-import IMessage from "../../../interfaces/IMessage"
 import { Link } from "react-router-dom"
+import { useQuery } from "@tanstack/react-query"
+import FiveHundred from "../../layout/FiveHundred"
 
 export default function Conversation({passedConversation}: {passedConversation: IConversation}) {
     return (
         <Link to={`/meddelanden/${passedConversation._id}`} className="flex flex-col border border-gray-700 rounded p-4">
-            <p>{passedConversation._id}</p>
+            <p>{passedConversation.subject}</p>
             <LatestMessage id={passedConversation._id}/>
         </Link>
     )
 }
 
 const LatestMessage = ({id}: {id: string}) => {
-    const [latestMessage, setLatestMessage] = useState<IMessage | undefined>()
-    const GetLatestMessage = async () => {
-        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message/latest/${id}`, {
-            credentials: "include"
-        })
-        const data = await response.json()
-        setLatestMessage(data.message.message)
-    }
-
-    useEffect(() => {
-        GetLatestMessage()
-    }, [])
-
+    const {isPending,error,data} = useQuery({
+        queryKey: ['latestmessage'],
+        queryFn: () => {
+            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message/latest/${id}`, {
+                credentials: "include"
+            }).then(response => response.json())
+        }
+    })
+   
+    if(isPending) return <LoadingConversation />
+    if(error) return <FiveHundred />
     return (
         <>
-            {latestMessage}
+        {data.message.message}
         </>)
+}
+
+const LoadingConversation = () => {
+    return ("Loading...")    
 }

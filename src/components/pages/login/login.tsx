@@ -17,14 +17,6 @@ const Login: React.FC = () => {
       pending: "Kontrollerar dina inloggningsuppgifter", 
       success: "Inloggning lyckades",
       error: "Något gick tyvärr fel. Försök igen!"
-    }, {
-      position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: "colored",
-        transition: Bounce,
     })
   };
   if(isAuthenticated) {

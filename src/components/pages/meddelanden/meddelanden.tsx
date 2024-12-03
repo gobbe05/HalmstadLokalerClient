@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import IConversation from "../../../interfaces/IConversation"
 import Conversation from "./conversation"
 import { useQuery } from "@tanstack/react-query"
@@ -18,9 +17,11 @@ export default function Meddelanden() {
     if(isPending) return <Loading />
     if(error) return <FiveHundred />
     return (
-        <div className="w-2/3 p-16 mx-auto my-16 bg-white">
-            <h1 className="text-2xl">Meddelanden</h1>
-            {data.conversations.map((conversation: IConversation) => <Conversation passedConversation={conversation} />)}
+        <div className="w-1/2 p-16 mx-auto my-16 text-gray-700 bg-white rounded">
+            <h1 className="text-2xl font-semibold">Meddelanden</h1>
+            <div className="flex flex-col gap-2 mt-4">
+                {data.conversations.length == 1 ? data.conversations.map((conversation: IConversation) => <Conversation passedConversation={conversation} />) : <p className="">Här var det tomt. Påbörja en konversation och kom tillbaks.</p>}
+            </div>
         </div>
     )
 }

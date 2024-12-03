@@ -1,7 +1,6 @@
 import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
-import { HiArrowLeft } from "react-icons/hi2"
-import { Link, useNavigate, useParams } from "react-router-dom"
+import { useNavigate} from "react-router-dom"
 import postOffice from "../../../utils/postOffice"
 import { toast } from "react-toastify"
 import BackButton from "../../buttons/backbutton"
@@ -18,7 +17,7 @@ export default function HyrUtLokal() {
     const [size, setSize] = useState<number | undefined>(undefined)
     const [price, setPrice] = useState<number | undefined>(undefined)
     const [image, setImage] = useState<File | null>(null)
-    const [type, setType] = useState<string>("")
+    const [, setType] = useState<string>("")
 
     const navigate = useNavigate()
 

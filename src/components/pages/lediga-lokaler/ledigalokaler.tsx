@@ -9,8 +9,8 @@ const LedigaLokaler = () => {
     const [search, setSearch] = useState<string | undefined>(undefined)
     const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
     const [price, setPrice] = useState<number>(0)
-    const [size, setSize] = useState<number>(0)
-    const [type, setType] = useState<string>("kontor")
+    const [, setSize] = useState<number>(0)
+    const [, setType] = useState<string>("kontor")
     
     const loadOffices = async (search?: string) => {
         const offices = search ? await getOffices(search) : await getOffices()

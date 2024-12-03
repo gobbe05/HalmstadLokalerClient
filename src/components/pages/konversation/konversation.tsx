@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useParams } from "react-router-dom"
 import IMessage from "../../../interfaces/IMessage"
 import SendMessageForm from "./sendmessage"
@@ -9,8 +8,6 @@ import LoadingMessage from "./loadingmessage"
 export default function Konversation() {
     const {id} = useParams()
     
-    const [messages, setMessages] = useState<Array<IMessage>>([])
-
     const {isPending, error, data} = useQuery({
         queryKey: ['messages'],
         queryFn: async () => {

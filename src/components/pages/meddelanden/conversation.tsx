@@ -1,20 +1,37 @@
 import IConversation from "../../../interfaces/IConversation"
 import { Link } from "react-router-dom"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import FiveHundred from "../../layout/FiveHundred"
+import { HiOutlineTrash } from "react-icons/hi2"
+import { toast } from "react-toastify"
 
 export default function Conversation({passedConversation}: {passedConversation: IConversation}) {
+    const queryClient = useQueryClient()
+    const deleteConversation = async () => {
+        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/conversation/${passedConversation._id}`, {
+            method: "DELETE",
+            credentials: "include"
+        })
+        if(response.status == 200) toast.success("Tog bort konversation");
+        if(response.status == 500) toast.success("Någonting gick fel...");
+        queryClient.invalidateQueries({queryKey: [`conversations`]})
+    }
     return (
-        <Link to={`/meddelanden/${passedConversation._id}`} className="flex flex-col border border-gray-700 rounded p-4">
-            <p>{passedConversation.subject}</p>
-            <LatestMessage id={passedConversation._id}/>
-        </Link>
+        <div className="flex items-stretch justify-between overflow-hidden rounded text-gray-700 transition-all">
+            <Link to={`/meddelanden/${passedConversation._id}`} className="hover:bg-gray-100 flex-grow p-4">
+                <p className="flex flex-col text-lg font-semibold">{passedConversation.subject}</p>
+                <LatestMessage id={passedConversation._id}/>
+            </Link>
+            <button onClick={deleteConversation} className="flex items-center justify-center p-4 bg-red-400 hover:bg-red-500 text-white transition-all">
+                <HiOutlineTrash size={24}/>
+            </button>
+        </div>
     )
 }
 
 const LatestMessage = ({id}: {id: string}) => {
     const {isPending,error,data} = useQuery({
-        queryKey: ['latestmessage'],
+        queryKey: [`latestmessage+${id}`],
         queryFn: () => {
             return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message/latest/${id}`, {
                 credentials: "include"
@@ -22,14 +39,14 @@ const LatestMessage = ({id}: {id: string}) => {
         }
     })
    
-    if(isPending) return <LoadingConversation />
+    if(isPending) return <LoadingMessage />
     if(error) return <FiveHundred />
     return (
-        <>
-        {data.message.message}
-        </>)
+        <p className="font-light text-sm">
+            {data.message.message}
+        </p>)
 }
 
-const LoadingConversation = () => {
-    return ("Loading...")    
+const LoadingMessage = () => {
+    return ("...")    
 }

@@ -1,5 +1,5 @@
 
-export default async function getPins(search?: string): Promise<Array<any>> {
+export default async function getPins(): Promise<Array<any>> {
     const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/pin`)
     if(response.status != 200) throw new Error("There was an error fetching offices")
     const data = await response.json()

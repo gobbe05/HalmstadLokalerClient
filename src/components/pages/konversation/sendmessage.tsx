@@ -12,7 +12,7 @@ export default function SendMessageForm({conversation}: SendMessageFormProps) {
 
     const SendMessage = async (event: FormEvent) => {
         event.preventDefault()
-        const status = await postMessage(message, conversation)
+        await postMessage(message, conversation)
         queryClient.invalidateQueries({queryKey: ['messages']})
     }
 

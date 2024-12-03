@@ -6,7 +6,7 @@ export const SaveSearchButton = ({submittedSearch}: {submittedSearch: string | u
     const [triggerRefetch, setTriggerRefetch] = useState<boolean>(false)
     const {isAuthenticated} = useAuth()
     const toggleSearchButton = async () => {
-        await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/savedsearch/toggle`, {
+        await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch/toggle`, {
             method: "POST",
             credentials: "include",
             body: JSON.stringify({search: submittedSearch}),
@@ -29,7 +29,7 @@ const Bell = ({submittedSearch, triggerRefetch}: {submittedSearch: string | unde
 
     const checkIfInSearch = async () => {
         if(!submittedSearch) return;
-        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/savedsearch/insavedsearch?search=${submittedSearch}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch/insavedsearch?search=${submittedSearch}`, {
             method: "GET",
             credentials: "include"
         })

@@ -19,7 +19,7 @@ export default function ContactButton({broker}: Props) {
 
     const sendFirstMessage = async (event: FormEvent) => {
         event.preventDefault()
-        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message/first`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/first`, {
             method: "POST",
             credentials: "include",
             headers: {

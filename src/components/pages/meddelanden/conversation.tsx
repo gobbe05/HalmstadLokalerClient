@@ -8,7 +8,7 @@ import { toast } from "react-toastify"
 export default function Conversation({passedConversation}: {passedConversation: IConversation}) {
     const queryClient = useQueryClient()
     const deleteConversation = async () => {
-        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/conversation/${passedConversation._id}`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/conversation/${passedConversation._id}`, {
             method: "DELETE",
             credentials: "include"
         })
@@ -33,7 +33,7 @@ const LatestMessage = ({id}: {id: string}) => {
     const {isPending,error,data} = useQuery({
         queryKey: [`latestmessage+${id}`],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message/latest/${id}`, {
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/latest/${id}`, {
                 credentials: "include"
             }).then(response => response.json())
         }

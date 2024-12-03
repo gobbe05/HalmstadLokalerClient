@@ -8,7 +8,7 @@ export default async function postOffice(name: string, location: string, size: n
     formData.append("lng", position.lng.toString()),
     formData.append("image", image)
     
-    const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/office`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office`, {
         method: "POST",
         credentials: "include",
         body: formData

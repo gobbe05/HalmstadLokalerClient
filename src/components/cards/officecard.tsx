@@ -2,13 +2,12 @@ import { Link } from "react-router-dom";
 import IOffice from "../../interfaces/IOffice";
 
 export default function OfficeCard({office}: {office: IOffice}) {
-  const serverUrl = `http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}`;
   
   return (
     <Link to={"/lokal/"+office._id} className="w-full bg-white text-gray-700 border shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-all transform group">
       <img 
         className="w-full h-[150px] object-cover" 
-        src={`${serverUrl}${office.image}`} 
+        src={`${import.meta.env.VITE_SERVER_ADDRESS}${office.image}`} 
         alt={`Bild på lokal i ${location}`} 
       />
       <div className="p-4">

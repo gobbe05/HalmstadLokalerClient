@@ -10,7 +10,7 @@ const Message = ({message} : MessageProps) => {
     const {authId} = useAuth()
 
     const GetSenderName = async () => {
-        const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/auth/username/${message.sender}`)
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/username/${message.sender}`)
         const data = await response.json() 
         setSender(data.username)
     }

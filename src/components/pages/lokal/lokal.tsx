@@ -12,7 +12,7 @@ export default function Lokal() {
     const {isPending, data, error} = useQuery({
         queryKey: ['office'],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/office/${id}`).then(response => response.json())
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${id}`).then(response => response.json())
         }
     })
 

@@ -1,5 +1,5 @@
 export default async function register (email: string, username: string, password: string): Promise<number | Error> {
-    const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/auth/register`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/register`, {
       method: "POST",
       credentials: "include",
       headers: {

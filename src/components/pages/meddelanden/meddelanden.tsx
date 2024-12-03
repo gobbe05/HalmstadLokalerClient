@@ -8,7 +8,7 @@ export default function Meddelanden() {
     const {isPending,error,data} = useQuery({
         queryKey: ['conversations'],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/conversation`, {
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/conversation`, {
                 credentials: "include"
             }).then(response => response.json())
         }

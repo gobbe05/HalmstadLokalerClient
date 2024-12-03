@@ -12,7 +12,7 @@ export default function AllaKontor() {
     const {isPending, error, data} = useQuery({
         queryKey: ["allmyoffices"],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/office/user/${authId}`)
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/user/${authId}`)
             .then(response => response.json())
         } 
     })

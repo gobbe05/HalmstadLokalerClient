@@ -17,7 +17,7 @@ const Views = () => {
     const {isPending, data} = useQuery({
         queryKey: ["viewcount"],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/statistics/views`, {credentials: "include"}).then(response => response.json())
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/statistics/views`, {credentials: "include"}).then(response => response.json())
         }
     })
     if(isPending) return
@@ -30,7 +30,7 @@ const Offices = () => {
     const {isPending, data} = useQuery({
         queryKey: ["officescount"],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/statistics/offices`, {credentials: "include"}).then(response => response.json())
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/statistics/offices`, {credentials: "include"}).then(response => response.json())
         }
     })
     if(isPending) return
@@ -42,7 +42,7 @@ const Visits = () => {
     const {isPending, data} = useQuery({
         queryKey: ["clicks"],
         queryFn: () => {
-            return fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/statistics/visits`, {credentials: "include"}).then(response => response.json())
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/statistics/visits`, {credentials: "include"}).then(response => response.json())
         }
     })
     if(isPending) return

@@ -1,5 +1,5 @@
 export default async function postMessage(message: string, conversation: string) {
-    const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message`, {
         method: "POST",
         credentials: "include",
         headers: {

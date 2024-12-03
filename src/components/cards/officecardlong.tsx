@@ -5,7 +5,7 @@ export default function OfficeCardLong({office}: {office: IOffice}) {
     return (
         <Link to={"/lokal/"+office._id} className="w-full flex bg-white text-gray-700 border rounded-md shadow hover:shadow-md overflow-hidden group transition-all">
             <div>
-                <img className="h-full" src={`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}`+office.image}/>
+                <img className="h-full" src={`${import.meta.env.VITE_SERVER_ADDRESS}`+office.image}/>
             </div>
             <div className="w-full p-4">
                 <div className="text-gray-700"> <h1 className="text-xl font-semibold group-hover:underline underline-offset-2">{office.location}</h1>

@@ -1,26 +1,21 @@
 {
   "compilerOptions": {
-    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
-    "jsx": "react-jsx",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "target": "ESNext",                      // Target the latest JavaScript features
+    "useDefineForClassFields": true,         // Align with ECMAScript standards
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Include browser and ES features
+    "allowJs": false,                        // Disallow JavaScript files
+    "skipLibCheck": true,                    // Skip type checking of declaration files
+    "esModuleInterop": false,                // Align with ES module standards
+    "allowSyntheticDefaultImports": true,    // Allow default imports from modules without default exports
+    "strict": true,                          // Enable strict type-checking
+    "forceConsistentCasingInFileNames": true, // Ensure consistent casing in imports
+    "module": "ESNext",                      // Use the latest module system
+    "moduleResolution": "Node",             // Resolve modules in a Node.js-style
+    "resolveJsonModule": true,               // Allow importing JSON files
+    "isolatedModules": true,                 // Required for Vite
+    "jsx": "react-jsx",                      // Use the modern JSX runtime
+    "noEmit": true                           // Do not emit output files (handled by Vite)
   },
-  "include": ["src"]
+  "include": ["src"],                        // Include only the source files
+  "exclude": ["node_modules", "dist"]        // Exclude node_modules and build output
 }

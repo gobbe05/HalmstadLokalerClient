@@ -11,7 +11,7 @@ export default function Konversation() {
     const {isPending, error, data} = useQuery({
         queryKey: ['messages'],
         queryFn: async () => {
-            const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/api/message/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/${id}`, {
                 credentials: "include"
             })
             return response.json()

@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
   
   const login = async (username: string, password: string): Promise<number> => {
-    const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/auth/login`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/login`, {
         method: "POST",
         body: JSON.stringify({username, password}),
         credentials: "include",
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     throw new Error("401")
   }
   const logout = async () => {
-    const response = await fetch(`http://${import.meta.env.VITE_SERVER_IP}:${import.meta.env.VITE_SERVER_PORT}/auth/logout`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/logout`, {
         credentials: "include"
     })
     if(response.status == 200) {

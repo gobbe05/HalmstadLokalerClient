@@ -18,5 +18,4 @@
   },
   "include": ["src"],                        // Include only the source files
   "exclude": ["node_modules", "dist"],        // Exclude node_modules and build outputa
-  "references": [{ "path": "./tsconfig.node.json" }]
 }

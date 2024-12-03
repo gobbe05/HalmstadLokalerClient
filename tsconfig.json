@@ -17,5 +17,6 @@
     "noEmit": true                           // Do not emit output files (handled by Vite)
   },
   "include": ["src"],                        // Include only the source files
-  "exclude": ["node_modules", "dist"]        // Exclude node_modules and build output
+  "exclude": ["node_modules", "dist"],        // Exclude node_modules and build outputa
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

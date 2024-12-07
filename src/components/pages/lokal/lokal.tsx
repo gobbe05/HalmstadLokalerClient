@@ -23,7 +23,7 @@ export default function Lokal() {
         <div className="flex-grow bg-white">
             <div className="flex w-2/3 mx-auto my-16 p-16">
                 <div className="w-2/3">
-                    <img className="w-full" src={"http://localhost:5000"+data.office.image} />
+                    <img className="w-full" src={data.office.image} />
                     <div className="flex justify-between mt-4">
                         <h1 className="text-2xl font-semibold">{data.office.name}</h1>
                         {isAuthenticated && <ContactButton broker={data.office.owner} />}

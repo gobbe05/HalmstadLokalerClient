@@ -1,5 +1,4 @@
 import {
-    APIProvider,
     Map,
 } from '@vis.gl/react-google-maps'
 import { useEffect, useState } from 'react';
@@ -20,13 +19,11 @@ const mapSection = ({width, height}: {width: number, height: number}) => {
     }, []) 
     return (
         <div className="text-gray-700">
-            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
-                <div style={{height, width}}>
-                    <Map defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
-                        <Markers points={points} />
-                    </Map>
-                </div>
-            </APIProvider>
+            <div style={{height, width}}>
+                <Map defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
+                    <Markers points={points} />
+                </Map>
+            </div>
         </div>
     )
 }

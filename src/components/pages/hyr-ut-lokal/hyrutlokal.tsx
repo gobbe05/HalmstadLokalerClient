@@ -1,9 +1,11 @@
-import { AdvancedMarker, APIProvider, Map } from "@vis.gl/react-google-maps"
+import { AdvancedMarker, Map } from "@vis.gl/react-google-maps"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useNavigate} from "react-router-dom"
 import postOffice from "../../../utils/postOffice"
 import { toast } from "react-toastify"
 import BackButton from "../../buttons/backbutton"
+import { TagsInput } from "react-tag-input-component"
+import { Autocomplete, LoadScript } from "@react-google-maps/api"
 
 type markerType = {
     lat: number,
@@ -17,7 +19,8 @@ export default function HyrUtLokal() {
     const [size, setSize] = useState<number | undefined>(undefined)
     const [price, setPrice] = useState<number | undefined>(undefined)
     const [image, setImage] = useState<File | null>(null)
-    const [, setType] = useState<string>("")
+    const [type, setType] = useState<string>("kontor")
+    const [tags, setTags] = useState<Array<string>>([])
 
     const navigate = useNavigate()
 
@@ -27,7 +30,7 @@ export default function HyrUtLokal() {
             toast.error("Fyll i all information")
             return;
         }
-        const office = await postOffice(name, location, size, price, marker, image)
+        const office = await postOffice(name, location, size, type, price, marker, image, tags)
         if(office) {
             toast.success("Skapade en ny annons")
             navigate("/")
@@ -41,11 +44,9 @@ export default function HyrUtLokal() {
             setImage(event.target.files[0])
         }
     }
-    useEffect(() => {
-        console.log(image)
-    }, [image])
 
     return (
+
         <div className="w-full flex flex-col items-center my-16 text-gray-700"> 
             <div className="w-[1024px] flex items-center gap-24 bg-white p-16 rounded">
                 <form onSubmit={handleForm} className="flex-grow flex flex-col gap-4">
@@ -55,10 +56,8 @@ export default function HyrUtLokal() {
                         className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
                         name="name" 
                         placeholder="Namn..."/>
-                    <input onChange={(event) => {setLocation(event.target.value)}} 
-                        className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
-                        name="location" 
-                        placeholder="Adress..."/>
+                    <LocationInput setLocation={setLocation} setMarker={setMarker}/>
+                    
                     <input onChange={(event) => {setSize(+event.target.value)}} 
                         className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
                         name="size" type="number" 
@@ -67,8 +66,14 @@ export default function HyrUtLokal() {
                         className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500"
                         type="number"
                         placeholder="100 kr/mån"/>
-                    <select onChange={(event) => {setType(event.target.value)}} className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500">
-                        <option value="Kontor" selected>Kontor</option>
+                    <TagsInput
+                        value={tags}
+                        onChange={setTags}
+                        name="tags"
+                        placeHolder="Taggar..."
+                    />
+                    <select defaultValue={"Kontor"} onChange={(event) => {setType(event.target.value)}} className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500">
+                        <option value="Kontor">Kontor</option>
                     </select>
                     <h1 className="text-lg font-semibold mt-4" onChange={handleImageChange}>Ladda upp en bild</h1>
                     <input
@@ -79,12 +84,38 @@ export default function HyrUtLokal() {
                     
                     <button className="p-2 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded text-white transition-all duration-500">Skapa annons</button>
                 </form>
-            <div>
-                <h1 className="text-xl font-semibold my-4">Klicka i den platsen som lokalen ligger på</h1>
-                <ChooseLocation setMarker={setMarker} marker={marker}/>
-            </div>
             </div>
         </div>
+    )
+}
+
+const LocationInput = ({setLocation, setMarker} : {setLocation : React.Dispatch<React.SetStateAction<string>>, setMarker: React.Dispatch<React.SetStateAction<markerType>>}) => {
+    const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+
+    const onLoad = (autoC: google.maps.places.Autocomplete) => {setAutocomplete(autoC)};
+
+    const onPlaceChanged = () => {
+    if (autocomplete) {
+        const place = autocomplete.getPlace();
+        if(place.geometry && place.geometry.location) {
+            const lat = place.geometry.location.lat()
+            const lng = place.geometry.location.lng()
+
+            setMarker({lat, lng})
+            setLocation(place.formatted_address || "");
+        }
+    } else {
+      console.log("Autocomplete is not loaded yet!");
+    }
+  };
+
+    return (
+            <Autocomplete onLoad={onLoad} onPlaceChanged={onPlaceChanged}>
+                <input
+                    className="w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
+                    name="location" 
+                    placeholder="Adress..."/>
+            </Autocomplete>  
     )
 }
 
@@ -97,12 +128,10 @@ const ChooseLocation = ({setMarker, marker}: {setMarker: React.Dispatch<React.Se
     }
 
     return (
-            <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API}>
-                <div className="h-96 w-96">
-                    <Map onClick={handleMapClick} defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
-                        {marker && <AdvancedMarker position={marker}></AdvancedMarker>}
-                    </Map>
-                </div>
-            </APIProvider>
+        <div className="h-96 w-96">
+            <Map onClick={handleMapClick} defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
+                {marker && <AdvancedMarker position={marker}></AdvancedMarker>}
+            </Map>
+        </div>
     )
 }

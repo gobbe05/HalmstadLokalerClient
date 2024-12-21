@@ -1,4 +1,4 @@
-export default async function register (email: string, username: string, password: string): Promise<number | Error> {
+export default async function register (email: string, username: string, password: string, confirmPassword: string, type: "buyer" | "seller"): Promise<number | Error> {
     const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/register`, {
       method: "POST",
       credentials: "include",
@@ -8,7 +8,8 @@ export default async function register (email: string, username: string, passwor
       body: JSON.stringify({
         username,
         password,
-        email
+        email,
+        type
       })
     })
     if(response.status == 200) {

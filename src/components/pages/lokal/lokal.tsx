@@ -25,7 +25,10 @@ export default function Lokal() {
                 <div className="w-2/3">
                     <img className="w-full" src={data.office.image} />
                     <div className="flex justify-between mt-4">
-                        <h1 className="text-2xl font-semibold">{data.office.name}</h1>
+                        <div>
+                            <h1 className="text-2xl font-semibold">{data.office.name}</h1>
+                            <p className="text-sm font-light ">{data.office.type}</p>
+                        </div>
                         {isAuthenticated && <ContactButton broker={data.office.owner} />}
                     </div>
                     <h3 className="text-xl font-light">{data.office.location}</h3>

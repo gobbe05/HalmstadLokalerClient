@@ -5,6 +5,7 @@ export default async function getSavedSearches(): Promise<Array<IOffice>> {
     const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch`, {
         credentials: "include"
     })
+    if(response.status == 204) return []
     if(response.status != 200) throw new Error("There was an error fetching saved searches");
 
     const data = await response.json()

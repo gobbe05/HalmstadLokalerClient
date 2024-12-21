@@ -1,6 +1,6 @@
 import React from "react";
 
-const initializeAuth = async (setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, setAuthId: React.Dispatch<React.SetStateAction<string | undefined>>) => {
+const initializeAuth = async (setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>, setIsLoading: React.Dispatch<React.SetStateAction<boolean>>, setAuthId: React.Dispatch<React.SetStateAction<string | undefined>>, setType: React.Dispatch<React.SetStateAction<string | undefined>>) => {
     try {
         setIsLoading(true);
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/`, {
@@ -10,8 +10,11 @@ const initializeAuth = async (setIsAuthenticated: React.Dispatch<React.SetStateA
         const data = await response.json()
         setIsAuthenticated(true);
         setAuthId(data._id)
+        setType(data.type)
       } else {
         setIsAuthenticated(false);
+        setAuthId(undefined)
+        setType(undefined)
       }
     } catch (error) {
       setIsAuthenticated(false);

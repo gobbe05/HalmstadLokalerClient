@@ -1,26 +1,34 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import IOffice from "../../../interfaces/IOffice"
-import getOffices from "../../../utils/getOffices"
 import OfficeCardLong from "../../cards/officecardlong"
 import { SaveSearchButton } from "./savesearchbuttont"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
+import Loading from "../../layout/loading"
 
 const LedigaLokaler = () => {
-    const [offices, setOffices] = useState<Array<IOffice>>([])
     const [search, setSearch] = useState<string | undefined>(undefined)
-    const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
+    const [submittedSearch] = useState<string | undefined>(undefined)
     const [price, setPrice] = useState<number>(0)
-    const [, setSize] = useState<number>(0)
-    const [, setType] = useState<string>("kontor")
-    
-    const loadOffices = async (search?: string) => {
-        const offices = search ? await getOffices(search) : await getOffices()
-        setOffices(offices)
-    }
+    const [size, setSize] = useState<number>(0)
+    const [type, setType] = useState<string>()
+  
+    const queryClient = useQueryClient()
+    const {error, isPending, data} = useQuery({
+        queryKey: ["offices"],
+        queryFn: async () => {
+            const urlParams = new URLSearchParams()
+            if(type) urlParams.append("type", type)
+            if(search) urlParams.append("search", search)
+            if(size) urlParams.append("size", size.toString())
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?${urlParams.toString()}`)
+            if(response.status != 200) throw new Error("There was an error fetching offices")
+            const data = await response.json()
+            if(!data) throw new Error("There was an error when fetching offices")
+            return data.offices
+        }
+    })
 
-    useEffect(() => {
-       loadOffices()
-    }, [])
-
+    if(error || isPending) return <Loading />
     return (
     <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-16 rounded">
             <h1 className="text-2xl font-semibold text-center">Hitta en lokal som passar dig</h1>
@@ -54,7 +62,7 @@ const LedigaLokaler = () => {
                             required 
                         />
                         <button 
-                            onClick={(e) => { e.preventDefault(); loadOffices(search); setSubmittedSearch(search) }} 
+                            onClick={(e) => { e.preventDefault(); queryClient.invalidateQueries({queryKey: ["offices"]})}} 
                             type="submit" 
                             className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300"
                         >
@@ -91,13 +99,15 @@ const LedigaLokaler = () => {
                         </div>
 
                         <div className="flex flex-col">
-                            <label htmlFor="location" className="text-sm text-gray-700">Plats</label>
+                            <label htmlFor="location" className="text-sm text-gray-700">Typ</label>
                             <select
                                 id="location" 
                                 className="mt-2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
                                 onChange={(e) => setType(e.target.value)} 
                             >
-                                <option value="kontor" selected>Kontor</option>
+                                <option value="" selected></option>
+                                <option value="kontor">Kontor</option>
+                                <option value="studio">Studio</option>
                             </select>
                         </div>
                     </div>
@@ -113,13 +123,11 @@ const LedigaLokaler = () => {
                             </select>
                             <SaveSearchButton submittedSearch={submittedSearch} />
                     </div>
-                    {offices.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
+                    {data.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
                 </div>
             </div> 
         </div>
     )
 }
-
-
 
 export default LedigaLokaler

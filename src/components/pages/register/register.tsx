@@ -11,11 +11,12 @@ const Register: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [accountType, setAccountType] = useState<"seller" | "buyer">("buyer")
   const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    const registerPromise = register(email, username, password, confirmPassword)
+    const registerPromise = register(email, username, password, confirmPassword, accountType)
     toast.promise(registerPromise, {
       pending: "Kontrollerar dina inloggningsuppgifter", 
       success: "Inloggning lyckades",
@@ -82,13 +83,21 @@ const Register: React.FC = () => {
           className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
           placeholder="Bekräfta lösenord..."
         />
-
+        <div className="flex items-stretch w-full rounded-lg overflow-hidden font-semibold text-gray-600">
+          <div onClick={() => {setAccountType("buyer")}} className={`${accountType == "buyer" ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all cursor-pointer w-1/2 p-4 text-center`}>
+            <h3>Köpare</h3>
+          </div>
+          <div onClick={() => {setAccountType("seller")}} className={`${accountType == "seller" ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all cursor-pointer w-1/2 p-4 text-center`}>
+            <h3>Säljare</h3>
+          </div>
+        </div>
         <button
           type="submit"
           className="p-3 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
         >
           Registrera dig
         </button>
+        
       </form>
 
       <p className="mt-4 text-center text-gray-600">

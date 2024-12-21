@@ -1,28 +1,25 @@
 import { useEffect, useState } from "react"
 import IOffice from "../../../interfaces/IOffice"
 import getSavedSearches from "../../../utils/getSavedSearches"
-import SavedSearch from "./savedsearch"
 import { useAuth } from "../../../context/Auth/AuthContext"
 import { Link } from "react-router-dom"
 import { HiOutlineUserCircle } from "react-icons/hi2"
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { RxCross2 } from "react-icons/rx"
 import { HiOutlineSearch } from "react-icons/hi"
+import OfficeCardLong from "../../cards/officecardlong"
 
 export default function Bevakningar() {
-    const [offices, setOffices] = useState<Array<IOffice>>([])
     const {isAuthenticated} = useAuth()
     
-    const loadSavedSearch = async () => {
-        const loadedOffices = await getSavedSearches()
-        setOffices(loadedOffices)
-    }
+    const {isPending, error, data} = useQuery({
+        queryKey: ["offices-savedsearch"],
+        queryFn: async () => {
+           return await getSavedSearches() 
+        }
+    })
 
-    useEffect(() => {
-        loadSavedSearch()
-    }, [])
-
-    if(!offices.length) {
+    if(!data || !data.length) {
         return (
             <div className="w-2/3 p-32 my-32 mx-auto text-gray-700 bg-white">
                 <h1 className="text-center text-2xl font-semibold">Woops, här var det tomt</h1>
@@ -42,7 +39,7 @@ export default function Bevakningar() {
         <div className="w-2/3 flex flex-col p-16 my-16 mx-auto text-gray-700 bg-white">
             <h1 className="text-2xl font-semibold text-center">Dina bevakningar</h1>
             <SavedSearches />
-            <Offices />
+            <Offices offices={data}/>
         </div>
     )
 }
@@ -50,9 +47,11 @@ export default function Bevakningar() {
 const SavedSearches = () => {
     const {isPending, error, data} = useQuery({
         queryKey: ["savedsearches"],
-        queryFn: () => {
-            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch`, {credentials: "include"})
-            .then(response => response.json())
+        queryFn: async () => {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch`, {credentials: "include"})
+            if(response.status == 204) return {savedSearches: []}
+            const data = await response.json()
+            return data 
         }
     }) 
     
@@ -62,48 +61,39 @@ const SavedSearches = () => {
         <div>
             <h1 className="flex items-center gap-2"><HiOutlineSearch size={24} /><span className="text-lg font-semibold">Sparade sökningar</span></h1>
             <div className="mt-4">
-            {data.savedSearches.map((search: {searchString: string}) => 
-                <div className="flex gap-2 items-center">
-                    <p>{search.searchString}</p>
-                    <button className="text-red-500 hover:bg-red-500 hover:text-white rounded"><RxCross2 size={24}/></button>
-                </div>)}
+            {data.savedSearches.map((search: {_id: string, searchString: string}) => <SavedSearch search={search} key={search._id} />)}
             </div>
         </div>
     )
 }
 
-const Offices = () => {
-    const {isPending, error, data} = useQuery({
-        queryKey: ["offices-savedsearch"],
-        queryFn: async () => {
-            let officesToReturn: Array<IOffice> = []
-            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}}/api/savedsearch`, {
-                credentials: "include"
-            })
-            if(response.status != 200) throw new Error("There was an error fetching saved searches");
-
-            const data = await response.json()
-            if(!data) throw new Error("There was an error when fetching saved searches");
-
-            const {savedSearches} = data
-            if(!savedSearches) throw new Error("No saved searches find");
-            
-            for(let i = 0; i < savedSearches.length; i++) {
-                const {searchString} = savedSearches[i]
-                const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?search=${searchString}`)
-                if(response.status != 200) throw new Error("Fetch call failed")
-                const {offices} = await response.json()
-                if(!offices) return [];
-                officesToReturn = [...officesToReturn, ...offices]
+const SavedSearch = ({search}: {search: {searchString: string}}) => {
+    const queryClient = useQueryClient()
+    const RemoveSearch = async () => {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch/toggle`, {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({search: search.searchString}),
+            headers: {
+                "Content-Type" : "application/json"
             }
-            return officesToReturn
-        }
-    })
-    if(isPending) return ""
-    if(error) return ""
+        })
+        queryClient.invalidateQueries({queryKey: ["savedsearches"]})
+        queryClient.invalidateQueries({queryKey: ["offices-savedsearch"]})    
+    }
+       
+    return (
+        <div className="flex gap-2 items-center">
+            <p>{search.searchString}</p>
+            <button className="text-red-500 hover:bg-red-500 hover:text-white rounded" onClick={RemoveSearch}><RxCross2 size={24}/></button>
+        </div>
+    )
+}
+
+const Offices = ({offices}: {offices: IOffice[]}) => {
     return (
         <div className="grid gap-8 mt-8">
-            {data.map((office: IOffice) => (<SavedSearch office={office} key={office._id}/>))}
+            {offices.map((office: IOffice) => (<OfficeCardLong office={office} key={office._id}/>))}
         </div>
     )
 }

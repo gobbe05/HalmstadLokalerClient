@@ -7,17 +7,17 @@ import { IconType } from "react-icons";
 
 
 export default function Links() {
-    const {logout, isAuthenticated} = useAuth();
+    const {logout, isAuthenticated, type} = useAuth();
     return (
         <div className="flex items-stretch gap-6 text-gray-700">
-            <NewOfficeButton link="/hyr-ut-lokal"/>
+            {type != "buyer" && <NewOfficeButton link="/hyr-ut-lokal"/>}
             <HeaderLink text="Lediga lokaler" link="/lediga-lokaler" Icon={HiOutlineSearch}/>
             <HeaderLink text="Bevakningar" link="/bevakningar" Icon={HiOutlineBell}/>
             
             {isAuthenticated ? 
             <>
                 <Link to="/meddelanden" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineChatBubbleLeftEllipsis className="mx-auto" size={24}/><p className="text-sm">Meddelanden</p></Link>   
-                <Link to="/min-sida" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineUserCircle className="mx-auto" size={24}/><p className="text-sm">Min Sida</p></Link>
+                {type != "buyer" && <Link to="/min-sida" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineUserCircle className="mx-auto" size={24}/><p className="text-sm">Min Sida</p></Link>}
                 <button className="hover:text-red-500 transition-colors duration-300" onClick={logout}><HiOutlineLogout className="mx-auto" size={24}/><p className="text-sm">Logout</p></button>
             </> : 
             <Link to="/login" className="hover:text-blue-500 transition-colors duration-300"><HiOutlineUserCircle className="mx-auto" size={24}/><p className="text-sm">Logga in</p></Link>}
@@ -35,7 +35,6 @@ type HeaderLinkProps = {
 
 const HeaderLink = ({text, link, Icon}: HeaderLinkProps) => {
     return (
-
-            <Link to={link} className="flex flex-col items-center text-gray-700 hover:text-blue-500 transition-colors duration-300"><Icon className="mx-auto" size={24}/><p className="text-sm">{text}</p></Link>
+        <Link to={link} className="flex flex-col items-center text-gray-700 hover:text-blue-500 transition-colors duration-300"><Icon className="mx-auto" size={24}/><p className="text-sm">{text}</p></Link>
     )
 }

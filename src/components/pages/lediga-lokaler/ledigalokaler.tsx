@@ -4,8 +4,11 @@ import OfficeCardLong from "../../cards/officecardlong"
 import { SaveSearchButton } from "./savesearchbuttont"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Loading from "../../layout/loading"
+import { Pagination } from "@mui/material"
 
 const LedigaLokaler = () => {
+    const limit = 10
+
     const [search, setSearch] = useState<string | undefined>(undefined)
     const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
     const [priceMin, setPriceMin] = useState<number | undefined>()
@@ -13,11 +16,15 @@ const LedigaLokaler = () => {
     const [sizeMin, setSizeMin] = useState<number | undefined>()
     const [sizeMax, setSizeMax] = useState<number | undefined>()
     const [type, setType] = useState<string>()
+    const [page, setPage] = useState<number>(1)
+    const [pageCount, setPageCount] = useState<number>(0)
+    const [searchString, setSearchString] = useState<string>("?")
   
     const queryClient = useQueryClient()
     const {error, isPending, data} = useQuery({
         queryKey: ["offices"],
         queryFn: async () => {
+            // Create query string
             const urlParams = new URLSearchParams()
             if(type) urlParams.append("type", type)
             if(search) urlParams.append("search", search)
@@ -25,6 +32,12 @@ const LedigaLokaler = () => {
             if(sizeMax) urlParams.append("sizeMax", sizeMax.toString())
             if(priceMin) urlParams.append("priceMin", priceMin.toString())
             if(priceMax) urlParams.append("priceMax", priceMax.toString())
+            if(limit) urlParams.append("limit", limit.toString())
+            if(page) urlParams.append("page", page.toString())
+            
+            setSearchString(urlParams.toString())
+
+            // Get offices
             const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?${urlParams.toString()}`)
             if(response.status != 200) throw new Error("There was an error fetching offices")
             const data = await response.json()
@@ -33,6 +46,19 @@ const LedigaLokaler = () => {
             return data.offices
         }
     })
+
+    const updatePageCount = async () => {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/count?${searchString}`)
+        const {count} = await response.json()
+        setPageCount(Math.ceil(count / limit))
+    }
+
+    useEffect(() => {
+        queryClient.invalidateQueries({queryKey: ["offices"]})
+    }, [page])
+    useEffect(() => {
+        updatePageCount()
+    }, [searchString])
 
     if(error || isPending) return <Loading />
     return (
@@ -138,6 +164,8 @@ const LedigaLokaler = () => {
                         <p className="text-lg">Testa med att utöka din sökning</p>
                     </div>}
                     {data.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
+
+                    {data.length && <Pagination count={pageCount} page={page} onChange={(_, page) => {setPage(page)}} shape="rounded" />}
                 </div>
             </div> 
         </div>

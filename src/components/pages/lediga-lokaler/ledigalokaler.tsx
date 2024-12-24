@@ -132,6 +132,11 @@ const LedigaLokaler = () => {
                     <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
                             <SaveSearchButton submittedSearch={submittedSearch} />
                     </div>
+                    {!data.length && 
+                    <div className="text-center text-gray-700 py-16">
+                        <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
+                        <p className="text-lg">Testa med att utöka din sökning</p>
+                    </div>}
                     {data.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
                 </div>
             </div> 

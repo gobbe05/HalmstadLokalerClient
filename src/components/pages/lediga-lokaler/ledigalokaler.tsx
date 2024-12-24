@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCardLong from "../../cards/officecardlong"
 import { SaveSearchButton } from "./savesearchbuttont"
@@ -7,9 +7,11 @@ import Loading from "../../layout/loading"
 
 const LedigaLokaler = () => {
     const [search, setSearch] = useState<string | undefined>(undefined)
-    const [submittedSearch] = useState<string | undefined>(undefined)
-    const [price, setPrice] = useState<number>(0)
-    const [size, setSize] = useState<number>(0)
+    const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
+    const [priceMin, setPriceMin] = useState<number | undefined>()
+    const [priceMax, setPriceMax] = useState<number | undefined>()
+    const [sizeMin, setSizeMin] = useState<number | undefined>()
+    const [sizeMax, setSizeMax] = useState<number | undefined>()
     const [type, setType] = useState<string>()
   
     const queryClient = useQueryClient()
@@ -19,11 +21,15 @@ const LedigaLokaler = () => {
             const urlParams = new URLSearchParams()
             if(type) urlParams.append("type", type)
             if(search) urlParams.append("search", search)
-            if(size) urlParams.append("size", size.toString())
+            if(sizeMin) urlParams.append("sizeMin", sizeMin.toString())
+            if(sizeMax) urlParams.append("sizeMax", sizeMax.toString())
+            if(priceMin) urlParams.append("priceMin", priceMin.toString())
+            if(priceMax) urlParams.append("priceMax", priceMax.toString())
             const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?${urlParams.toString()}`)
             if(response.status != 200) throw new Error("There was an error fetching offices")
             const data = await response.json()
             if(!data) throw new Error("There was an error when fetching offices")
+            if(search && search != "") setSubmittedSearch(search)
             return data.offices
         }
     })
@@ -32,7 +38,7 @@ const LedigaLokaler = () => {
     return (
     <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-16 rounded">
             <h1 className="text-2xl font-semibold text-center">Hitta en lokal som passar dig</h1>
-            <div className="mx-auto mt-8">
+            <div className="mt-8">
                 <form className="w-full mt-8">
                     <label htmlFor="default-search" className="sr-only">Search</label>
                     <div className="relative">
@@ -74,28 +80,37 @@ const LedigaLokaler = () => {
                 <div className="mt-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-content-center gap-6">
                         <div className="flex flex-col">
-                            <label htmlFor="size" className="text-sm text-gray-700">Pris (kr)</label>
-                            <span className="text-sm text-gray-600">{price} kr/mån</span>
-                            <input 
-                                type="range" 
-                                id="price" 
-                                min="0" 
-                                max="10000" 
-                                step="500" 
-                                className="my-auto appearance-none w-full h-2 bg-gray-200 rounded-lg cursor-pointer"
-                                onChange={(e) => setPrice(+e.target.value)} 
-                            />
+                            <label htmlFor="size" className="text-sm text-gray-700">Pris (kr/månad)</label>
+                            <div className="mt-2 flex flex-grow">
+                                <input
+                                    onChange={(event) => {setPriceMin(+event.target.value)}} 
+                                    type="number"
+                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Min"/>
+                                <p className="my-auto mx-2 text-xl text-gray-500 font-bold">-</p>
+                                <input 
+                                    onChange={(event) => {setPriceMax(+event.target.value)}}
+                                    type="number"
+                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Max"/>
+                            </div>
                         </div>
 
                         <div className="flex flex-col">
                             <label htmlFor="size" className="text-sm text-gray-700">Storlek (m²)</label>
-                            <input 
-                                type="number" 
-                                id="size" 
-                                placeholder="M²"
-                                className="mt-2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                onChange={(e) => setSize(+e.target.value)} 
-                            />
+                            <div className="mt-2 flex flex-grow">
+                                <input
+                                    onChange={(event) => {setSizeMin(+event.target.value)}} 
+                                    type="number"
+                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Min"/>
+                                <p className="my-auto mx-2 text-xl text-gray-500 font-bold">-</p>
+                                <input 
+                                    onChange={(event) => {setSizeMax(+event.target.value)}}
+                                    type="number"
+                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Max"/>
+                            </div>
                         </div>
 
                         <div className="flex flex-col">
@@ -115,12 +130,6 @@ const LedigaLokaler = () => {
 
                 <div className="grid gap-8 w-full mx-auto mt-8">
                     <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
-                            <select
-                                className="px-4 py-2 text-gray-700 font-semibold border border-gray-700 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                onChange={(e) => setType(e.target.value)} 
-                            >
-                                <option value="kontor" selected>Kontor</option>
-                            </select>
                             <SaveSearchButton submittedSearch={submittedSearch} />
                     </div>
                     {data.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}

@@ -27,15 +27,22 @@ export default function Lokal() {
                     <div className="flex justify-between mt-4">
                         <div>
                             <h1 className="text-2xl font-semibold">{data.office.name}</h1>
-                            <p className="text-sm font-light ">{data.office.type}</p>
+                            <h3 className="text-xl font-light">{data.office.location}</h3>
                         </div>
                         {isAuthenticated && <ContactButton broker={data.office.owner} />}
                     </div>
-                    <h3 className="text-xl font-light">{data.office.location}</h3>
-                    <p>{data.office.size} m^2</p>
-                    <p>{data.office.price} SEK/Månad</p>
+                    <div className="flex gap-12 mt-4">
+                        <div>
+                            <h3 className="font-light">Yta</h3>
+                            <p className="font-semibold">{data.office.size} m^2</p>
+                        </div>
+                        <div>
+                            <h3 className="font-light">Pris</h3>
+                            <p className="font-semibold">{data.office.price} kr/mån</p>
+                        </div>
+                    </div>
 
-                    <h3>Beskrivning</h3>
+                    <h3 className="font-semibold text-lg mt-8">Beskrivning</h3>
                     <p>{data.office.description}</p>
                 </div> 
             </div>

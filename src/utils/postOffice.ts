@@ -1,4 +1,4 @@
-export default async function postOffice(name: string, location: string, size: number, type: string, price: number, position: {lat: number, lng: number}, image: File, tags: Array<string>): Promise<Array<any>> {
+export default async function postOffice(name: string, location: string, size: number, type: string, price: number, position: {lat: number, lng: number}, image: File, tags: Array<string>, description: string): Promise<Array<any>> {
     const formData = new FormData()
     formData.append("name", name)
     formData.append("location", location)
@@ -9,6 +9,7 @@ export default async function postOffice(name: string, location: string, size: n
     formData.append("tags", tags.toString())
     formData.append("image", image)
     formData.append("type", type)
+    formData.append("description", description)
     
     const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office`, {
         method: "POST",

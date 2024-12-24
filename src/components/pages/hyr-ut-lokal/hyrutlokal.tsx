@@ -21,6 +21,7 @@ export default function HyrUtLokal() {
     const [image, setImage] = useState<File | null>(null)
     const [type, setType] = useState<string>("kontor")
     const [tags, setTags] = useState<Array<string>>([])
+    const [description, setDescription] = useState<string>("")
 
     const navigate = useNavigate()
 
@@ -30,7 +31,7 @@ export default function HyrUtLokal() {
             toast.error("Fyll i all information")
             return;
         }
-        const office = await postOffice(name, location, size, type, price, marker, image, tags)
+        const office = await postOffice(name, location, size, type, price, marker, image, tags, description)
         if(office) {
             toast.success("Skapade en ny annons")
             navigate("/")
@@ -55,7 +56,10 @@ export default function HyrUtLokal() {
                     <input onChange={(event) => {setName(event.target.value)}} 
                         className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
                         name="name" 
-                        placeholder="Namn..."/>
+                        placeholder="Rubrik..."/>
+                    <textarea onChange={(event) => {setDescription(event.target.value)}} 
+                        className="w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500"
+                        placeholder="Beskrivning..."/>
                     <LocationInput setLocation={setLocation} setMarker={setMarker}/>
                     
                     <input onChange={(event) => {setSize(+event.target.value)}} 
@@ -66,6 +70,7 @@ export default function HyrUtLokal() {
                         className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500"
                         type="number"
                         placeholder="100 kr/mån"/>
+                    
                     <TagsInput
                         value={tags}
                         onChange={setTags}

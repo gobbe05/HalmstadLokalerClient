@@ -4,7 +4,7 @@ import IOffice from "../../interfaces/IOffice";
 export default function OfficeCardLong({office}: {office: IOffice}) {
     return (
         <Link to={"/lokal/"+office._id} className="w-full flex bg-white text-gray-700 border rounded-md shadow hover:shadow-md overflow-hidden group transition-all">
-            <div>
+            <div className="h-full min-w-48 bg-gray-500">
                 <img className="h-full" src={office.image}/>
             </div>
             <div className="w-full p-4">

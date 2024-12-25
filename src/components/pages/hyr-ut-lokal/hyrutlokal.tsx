@@ -1,4 +1,3 @@
-import { AdvancedMarker, Map } from "@vis.gl/react-google-maps"
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useNavigate} from "react-router-dom"
 import postOffice from "../../../utils/postOffice"
@@ -22,15 +21,19 @@ export default function HyrUtLokal() {
     const [type, setType] = useState<string>("kontor")
     const [tags, setTags] = useState<Array<string>>([])
     const [description, setDescription] = useState<string>("")
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const navigate = useNavigate()
 
     const handleForm = async (event:  FormEvent) => {
         event.preventDefault()
-        if(!size || !price || !marker || !image) {
-            toast.error("Fyll i all information")
+        if (!validate()) {
+            toast.error("Formuläret innehåller fel. Kontrollera och försök igen.");
             return;
         }
+
+        // Errors because it doesn't recognize the null check done by !validate()
+        //@ts-ignore
         const office = await postOffice(name, location, size, type, price, marker, image, tags, description)
         if(office) {
             toast.success("Skapade en ny annons")
@@ -39,6 +42,21 @@ export default function HyrUtLokal() {
         }
         toast.error("Det uppstod ett fel när din annons skulle skapas")
     }
+
+    const validate = (): boolean => {
+        const newErrors: { [key: string]: string } = {};
+
+        if (!name.trim()) newErrors.name = "Rubrik är obligatoriskt.";
+        if (!description.trim()) newErrors.description = "Beskrivning är obligatoriskt.";
+        if (!location.trim()) newErrors.location = "Adress är obligatoriskt.";
+        if (!size || size <= 0) newErrors.size = "Storlek måste vara ett positivt tal.";
+        if (!price || price <= 0) newErrors.price = "Pris måste vara ett positivt tal.";
+        if (!marker) newErrors.location = "Välj en giltig adress.";
+        if (!image) newErrors.image = "Ladda upp en bild.";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
         if(event.target.files) {
@@ -51,44 +69,79 @@ export default function HyrUtLokal() {
         <div className="w-full flex flex-col items-center my-16 text-gray-700"> 
             <div className="w-[1024px] flex items-center gap-24 bg-white p-16 rounded">
                 <form onSubmit={handleForm} className="flex-grow flex flex-col gap-4">
-                    <BackButton link="/"/>
+                    <BackButton link="/" />
                     <h1 className="text-2xl font-semibold">Lägg upp en ny annons</h1>
-                    <input onChange={(event) => {setName(event.target.value)}} 
-                        className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
-                        name="name" 
-                        placeholder="Rubrik..."/>
-                    <textarea onChange={(event) => {setDescription(event.target.value)}} 
-                        className="w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500"
-                        placeholder="Beskrivning..."/>
-                    <LocationInput setLocation={setLocation} setMarker={setMarker}/>
-                    
-                    <input onChange={(event) => {setSize(+event.target.value)}} 
-                        className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500" 
-                        name="size" type="number" 
-                        placeholder="10 kvm"/>
-                    <input onChange={(event) => {setPrice(+event.target.value)}} 
-                        className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500"
+
+                    <div>
+                        <input
+                        onChange={(event) => setName(event.target.value)}
+                        className={`text-gray-600 font-semibold border-b-2 ${errors.name ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500`}
+                        name="name"
+                        placeholder="Rubrik..."
+                        />
+                        {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+                    </div>
+
+                    <div>
+                        <textarea
+                        onChange={(event) => setDescription(event.target.value)}
+                        className={`w-full text-gray-600 font-semibold border-b-2 ${errors.description ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500`}
+                        placeholder="Beskrivning..."
+                        />
+                        {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
+                    </div>
+
+                    <LocationInput setLocation={setLocation} setMarker={setMarker} />
+                    {errors.location && <p className="text-red-500 text-sm">{errors.location}</p>}
+
+                    <div>
+                        <input
+                        onChange={(event) => setSize(+event.target.value)}
+                        className={`w-32 text-gray-600 font-semibold border-b-2 ${errors.size ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500`}
+                        name="size"
                         type="number"
-                        placeholder="100 kr/mån"/>
-                    
-                    <TagsInput
-                        value={tags}
-                        onChange={setTags}
-                        name="tags"
-                        placeHolder="Taggar..."
-                    />
-                    <select defaultValue={"Kontor"} onChange={(event) => {setType(event.target.value)}} className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500">
+                        placeholder="10 kvm"
+                        />
+                        {errors.size && <p className="text-red-500 text-sm">{errors.size}</p>}
+                    </div>
+
+                    <div>
+                        <input
+                        onChange={(event) => setPrice(+event.target.value)}
+                        className={`w-32 text-gray-600 font-semibold border-b-2 ${errors.price ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500`}
+                        type="number"
+                        placeholder="100 kr/mån"
+                        />
+                        {errors.price && <p className="text-red-500 text-sm">{errors.price}</p>}
+                    </div>
+
+                    <TagsInput value={tags} onChange={setTags} name="tags" placeHolder="Taggar..." />
+
+                    <div>
+                        <select
+                        defaultValue={"Kontor"}
+                        onChange={(event) => setType(event.target.value)}
+                        className="w-32 text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-2 transition-all duration-500"
+                        >
                         <option value="Kontor">Kontor</option>
-                    </select>
-                    <h1 className="text-lg font-semibold mt-4" onChange={handleImageChange}>Ladda upp en bild</h1>
-                    <input
+                        </select>
+                    </div>
+
+                    <div>
+                        <h1 className="text-lg font-semibold mt-4">Ladda upp en bild</h1>
+                        <input
                         onChange={handleImageChange}
-                        className="w-full text-gray-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-700 file:hover:bg-gray-600 file:text-white rounded file:transition-all" 
-                        type="file"/>                    
-                    
-                    
-                    <button className="p-2 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded text-white transition-all duration-500">Skapa annons</button>
+                        className={`w-full text-gray-500 font-medium text-sm bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2 file:px-4 file:mr-4 file:bg-gray-700 file:hover:bg-gray-600 file:text-white rounded file:transition-all ${errors.image ? 'border-red-500' : 'border-gray-300'}`}
+                        type="file"
+                        />
+                        {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
+                    </div>
+
+                    <button className="p-2 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded text-white transition-all duration-500">
+                        Skapa annons
+                    </button>
                 </form>
+ 
             </div>
         </div>
     )
@@ -121,22 +174,5 @@ const LocationInput = ({setLocation, setMarker} : {setLocation : React.Dispatch<
                     name="location" 
                     placeholder="Adress..."/>
             </Autocomplete>  
-    )
-}
-
-const ChooseLocation = ({setMarker, marker}: {setMarker: React.Dispatch<React.SetStateAction<markerType>>, marker: markerType}) => {
-
-    const position = {lat: 56.6744, lng: 12.8578 };
-    const handleMapClick = (ev: any) => {
-        const {lat, lng} = ev.detail.latLng
-        setMarker({lat, lng})
-    }
-
-    return (
-        <div className="h-96 w-96">
-            <Map onClick={handleMapClick} defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
-                {marker && <AdvancedMarker position={marker}></AdvancedMarker>}
-            </Map>
-        </div>
     )
 }

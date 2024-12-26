@@ -1,27 +1,17 @@
 // src/components/home.tsx
-import React, { useEffect, useState } from "react";
-import IOffice from "../../../interfaces/IOffice";
-import getOfficesLimit from "../../../utils/getOfficesLimit";
+import React from "react";
 import BoxesSection from "./boxessection";
 import TextSection from "./textsection";
 import ListToday from "./listtoday";
 import HomeListings from "./homelistings";
 
 const Home: React.FC = () => {
-  const [offices, setOffices] = useState<Array<IOffice>>([])
-
-  const loadOffices = async () => {
-    setOffices(await getOfficesLimit(8))
-  }
-  useEffect(() => {
-    loadOffices()
-  }, [])
   return (
     <>
       <div className="w-full flex flex-col text-gray-700">
         <HomeHero />
         <div className="w-full bg-white">
-          <HomeListings offices={offices} />
+          <HomeListings />
         </div>
         <div className="bg-slate-600 text-white">
           <TextSection />

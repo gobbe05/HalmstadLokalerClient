@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
+import { useQuery } from "@tanstack/react-query"
+import Loading from "../../layout/loading"
 
-type HomeListingsProps = {
-  offices: Array<IOffice>
-}
+export default function HomeListings() {
+    const {error, isPending, data} = useQuery({
+      queryKey: ["home-listings"],
+      queryFn: async () => {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?limit=8`)
+        const data = await response.json()
+        return data
+      }
+    })
 
-export default function HomeListings({offices}: HomeListingsProps) {
+    if(error ||isPending) return <Loading />
     return (
         <div className="w-11/12 lg:w-2/3 mx-auto py-16">
           <div className="flex flex-col items-center">
@@ -20,7 +28,7 @@ export default function HomeListings({offices}: HomeListingsProps) {
 
             {/* Grid Section */}
             <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
-              {offices.map((office: IOffice) => (
+              {data.offices.map((office: IOffice) => (
                 <OfficeCard
                   key={office._id} // Assuming each office has a unique ID
                   office={office} 

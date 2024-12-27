@@ -9,6 +9,7 @@ import { Pagination } from "@mui/material"
 const LedigaLokaler = () => {
     const limit = 10
 
+    const queryParams = new URLSearchParams(window.location.search);
     const [search, setSearch] = useState<string | undefined>(undefined)
     const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
     const [priceMin, setPriceMin] = useState<number | undefined>()
@@ -24,10 +25,12 @@ const LedigaLokaler = () => {
     const {error, isPending, data} = useQuery({
         queryKey: ["offices"],
         queryFn: async () => {
+            const querySearch = queryParams.get("search")
             // Create query string
             const urlParams = new URLSearchParams()
+            if(querySearch) urlParams.append("search", querySearch)
+            if(search != undefined) urlParams.set("search", search)
             if(type) urlParams.append("type", type)
-            if(search) urlParams.append("search", search)
             if(sizeMin) urlParams.append("sizeMin", sizeMin.toString())
             if(sizeMax) urlParams.append("sizeMax", sizeMax.toString())
             if(priceMin) urlParams.append("priceMin", priceMin.toString())
@@ -52,7 +55,6 @@ const LedigaLokaler = () => {
         const {count} = await response.json()
         setPageCount(Math.ceil(count / limit))
     }
-
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ["offices"]})
     }, [page])
@@ -88,6 +90,7 @@ const LedigaLokaler = () => {
                         <input 
                             type="search" 
                             id="default-search" 
+                            defaultValue={queryParams.get("search")}
                             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
                             placeholder="Sök efter arbetsplatser..."
                             onChange={(e) => setSearch(e.target.value)}

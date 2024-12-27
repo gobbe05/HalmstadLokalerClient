@@ -5,7 +5,6 @@ import ContactButton from "../../buttons/contactbutton"
 import { useAuth } from "../../../context/Auth/AuthContext"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
-import { useEffect } from "react"
 
 export default function Lokal() {
     const {id} = useParams()

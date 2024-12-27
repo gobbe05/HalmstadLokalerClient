@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
 import Loading from "../../layout/loading"
 import ContactButton from "../../buttons/contactbutton"
@@ -12,12 +12,17 @@ export default function Lokal() {
 
     const {isAuthenticated, type} = useAuth()
 
+    const queryClient = useQueryClient()
     const {isPending, data, error} = useQuery({
         queryKey: ['office'],
         queryFn: () => {
             return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${id}`).then(response => response.json())
         }
     })
+
+    useEffect(() => {
+        queryClient.invalidateQueries({queryKey: ["office"]})
+    }, [id])
 
     if(isPending || !id) return <Loading />
     if(error) return "There was an error " + error.message

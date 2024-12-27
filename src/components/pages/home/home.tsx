@@ -1,9 +1,10 @@
 // src/components/home.tsx
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import BoxesSection from "./boxessection";
 import TextSection from "./textsection";
 import ListToday from "./listtoday";
 import HomeListings from "./homelistings";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   return (
@@ -26,6 +27,14 @@ const Home: React.FC = () => {
 };
 
 const HomeHero = () => {
+  const [search, setSearch] = useState<string>("")
+  const navigate = useNavigate()
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault()
+    navigate(`/lediga-lokaler?search=${search}`)
+  }
+
   return (
     <div 
       className="flex justify-center items-center gap-16 bg-gray-400 bg-blend-multiply bg-cover bg-center py-48 rounded"
@@ -41,7 +50,7 @@ const HomeHero = () => {
           Vi hjälper dig på vägen
         </p>
 
-        <form className="w-full mt-8">
+        <form className="w-full mt-8" onSubmit={handleSubmit}>
           <label htmlFor="default-search" className="sr-only">
             Search
           </label>
@@ -65,13 +74,13 @@ const HomeHero = () => {
             </div>
             <input 
               type="search" 
-              id="default-search" 
+              id="default-search"
+              onChange={(event) => {setSearch(event.target.value)}}
               className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
               placeholder="Sök efter arbetsplatser..." 
               required 
             />
             <button 
-              onClick={(e) => { e.preventDefault(); }} 
               type="submit" 
               className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >

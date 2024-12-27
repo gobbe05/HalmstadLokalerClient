@@ -32,7 +32,7 @@ export default function HyrUtLokal() {
             return;
         }
 
-        // Errors because it doesn't recognize the null check done by !validate()
+        // Errors because it doesn't recognize the null check previously done by !validate()
         //@ts-ignore
         const office = await postOffice(name, location, size, type, price, marker, image, tags, description)
         if(office) {

@@ -6,7 +6,7 @@ export default async function postOffice(name: string, location: string, size: n
     formData.append("price", price.toString())
     formData.append("lat", position.lat.toString()),
     formData.append("lng", position.lng.toString()),
-    formData.append("tags", tags.toString())
+    formData.append("tags", JSON.stringify(tags))
     formData.append("image", image)
     formData.append("type", type)
     formData.append("description", description)

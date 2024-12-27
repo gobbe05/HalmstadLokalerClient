@@ -125,7 +125,14 @@ const Register: React.FC = () => {
           />
           {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
         </div>
-
+        <div className="flex items-stretch w-full rounded-lg overflow-hidden font-semibold text-gray-600">
+          <div onClick={() => {setAccountType("buyer")}} className={`${accountType == "buyer" ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all cursor-pointer w-1/2 p-4 text-center`}>
+            <h3>Köpare</h3>
+          </div>
+          <div onClick={() => {setAccountType("seller")}} className={`${accountType == "seller" ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all cursor-pointer w-1/2 p-4 text-center`}>
+            <h3>Säljare</h3>
+          </div>
+        </div>
         <button
           type="submit"
           className="p-3 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"

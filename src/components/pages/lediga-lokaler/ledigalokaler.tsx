@@ -60,6 +60,7 @@ const LedigaLokaler = () => {
     }, [page])
     useEffect(() => {
         updatePageCount()
+        queryClient.invalidateQueries({queryKey: ["offices"]})
     }, [searchString])
 
     if(error || isPending) return <Loading />
@@ -90,7 +91,7 @@ const LedigaLokaler = () => {
                         <input 
                             type="search" 
                             id="default-search" 
-                            defaultValue={queryParams.get("search")}
+                            defaultValue={queryParams.get("search") || ""}
                             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
                             placeholder="Sök efter arbetsplatser..."
                             onChange={(e) => setSearch(e.target.value)}
@@ -168,7 +169,7 @@ const LedigaLokaler = () => {
                     </div>}
                     {data.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
 
-                    {data.length && <Pagination count={pageCount} page={page} onChange={(_, page) => {setPage(page)}} shape="rounded" />}
+                    {data.length && <Pagination count={pageCount} page={page} onChange={(_, page) => {setPage(page)}} shape="rounded" /> || ""}
                 </div>
             </div> 
         </div>

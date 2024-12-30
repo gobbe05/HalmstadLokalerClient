@@ -7,6 +7,7 @@ import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect } from "react"
 
+
 export default function Lokal() {
     const {id} = useParams()
 
@@ -36,7 +37,7 @@ export default function Lokal() {
                         <div>
                             <h1 className="text-2xl font-semibold">{data.office.name}</h1>
                             <h3 className="text-xl font-light">{data.office.location}</h3>
-                        </div>
+                        </div> 
                         {isAuthenticated && type == "buyer" && <ContactButton broker={data.office.owner} />}
                     </div>
                     <div className="flex gap-12 mt-4">

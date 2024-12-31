@@ -20,6 +20,7 @@ import MinSida from "./components/pages/min-sida/minsida";
 import AllaKontor from "./components/pages/min-sida/alla-kontor/allakontor";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import ScrollWrapper from "./components/layout/scrollwrapper";
+import SparadeLokaler from "./components/pages/sparade-lokaler/sparadelokaler";
 
 const queryClient = new QueryClient()
 
@@ -42,6 +43,9 @@ const App: React.FC = () => {
                   </Route>
                   <Route path="/lediga-lokaler">
                     <Route index element={<LedigaLokaler />} />
+                  </Route>
+                  <Route path="/sparade-lokaler" element={<ProtectedRoute />}>
+                    <Route index element={<SparadeLokaler />}/>
                   </Route>
                   <Route path="/min-sida" element={<ProtectedRoute />}>
                     <Route index element={<MinSida />}/>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { HiOutlineBell, HiOutlineChatBubbleLeftEllipsis, HiOutlineUserCircle } from "react-icons/hi2";
+import { HiOutlineBell, HiOutlineChatBubbleLeftEllipsis, HiOutlineHeart, HiOutlineUserCircle } from "react-icons/hi2";
 import { HiOutlineLogout, HiOutlineSearch } from "react-icons/hi";
 import { useAuth } from "../../context/Auth/AuthContext";
 import NewOfficeButton from "../buttons/newofficebutton";
@@ -16,6 +16,7 @@ export default function Links() {
             
             {isAuthenticated ? 
             <>
+                <HeaderLink text="Sparade lokaler" link="/sparade-lokaler" Icon={HiOutlineHeart} />
                 <HeaderLink link="/meddelanden" text="Meddelanden" Icon={HiOutlineChatBubbleLeftEllipsis }/>  
                 {type != "buyer" && <HeaderLink link="/min-sida" text="Min Sida" Icon={HiOutlineUserCircle} /> }
                 <button className="flex md:flex-col gap-2 md:gap-0 hover:text-red-500 transition-colors duration-300" onClick={logout}><HiOutlineLogout className="md:mx-auto" size={24}/><p className="text-sm">Logout</p></button>

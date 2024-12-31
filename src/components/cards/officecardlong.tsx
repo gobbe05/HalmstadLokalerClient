@@ -35,6 +35,7 @@ export default function OfficeCardLong({office}: {office: IOffice}) {
             })
         }
         queryClient.invalidateQueries({queryKey: [`like-${office._id}`]})
+        queryClient.invalidateQueries({queryKey: ["saved-offices"]})
     }
     if(error || isPending) return ""
     return (

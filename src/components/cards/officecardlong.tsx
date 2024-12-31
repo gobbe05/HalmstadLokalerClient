@@ -53,11 +53,11 @@ export default function OfficeCardLong({office}: {office: IOffice}) {
                     <p className="h-16 mt-4 text-sm text-ellipsis overflow-hidden">{office.description}</p> 
                 </div>
                 {data != "noauth" &&
-                <button onClick={ToggleLike} className="relative flex justify-end">
-                    <i className="border border-gray-700 p-2 rounded-full">
+                <div className="relative flex justify-end">
+                    <button onClick={ToggleLike} className="border border-gray-700 p-2 rounded-full">
                        {data.saved ? <FaHeart /> : <FaRegHeart />} 
-                    </i>
-                </button>} 
+                    </button>
+                </div>} 
             </div>
             
         </Link>

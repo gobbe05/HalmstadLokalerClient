@@ -5,11 +5,12 @@ import ContactButton from "../../buttons/contactbutton"
 import { useAuth } from "../../../context/Auth/AuthContext"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 
 
 export default function Lokal() {
     const {id} = useParams()
+    const [imageLoading, setImageLoading] = useState<boolean>(true)
 
     const {isAuthenticated, type} = useAuth()
 
@@ -30,9 +31,9 @@ export default function Lokal() {
 
     return (
         <div className="flex-grow">
-            <div className="flex w-2/3 mx-auto my-16 p-16 rounded bg-white text-gray-700">
-                <div className="w-2/3">
-                    <img className="min-h-[260px] max-h-[400px]" src={data.office.image} />
+            <div className="flex w-2/3 min-h-64 mx-auto my-16 p-16 rounded bg-white text-gray-700">
+                <div className={`w-2/3 ${imageLoading && "hidden"}`}>
+                    <img onLoad={() => setImageLoading(false)} className="min-h-[260px] max-h-[400px]" src={data.office.image} />
                     <div className="flex justify-between mt-4">
                         <div>
                             <h1 className="text-2xl font-semibold">{data.office.name}</h1>

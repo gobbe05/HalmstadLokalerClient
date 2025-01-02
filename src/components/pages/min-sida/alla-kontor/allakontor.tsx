@@ -6,6 +6,7 @@ import IOffice from "../../../../interfaces/IOffice"
 import OfficeCardLong from "../../../cards/officecardlong"
 import { useEffect } from "react"
 import BackButton from "../../../buttons/backbutton"
+import MyPageOfficeCard from "../../../cards/mypageofficecard"
 
 export default function AllaKontor() {
     const {authId} = useAuth()
@@ -26,7 +27,7 @@ export default function AllaKontor() {
             <BackButton link="/min-sida" />
             <h1 className="text-2xl font-semibold text-gray-700 mt-2">Alla kontor</h1>
             <div className="flex flex-col gap-4 mt-8">
-                {data.offices.map((office: IOffice) => <OfficeCardLong office={office} />)}
+                {data.offices.map((office: IOffice) => <MyPageOfficeCard office={office} />)}
             </div>
         </div>
     )

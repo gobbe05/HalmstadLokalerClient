@@ -6,6 +6,7 @@ import { useAuth } from "../../../context/Auth/AuthContext"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
+import ContactForm from "./contactform"
 
 
 export default function Lokal() {
@@ -31,8 +32,8 @@ export default function Lokal() {
 
     return (
         <div className="flex-grow">
-            <div className="flex w-2/3 min-h-64 mx-auto my-16 p-16 rounded bg-white text-gray-700">
-                <div className={`w-2/3 ${imageLoading && "hidden"}`}>
+            <div className="flex w-2/3 gap-8 min-h-64 mx-auto my-16 text-gray-700">
+                <div className={`w-2/3 ${imageLoading && "hidden"} rounded bg-white p-16`}>
                     <img onLoad={() => setImageLoading(false)} className="min-h-[260px] max-h-[400px]" src={data.office.image} />
                     <div className="flex justify-between mt-4">
                         <div>
@@ -69,6 +70,9 @@ export default function Lokal() {
                     </div> 
                     }
                 </div> 
+                <div className="flex flex-grow rounded bg-white p-4">
+                    <ContactForm />
+                </div>
             </div>
             <OtherOffices />
         </div>

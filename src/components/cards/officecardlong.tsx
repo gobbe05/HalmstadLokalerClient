@@ -51,7 +51,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
       className="h-[250px] flex w-full bg-white text-gray-700 border rounded-md shadow overflow-hidden hover:shadow-md group transition-all"
     >
         {/* Thumbnail with consistent size */}
-        <div className="h-[250px] w-[250px] bg-gray-500 overflow-hidden">
+        <div className="h-[250px] w-[250px] min-w-[250px] bg-gray-500 overflow-hidden">
             <img
       src={office.thumbnail}
       alt={`Thumbnail of ${office.name}`}

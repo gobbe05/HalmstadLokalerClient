@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Loading from "../../layout/loading"
 import ContactButton from "../../buttons/contactbutton"
 import { useAuth } from "../../../context/Auth/AuthContext"
@@ -7,72 +7,109 @@ import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
 import ContactForm from "./contactform"
-
+import { HiArrowLeft } from "react-icons/hi2"
 
 export default function Lokal() {
     const {id} = useParams()
+    const navigate = useNavigate()
     const [imageLoading, setImageLoading] = useState<boolean>(true)
+    const [imageError, setImageError] = useState<boolean>(false)
 
     const {isAuthenticated, type} = useAuth()
 
     const queryClient = useQueryClient()
     const {isPending, data, error} = useQuery({
-        queryKey: ['office'],
+        queryKey: ['office', id],
         queryFn: () => {
             return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${id}`).then(response => response.json())
         }
     })
 
     useEffect(() => {
-        queryClient.invalidateQueries({queryKey: ["office"]})
-    }, [id])
+        setImageLoading(true)
+        setImageError(false)
+    }, [data?.office])
 
-    if(isPending || !id) return <Loading />
-    if(error) return "There was an error " + error.message
+    if (isPending || !id) return <Loading />;
+    if (error) return <div>There was an error: {error.message}</div>;
+    if (!data?.office) return <div>Office details not found.</div>;
 
     return (
-        <div className="flex-grow">
-            <div className="flex w-2/3 gap-8 min-h-64 mx-auto my-16 text-gray-700">
-                <div className={`w-2/3 ${imageLoading && "hidden"} rounded bg-white p-16`}>
-                    <img onLoad={() => setImageLoading(false)} className="min-h-[260px] max-h-[400px]" src={data.office.image} />
-                    <div className="flex justify-between mt-4">
-                        <div>
-                            <h1 className="text-2xl font-semibold">{data.office.name}</h1>
-                            <h3 className="text-xl font-light">{data.office.location}</h3>
-                        </div> 
-                        {isAuthenticated && type == "buyer" && <ContactButton broker={data.office.owner} />}
+        <div className="flex-grow" key={id}>
+            <div className="flex w-2/3 gap-8 min-h-64 mx-auto my-16 bg-white text-gray-700">  
+                <div className={`w-full rounded bg-white py-8 px-16`}>
+                    {/* Header Section */}
+                    <div className="py-4 flex justify-between items-center border-b border-gray-200">
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition"
+                        >
+                            <HiArrowLeft size={20} />
+                            <span className="text-sm font-medium">Gå tillbaks</span>
+                        </button>
                     </div>
-                    <div className="flex gap-12 mt-4">
-                        <div>
-                            <h3 className="font-light">Yta</h3>
-                            <p className="font-semibold">{data.office.size} m^2</p>
-                        </div>
-                        <div>
-                            <h3 className="font-light">Pris</h3>
-                            <p className="font-semibold">{data.office.price} kr/mån</p>
+                    {/* Main */}
+                    <div className="mt-8 grid grid-cols-3 gap-8">
+                        <div className="col-span-2 space-y-6">
+                            {/* Image */}
+                            <div className="relative">
+                                {imageLoading && !imageError && <Loading />}
+                                <img
+                                    src={imageError ? "/fallback-image.jpg" : data.office.image}
+                                    alt={data.office.name}
+                                    onError={() => setImageError(true)}
+                                    onLoad={() => setImageLoading(false)}
+                                    className="w-full h-96 object-cover rounded-md"
+                                />
+                            </div>
+                            {/* Office Info */}
+                            <div>
+                                <h1 className="text-2xl font-semibold">{data.office.name}</h1>
+                                <p className="text-gray-500">{data.office.location}</p>
+                            </div>
+                            {/* Size and Price */}
+                            <div className="grid grid-cols-2 gap-8">
+                                <div>
+                                    <h3 className="text-gray-500">Yta</h3>
+                                    <p className="text-lg font-semibold">{data.office.size} m²</p>
+                                </div>
+                                <div>
+                                    <h3 className="text-gray-500">Pris</h3>
+                                    <p className="text-lg font-semibold">{data.office.price} kr/mån</p>
+                                </div>
+                            </div>
+
+                            {/* Description */}
+                            {data.office.description && (
+                            <div>
+                                <h3 className="text-lg font-semibold">Beskrivning</h3>
+                                <p className="text-gray-700">{data.office.description}</p>
+                            </div>
+                            )}
+                            {/* Tags */}
+                            {data.office.tags.length > 0 && (
+                            <div>
+                                <h3 className="text-lg font-semibold">Taggar</h3>
+                                <div className="flex gap-2 flex-wrap mt-2">
+                                {data.office.tags.map((tag: any) => (
+                                    <span
+                                    key={tag}
+                                    className="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
+                                    >
+                                    {tag}
+                                    </span>
+                                ))}
+                                </div>
+                            </div>
+                            )}
+
+                            {/* Contact Button */}
+                            {isAuthenticated && type === "buyer" && (
+                            <ContactButton broker={data.office.owner} />
+                            )}
                         </div>
                     </div>
-
-                    {data.office.description &&
-                    <div>
-                        <h3 className="font-semibold text-lg mt-8">Beskrivning</h3>
-                        <p>{data.office.description}</p>
-                    </div>} 
-
-                    {data.office.tags.length != 0 &&
-                    <div className="mt-4">
-                        <h1 className="text-lg font-semibold">Taggar</h1>
-                        <div className="flex gap-2 mt-2">
-                            {data.office.tags.map((tag: string) => {
-                                return <Tag tag={tag}/>
-                            })} 
-                        </div>
-                    </div> 
-                    }
                 </div> 
-                <div className="flex flex-grow rounded bg-white p-4">
-                    <ContactForm />
-                </div>
             </div>
             <OtherOffices />
         </div>

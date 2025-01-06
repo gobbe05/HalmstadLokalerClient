@@ -15,13 +15,13 @@ const ContactForm = ({broker}: Props) => {
 
     const sendFirstMessage = async (event: FormEvent) => {
         event.preventDefault()
-        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/first`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/`, {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({broker, company: companyName, message, email, phone})
+            body: JSON.stringify({receiver: broker, company: companyName, message, email, phone})
         })
         if(response.status == 200) {
             const data = await response.json()

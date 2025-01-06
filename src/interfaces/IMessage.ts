@@ -1,6 +1,9 @@
 export default interface IMessage {
     _id: string;
-    conversation: string;
     sender: string;
+    receiver: string;
     message: string;
+    company: string;
+    email: string;
+    phone: string;
 }

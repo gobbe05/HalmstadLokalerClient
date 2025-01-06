@@ -12,7 +12,6 @@ import LedigaLokaler from "./components/pages/lediga-lokaler/ledigalokaler";
 import HyrUtLokal from "./components/pages/hyr-ut-lokal/hyrutlokal";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Bevakningar from "./components/pages/bevakningar/bevakningar";
-import Meddelanden from "./components/pages/meddelanden/meddelanden";
 import Konversation from "./components/pages/konversation/konversation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Lokal from "./components/pages/lokal/lokal";
@@ -21,6 +20,7 @@ import AllaKontor from "./components/pages/min-sida/alla-kontor/allakontor";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import ScrollWrapper from "./components/layout/scrollwrapper";
 import SparadeLokaler from "./components/pages/sparade-lokaler/sparadelokaler";
+import Inkorg from "./components/pages/inkorg/inkorg";
 
 const queryClient = new QueryClient()
 
@@ -54,9 +54,8 @@ const App: React.FC = () => {
                   <Route path="/bevakningar">
                     <Route index element={<Bevakningar />}/>
                   </Route>
-                  <Route path="/meddelanden" element={<ProtectedRoute />}>
-                    <Route index element={<Meddelanden />}/>
-                    <Route path="/meddelanden/:id" element={<Konversation />} />
+                  <Route path="/inkorg" element={<ProtectedRoute />}>
+                    <Route index element={<Inkorg />}/>
                   </Route>
                 </Route>
               </Routes>

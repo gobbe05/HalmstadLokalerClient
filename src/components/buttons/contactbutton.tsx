@@ -21,19 +21,18 @@ export default function ContactButton({broker}: Props) {
 
     const sendFirstMessage = async (event: FormEvent) => {
         event.preventDefault()
-        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/first`, {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/`, {
             method: "POST",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({broker, companyName, email, phone, message})
+            body: JSON.stringify({receiver: broker, company: companyName, email, phone, message})
         })
         if(response.status == 200) {
             const data = await response.json()
             toast.success("Succesfully sent message")
-            navigate("/meddelanden/" + data.conversation)
-
+            setOpen(false)
         } else {
             toast.error("There was an error sending your message")
         }

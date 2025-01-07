@@ -48,10 +48,10 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
   return (
     <Link
       to={`/lokal/${office._id}`}
-      className="h-[250px] flex w-full bg-white text-gray-700 border rounded-md shadow overflow-hidden hover:shadow-md group transition-all"
+      className="h-[200px] relative flex w-full bg-white text-gray-700 border rounded-md shadow overflow-hidden hover:shadow-md group transition-all"
     >
         {/* Thumbnail with consistent size */}
-        <div className="h-[250px] w-[250px] min-w-[250px] bg-gray-500 overflow-hidden">
+        <div className="h-[200px] w-[200px] min-w-[200px] bg-gray-500 overflow-hidden">
             <img
       src={office.thumbnail}
       alt={`Thumbnail of ${office.name}`}
@@ -73,20 +73,19 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
           <p className="h-16 text-sm text-gray-500 mt-4 overflow-hidden text-ellipsis">
             {office.description}
           </p>
-          {/* Like Button */}
-        {data !== "noauth" && (
-          <div className="flex justify-end mt-4">
+          {/* Like Button */} 
+        </div> 
+      </div>
+      {data !== "noauth" && (
+          <div className="absolute bottom-2 left-2 flex justify-end">
             <button
               onClick={ToggleLike}
-              className="flex items-center justify-center border border-gray-400 p-2 rounded-full hover:bg-gray-100 transition-all"
+              className="bg-white flex items-center justify-center border border-gray-400 p-2 rounded-full hover:bg-gray-100 transition-all"
             >
               {data.saved ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
             </button>
           </div>
         )}  
-        </div>
-         
-      </div>
     </Link>
   );
 }

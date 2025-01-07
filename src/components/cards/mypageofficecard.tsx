@@ -23,8 +23,8 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
 
     return (
         <div className="w-full flex bg-white text-gray-700 border rounded-md overflow-hidden group transition-all">
-            <div className="h-32 min-w-32 bg-gray-700">
-                <img src={office.thumbnail} className="h-full" />
+            <div className="h-32 w-32 min-w-32 bg-gray-700">
+                <img src={office.thumbnail} className="w-full h-full object-cover" />
             </div>
             <div className="w-full flex flex-col h-full px-8 py-4">
                 <h1 className="text-xl">{office.name}</h1>

@@ -65,10 +65,13 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
-    <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-16 rounded">
-            <h1 className="text-2xl font-semibold text-center">Hitta en lokal som passar dig</h1>
-            <div className="mt-8">
-                <form className="w-full mt-8">
+        <div className="flex flex-col w-4/5 max-w-5xl mx-auto text-gray-700 bg-white p-8 md:p-12 my-16 rounded-lg shadow-md">
+            {/* Heading */}
+            <h1 className="text-2xl font-semibold text-center text-gray-700">Hitta en lokal som passar dig</h1>
+
+            {/* Search Form */}
+            <div className="mt-10">
+                <form className="w-full">
                     <label htmlFor="default-search" className="sr-only">Search</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -92,62 +95,70 @@ const LedigaLokaler = () => {
                             type="search" 
                             id="default-search" 
                             defaultValue={queryParams.get("search") || ""}
-                            className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+                            className="block w-full p-4 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-sm" 
                             placeholder="Sök efter arbetsplatser..."
                             onChange={(e) => setSearch(e.target.value)}
                             required 
                         />
                         <button 
-                            onClick={(e) => { e.preventDefault(); queryClient.invalidateQueries({queryKey: ["offices"]})}} 
+                            onClick={(e) => { e.preventDefault(); queryClient.invalidateQueries({queryKey: ["offices"]}) }} 
                             type="submit" 
-                            className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300"
+                            className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md"
                         >
                             Sök
                         </button>
                     </div>
                 </form>
 
-                <div className="mt-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 place-content-center gap-6">
-                        <div className="flex flex-col">
-                            <label htmlFor="size" className="text-sm text-gray-700">Pris (kr/månad)</label>
-                            <div className="mt-2 flex flex-grow">
+                {/* Filters */}
+                <div className="mt-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Price Filter */}
+                        <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                            <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
+                            <div className="mt-3 flex">
                                 <input
-                                    onChange={(event) => {setPriceMin(+event.target.value)}} 
+                                    onChange={(event) => { setPriceMin(+event.target.value) }} 
                                     type="number"
-                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Min"/>
-                                <p className="my-auto mx-2 text-xl text-gray-500 font-bold">-</p>
+                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Min"
+                                />
+                                <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
                                 <input 
-                                    onChange={(event) => {setPriceMax(+event.target.value)}}
+                                    onChange={(event) => { setPriceMax(+event.target.value) }}
                                     type="number"
-                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Max"/>
+                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Max"
+                                />
                             </div>
                         </div>
 
-                        <div className="flex flex-col">
-                            <label htmlFor="size" className="text-sm text-gray-700">Storlek (m²)</label>
-                            <div className="mt-2 flex flex-grow">
+                        {/* Size Filter */}
+                        <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                            <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
+                            <div className="mt-3 flex">
                                 <input
-                                    onChange={(event) => {setSizeMin(+event.target.value)}} 
+                                    onChange={(event) => { setSizeMin(+event.target.value) }} 
                                     type="number"
-                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Min"/>
-                                <p className="my-auto mx-2 text-xl text-gray-500 font-bold">-</p>
+                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Min"
+                                />
+                                <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
                                 <input 
-                                    onChange={(event) => {setSizeMax(+event.target.value)}}
+                                    onChange={(event) => { setSizeMax(+event.target.value) }}
                                     type="number"
-                                    className="w-32 px-4 py-2 text-sm text-gray-500 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Max"/>
+                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                    placeholder="Max"
+                                />
                             </div>
                         </div>
 
-                        <div className="flex flex-col">
-                            <label htmlFor="location" className="text-sm text-gray-700">Typ</label>
+                        {/* Type Filter */}
+                        <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                            <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
                             <select
                                 id="location" 
-                                className="mt-2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                className="mt-3 block w-full px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
                                 onChange={(e) => setType(e.target.value)} 
                             >
                                 <option value="" selected></option>
@@ -158,21 +169,41 @@ const LedigaLokaler = () => {
                     </div>
                 </div>
 
-                <div className="grid gap-8 w-full mx-auto mt-8">
-                    <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
+                {/* Results */}
+                <div className="mt-10">
+                    <div className="grid gap-8">
+                        {/* Save Search */}
+                        <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
                             <SaveSearchButton submittedSearch={submittedSearch} />
-                    </div>
-                    {!data.length && 
-                    <div className="text-center text-gray-700 py-16">
-                        <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
-                        <p className="text-lg">Testa med att utöka din sökning</p>
-                    </div>}
-                    {data.map((office: IOffice) => <OfficeCardLong office={office} key={office._id}/>)}
+                        </div>
 
-                    {data.length && <Pagination count={pageCount} page={page} onChange={(_, page) => {setPage(page)}} shape="rounded" /> || ""}
+                        {/* No Results */}
+                        {!data.length && (
+                            <div className="text-center text-gray-700 py-16">
+                                <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
+                                <p className="text-lg">Testa med att utöka din sökning</p>
+                            </div>
+                        )}
+
+                        {/* Results List */}
+                        {data.map((office: IOffice) => (
+                            <OfficeCardLong office={office} key={office._id} />
+                        ))}
+
+                        {/* Pagination */}
+                        {!!data.length && (
+                            <Pagination
+                                count={pageCount}
+                                page={page}
+                                onChange={(_, page) => { setPage(page) }}
+                                shape="rounded"
+                            />
+                        )}
+                    </div>
                 </div>
-            </div> 
+            </div>
         </div>
+
     )
 }
 

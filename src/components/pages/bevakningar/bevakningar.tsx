@@ -21,22 +21,24 @@ export default function Bevakningar() {
 
     if(!data || !data.length) {
         return (
-            <div className="w-2/3 p-32 my-32 mx-auto text-gray-700 bg-white">
-                <h1 className="text-center text-2xl font-semibold">Woops, här var det tomt</h1>
-                {!isAuthenticated ? 
-                <div className="flex flex-col items-center">
-                    <p className="text-lg">Logga in för att kunna spara och bevaka dina sökningar.</p>
-                    <Link to="/login" className="flex items-center gap-2 mt-8 px-4 py-2 bg-blue-500 text-white rounded"><HiOutlineUserCircle size={24}/>Logga in</Link>
-                </div>:
-                <div className="flex flex-col items-center">
-                    <p className="text-lg">Leta efter annonser och spara dina sökningar.</p>
-                </div>}
+            <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
+                <div className="flex flex-col items-center justify-center mt-4 py-8">
+                    <h3 className="text-2xl font-bold">Inga sparade bevakningar</h3>
+                    {!isAuthenticated ? 
+                    <div className="flex flex-col items-center">
+                        <p className="mt-2 text-lg text-gray-600">Logga in för att kunna spara och bevaka dina sökningar.</p>
+                        <Link to="/login" className="flex items-center gap-2 mt-8 px-4 py-2 bg-blue-500 text-white rounded"><HiOutlineUserCircle size={24}/>Logga in</Link>
+                    </div>:
+                    <div className="flex flex-col items-center">
+                        <p className="mt-2 text-lg text-gray-600">Leta efter annonser och spara dina sökningar.</p>
+                    </div>}
+                </div>
             </div>
         )
     }
 
     return (
-        <div className="w-2/3 flex gap-8 my-16 mx-auto text-gray-700">
+        <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
             <div className="bg-white p-16">
                 <h1 className="text-2xl font-semibold text-center">Dina bevakningar</h1>
                 <Offices offices={data}/>

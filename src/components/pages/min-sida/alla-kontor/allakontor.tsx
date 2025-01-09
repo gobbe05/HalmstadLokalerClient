@@ -3,7 +3,6 @@ import { useAuth } from "../../../../context/Auth/AuthContext"
 import Loading from "../../../layout/loading"
 import FiveHundred from "../../../layout/FiveHundred"
 import IOffice from "../../../../interfaces/IOffice"
-import OfficeCardLong from "../../../cards/officecardlong"
 import { useEffect } from "react"
 import BackButton from "../../../buttons/backbutton"
 import MyPageOfficeCard from "../../../cards/mypageofficecard"
@@ -11,7 +10,7 @@ import MyPageOfficeCard from "../../../cards/mypageofficecard"
 export default function AllaKontor() {
     const {authId} = useAuth()
     const {isPending, error, data} = useQuery({
-        queryKey: ["allmyoffices"],
+        queryKey: ["all-my-offices"],
         queryFn: () => {
             return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/user/${authId}`)
             .then(response => response.json())

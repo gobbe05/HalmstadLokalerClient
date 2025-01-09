@@ -65,9 +65,9 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
-        <div className="flex flex-col w-4/5 max-w-5xl mx-auto text-gray-700 bg-white p-8 md:p-12 my-16 rounded-lg shadow-md">
+        <div className="flex flex-col w-1/2 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
             {/* Heading */}
-            <h1 className="text-2xl font-semibold text-center text-gray-700">Hitta en lokal som passar dig</h1>
+            <h1 className="text-2xl font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
 
             {/* Search Form */}
             <div className="mt-10">

@@ -6,8 +6,9 @@ import { useAuth } from "../../../context/Auth/AuthContext"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
-import ContactForm from "./contactform"
 import { HiArrowLeft } from "react-icons/hi2"
+import { FaHeart, FaRegHeart } from "react-icons/fa"
+import LikeButton from "../../buttons/likebutton"
 
 export default function Lokal() {
     const {id} = useParams()
@@ -17,7 +18,6 @@ export default function Lokal() {
 
     const {isAuthenticated, type} = useAuth()
 
-    const queryClient = useQueryClient()
     const {isPending, data, error} = useQuery({
         queryKey: ['office', id],
         queryFn: () => {
@@ -36,7 +36,7 @@ export default function Lokal() {
 
     return (
         <div className="flex-grow" key={id}>
-            <div className="flex w-2/3 gap-8 min-h-64 mx-auto my-16 bg-white text-gray-700">  
+            <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">  
                 <div className={`w-full rounded bg-white py-8 px-16`}>
                     {/* Header Section */}
                     <div className="py-4 flex justify-between items-center border-b border-gray-200">
@@ -61,6 +61,7 @@ export default function Lokal() {
                                     onLoad={() => setImageLoading(false)}
                                     className="w-full h-96 object-cover rounded-md"
                                 />
+                                <LikeButton id={data.office._id}/>
                             </div>
                             {/* Office Info */}
                             <div>
@@ -116,17 +117,6 @@ export default function Lokal() {
     )
 }
 
-interface TagProps {
-    tag: string
-}
-const Tag = ({tag}: TagProps) => {
-    return (
-        <div className="px-4 py-0.5 bg-gray-300 text-gray-800 rounded-full">
-            <p className="font-light">{tag}</p>
-        </div>
-    )
-}
-
 const OtherOffices = () => {
     const {error, isPending, data} = useQuery({
         queryKey: ["other-offices"],
@@ -139,7 +129,7 @@ const OtherOffices = () => {
     
     if (error || isPending) return <Loading />
     return (
-        <div className="bg-white p-16 mb-16 w-2/3 mx-auto">
+        <div className="w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
             <h1 className="text-2xl font-semibold text-gray-700 text-center">Andra lokaler</h1>
             <div className="py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
                 {data.offices.map((office: IOffice) => (

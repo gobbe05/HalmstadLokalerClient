@@ -1,11 +1,9 @@
 import { Link } from "react-router-dom";
 import IOffice from "../../interfaces/IOffice";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery} from "@tanstack/react-query";
+import LikeButton from "../buttons/likebutton";
 
 export default function OfficeCardLong({ office }: { office: IOffice }) {
-  const queryClient = useQueryClient();
-
   // Fetch like status
   const { error, isPending, data } = useQuery({
     queryKey: [`like-${office._id}`],
@@ -19,32 +17,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
     },
   });
 
-  // Handle like toggle
-  const ToggleLike = async (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-
-    const url = `${import.meta.env.VITE_SERVER_ADDRESS}/api/saved`;
-    const options: {credentials: "include", headers: {"Content-Type": string}} = {
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-    };
-
-    if (data.saved) {
-      await fetch(`${url}/${office._id}`, { method: "DELETE", ...options });
-    } else {
-      await fetch(url, {
-        method: "POST",
-        body: JSON.stringify({ office: office._id }),
-        ...options,
-      });
-    }
-
-    queryClient.invalidateQueries({ queryKey: [`like-${office._id}`] });
-    queryClient.invalidateQueries({ queryKey: ["saved-offices"] });
-  };
-
   if (error || isPending) return null;
-
   return (
     <Link
       to={`/lokal/${office._id}`}
@@ -74,18 +47,9 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
             {office.description}
           </p>
           {/* Like Button */} 
+          <LikeButton id={office._id}/>
         </div> 
       </div>
-      {data !== "noauth" && (
-          <div className="absolute bottom-2 left-2 flex justify-end">
-            <button
-              onClick={ToggleLike}
-              className="bg-white flex items-center justify-center border border-gray-400 p-2 rounded-full hover:bg-gray-100 transition-all"
-            >
-              {data.saved ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
-            </button>
-          </div>
-        )}  
     </Link>
   );
 }

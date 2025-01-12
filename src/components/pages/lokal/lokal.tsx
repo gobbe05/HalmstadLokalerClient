@@ -7,7 +7,6 @@ import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
 import { HiArrowLeft } from "react-icons/hi2"
-import { FaHeart, FaRegHeart } from "react-icons/fa"
 import LikeButton from "../../buttons/likebutton"
 
 export default function Lokal() {
@@ -55,7 +54,7 @@ export default function Lokal() {
                             <div className="relative">
                                 {imageLoading && !imageError && <Loading />}
                                 <img
-                                    src={imageError ? "/fallback-image.jpg" : data.office.image}
+                                    src={imageError ? "/fallback-image.jpg" : data.office.images[0]}
                                     alt={data.office.name}
                                     onError={() => setImageError(true)}
                                     onLoad={() => setImageLoading(false)}

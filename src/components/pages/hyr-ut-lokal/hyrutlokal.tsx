@@ -1,13 +1,16 @@
 import React, { useState, FormEvent } from 'react';
-import { TextField, Button, Grid, Typography, Container, MenuItem, Select, InputLabel, FormControl, Chip } from '@mui/material';
+import { TextField, Button, Grid, Container, MenuItem, Select, InputLabel, FormControl, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import postOffice from '../../../utils/postOffice'; // Adjust the import according to your project structure
 import BackButton from '../../buttons/backbutton';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import LocationInput from './locationinput';
+import { TagsInput } from 'react-tag-input-component';
 
 type markerType = {
     lat: number,
-    lng: number 
+    lng: number
 } | undefined;
 
 const HyrUtLokal = () => {
@@ -16,7 +19,9 @@ const HyrUtLokal = () => {
     const [location, setLocation] = useState<string>("");
     const [size, setSize] = useState<number | undefined>(undefined);
     const [price, setPrice] = useState<number | undefined>(undefined);
-    const [image, setImage] = useState<File | null>(null);
+    const [images, setImages] = useState<File[]>([]);
+    const [currentImage, setCurrentImage] = useState<File | null>(null);
+    const [currentImagePreview, setCurrentImagePreview] = useState<string | null>(null); 
     const [type, setType] = useState<string>("kontor");
     const [tags, setTags] = useState<Array<string>>([]);
     const [description, setDescription] = useState<string>("");
@@ -33,7 +38,7 @@ const HyrUtLokal = () => {
 
         // Errors because it doesn't recognize the null check previously done by !validate()
         //@ts-ignore
-        const office = await postOffice(name, location, size, type, price, marker, image, tags, description);
+        const office = await postOffice(name, location, size, type, price, marker, images, tags, description);
         if (office) {
             toast.success("Skapade en ny annons");
             navigate("/");
@@ -44,9 +49,31 @@ const HyrUtLokal = () => {
 
     const validate = (): boolean => {
         const newErrors: { [key: string]: string } = {};
-        // Add validation logic here
+        if (!name.trim()) newErrors.name = "Rubrik är obligatoriskt.";
+        if (!description.trim()) newErrors.description = "Beskrivning är obligatoriskt.";
+        if (!location.trim()) newErrors.location = "Adress är obligatoriskt.";
+        if (!size || size <= 0) newErrors.size = "Storlek måste vara ett positivt tal.";
+        if (!price || price <= 0) newErrors.price = "Pris måste vara ett positivt tal.";
+        if (!marker) newErrors.location = "Välj en giltig adress.";
+        if (!images.length) newErrors.image = "Ladda upp en bild.";
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
+    };
+
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            setCurrentImage(file);
+            setCurrentImagePreview(URL.createObjectURL(file));
+        }
+    };
+
+    const addImage = () => {
+        if (currentImage) {
+            setImages([...images, currentImage]);
+            setCurrentImage(null);
+            setCurrentImagePreview(null);
+        }
     };
 
     return (
@@ -68,14 +95,7 @@ const HyrUtLokal = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Plats"
-                            value={location}
-                            onChange={(e) => setLocation(e.target.value)}
-                            error={!!errors.location}
-                            helperText={errors.location}
-                        />
+                        <LocationInput setLocation={setLocation} setMarker={setMarker} />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
@@ -125,17 +145,41 @@ const HyrUtLokal = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
+                        <TagsInput value={tags} onChange={setTags} name="tags" placeHolder="Taggar..."/>
+                    </Grid>
+                    <Grid item xs={12}>
                         <Button
                             variant="contained"
                             component="label"
+                            startIcon={<AddPhotoAlternateIcon />}
                         >
-                            Ladda upp bild
+                            Välj bild
                             <input
                                 type="file"
                                 hidden
-                                onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)}
+                                onChange={handleImageChange}
                             />
                         </Button>
+                        {currentImagePreview && (
+                            <div style={{ marginTop: '10px' }}>
+                                <img src={currentImagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
+                                <Button
+                                    variant="contained"
+                                    color="success"
+                                    onClick={addImage}
+                                    style={{ marginTop: '10px' }}
+                                >
+                                    Lägg till bild
+                                </Button>
+                            </div>
+                        )}
+                        {images.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mt-4">
+                                {images.map((image, index) => (
+                                    <Chip key={index} label={image.name} />
+                                ))}
+                            </div>
+                        )}
                     </Grid>
                     <Grid item xs={12}>
                         <Button type="submit" variant="contained" color="primary" fullWidth>

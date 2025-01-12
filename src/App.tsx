@@ -12,7 +12,6 @@ import LedigaLokaler from "./components/pages/lediga-lokaler/ledigalokaler";
 import HyrUtLokal from "./components/pages/hyr-ut-lokal/hyrutlokal";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Bevakningar from "./components/pages/bevakningar/bevakningar";
-import Konversation from "./components/pages/konversation/konversation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Lokal from "./components/pages/lokal/lokal";
 import MinSida from "./components/pages/min-sida/minsida";

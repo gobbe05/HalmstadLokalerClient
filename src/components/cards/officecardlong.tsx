@@ -21,7 +21,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
   return (
     <Link
       to={`/lokal/${office._id}`}
-      className="h-[200px] relative flex w-full bg-white text-gray-700 border rounded-md shadow overflow-hidden hover:shadow-md group transition-all"
+      className="h-[200px] relative flex w-full bg-white text-gray-700 border rounded-md shadow-sm hover:shadow overflow-hidden transition-all"
     >
         {/* Thumbnail with consistent size */}
         <div className="h-[200px] w-[200px] min-w-[200px] bg-gray-500 overflow-hidden">
@@ -37,11 +37,11 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
         {/* Office Information */}
         <div>
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-semibold group-hover:underline underline-offset-2">
+            <h1 className="text-xl underline-offset-2">
               {office.name}
             </h1>
           </div>
-          <p className="text-sm font-light text-gray-600">{office.location}</p>
+          <p className="font-light text-gray-600">{office.location}</p>
           <p className="font-semibold mt-2">{office.size} m²</p>
           <p className="h-16 text-sm text-gray-500 mt-4 overflow-hidden text-ellipsis">
             {office.description}

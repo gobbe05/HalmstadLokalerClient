@@ -1,9 +1,9 @@
 import { FaRegEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt } from "react-icons/fa"
 import IOffice from "../../interfaces/IOffice"
 import { useState } from "react"
-import { Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material"
 import { useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
+import RemoveDialog from "../reusable/dialogs/removedialog"
 
 interface MyPageOfficeCardProps {
     office: IOffice
@@ -11,7 +11,15 @@ interface MyPageOfficeCardProps {
 
 const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
     const [openRemove, setOpenRemove] = useState<boolean>(false)
-
+    const queryClient = useQueryClient()
+    const handleRemove = async () => {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${office._id}`, {
+            method: "DELETE",
+            credentials: "include"
+        })
+        queryClient.invalidateQueries({queryKey: ["my-offices"]})
+        setOpenRemove(false)
+    }
     return (
         <div key={"mypage-office-" + office._id} className="w-full flex bg-white text-gray-700 border rounded-md overflow-hidden group transition-all">
             <div className="h-32 w-32 min-w-32 bg-gray-700">
@@ -26,42 +34,10 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
                     <button onClick={() => setOpenRemove(true)} className="hover:bg-gray-300 p-2 rounded-full transition-all"><FaRegTrashAlt /></button>
                 </div>
             </div>
-            <RemoveDialog openRemove={openRemove} setOpenRemove={setOpenRemove} id={office._id} />            
+            <RemoveDialog open={openRemove} setOpen={setOpenRemove} handleRemove={handleRemove} dialogText={"Är du säker på att du vill ta bort det här kontoret?"} />            
         </div>
     )
 }
-
-interface RemoveButtonProps {
-    openRemove: boolean,
-    setOpenRemove: React.Dispatch<React.SetStateAction<boolean>>,
-    id: string
-}
-const RemoveDialog = ({openRemove, setOpenRemove, id}: RemoveButtonProps) => {
-    const queryClient = useQueryClient()
-    const handleRemove = async () => {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${id}`, {
-            method: "DELETE",
-            credentials: "include"
-        })
-        queryClient.invalidateQueries({queryKey: ["my-offices"]})
-        setOpenRemove(false)
-    }
-    return (
-        <Dialog
-                open={openRemove}>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Är du säker på att du vill ta bort det här kontoret?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <button onClick={() => setOpenRemove(false)} className="p-2 rounded hover:bg-gray-100">Close</button>
-                    <button onClick={() => handleRemove()} className="p-2 rounded hover:bg-red-100 text-red-500">Remove</button>
-                </DialogActions>
-            </Dialog>
-    )
-}
-
 interface HideButtonProps {
     id: string,
     hidden: boolean

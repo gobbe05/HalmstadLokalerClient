@@ -5,7 +5,8 @@ import FiveHundred from "../../layout/FiveHundred"
 import { HiOutlineTrash } from "react-icons/hi2"
 import { toast } from "react-toastify"
 import IMessage from "../../../interfaces/IMessage"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import RemoveDialog from "../../reusable/dialogs/removedialog"
 
 type Props = {
     passedMessage: IMessage;
@@ -14,42 +15,40 @@ type Props = {
 }
 
 export default function Message({ passedMessage, activeMessageId, setActiveMessageId }: Props) {
+    const [openRemove, setOpenRemove] = useState<boolean>(false)
+
     const queryClient = useQueryClient();
-    const deleteConversation = async () => {
-        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/conversation/${passedMessage._id}`, {
+    const handleRemove = async () => {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/${passedMessage._id}`, {
             method: "DELETE",
             credentials: "include",
         });
         if (response.status == 200) toast.success("Tog bort konversation");
         if (response.status == 500) toast.error("Någonting gick fel...");
-        queryClient.invalidateQueries({ queryKey: ["conversations"] });
+        queryClient.invalidateQueries({ queryKey: ["messages"] });
     };
 
-    useEffect(() => {
-        console.log(activeMessageId);
-    }, [activeMessageId]);
-
     return (
-        <div
-            onClick={() => setActiveMessageId(passedMessage._id)}
-            className={`flex items-center justify-between p-4 ${activeMessageId == passedMessage._id ? "bg-blue-400 text-white" : "bg-gray-50 hover:bg-gray-100"} rounded-lg transition cursor-pointer`}
-        >
-            {/* Message Preview */}
-            <div className="w-full">
-                <LatestMessage id={passedMessage._id} />
-            </div>
-
-            {/* Delete Button */}
-            <button
-                onClick={(e) => {
-                    e.stopPropagation();
-                    deleteConversation();
-                }}
-                className="ml-4 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+       <>
+            <div
+                onClick={() => setActiveMessageId(passedMessage._id)}
+                className={`flex items-center justify-between p-4 ${activeMessageId == passedMessage._id ? "bg-blue-400 text-white" : "bg-gray-50 hover:bg-gray-100"} rounded-lg transition cursor-pointer`}
             >
-                <HiOutlineTrash size={20} />
-            </button>
-        </div>
+                {/* Message Preview */}
+                <div className="w-full">
+                    <LatestMessage id={passedMessage._id} />
+                </div>
+
+                {/* Delete Button */}
+                <button
+                    onClick={(e) => {setOpenRemove(true); e.stopPropagation()}}
+                    className="ml-4 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                >
+                    <HiOutlineTrash size={20} />
+                </button>
+            </div>
+            <RemoveDialog open={openRemove} setOpen={setOpenRemove} handleRemove={handleRemove} dialogText={"Är du säker på att du vill ta bort detta meddelandet?"}/>
+        </> 
     );
 }
 

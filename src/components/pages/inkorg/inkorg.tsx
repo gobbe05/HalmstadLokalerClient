@@ -9,26 +9,30 @@ export default function Inkorg() {
     const [activeMessage, setActiveMessage] = useState<IMessage | null>(null)
     const {isPending, error, data} = useQuery({
         queryKey: ['messages'],
-        queryFn: () => {
-            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message`, {
+        queryFn: async () => {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message`, {
                 credentials: "include"
-            }).then(response => response.json())
-            .then((data) => {
-                if(!activeMessageId) setActiveMessageId(data.messages[0]._id);
-                return data
             })
+            const data = await response.json()
+            setActiveMessageId(data.messages[0]?._id || null);
+            return data
         }
     })
 
-    useEffect(() => {
-        if(!activeMessageId) return
-        fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/${activeMessageId}`, {
+    const updateActiveMessage = async () => {
+        if(!activeMessageId) {
+            setActiveMessage(null)
+            return
+        }
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/${activeMessageId}`, {
             credentials: "include"
         })
-        .then((response) => response.json())
-        .then((data) => {
-            setActiveMessage(data.message)
-        })
+        const data = await response.json()
+        setActiveMessage(data.message)
+    }
+
+    useEffect(() => {
+        updateActiveMessage()
     }, [activeMessageId])
 
     if(isPending || error) return <Loading />

@@ -10,11 +10,11 @@ body {
 }
 
 .rti--container {
-  @apply border-0 border-b-2 bg-gray-100 rounded-none py-1 shadow-none !important;
+  @apply !important;
 }
 .rti--input {
-  @apply p-2 bg-transparent !important;
+  @apply p-2 hover:outline-black !important;
 }
 .rti--tag {
-  @apply bg-gray-300 rounded-full ps-3 !important;
+  @apply bg-gray-200 text-gray-500 rounded-full ps-3 !important;
 }

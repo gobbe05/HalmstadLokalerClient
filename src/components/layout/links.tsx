@@ -36,6 +36,6 @@ type HeaderLinkProps = {
 
 const HeaderLink = ({text, link, Icon}: HeaderLinkProps) => {
     return (
-        <Link to={link} className="flex md:flex-col gap-2 md:gap-0 items-center text-gray-700 hover:text-blue-500 transition-colors duration-300"><Icon className="md:mx-auto" size={24}/><p className="text-sm">{text}</p></Link>
+        <Link to={link} className="select-none flex md:flex-col gap-2 md:gap-0 items-center text-gray-700 hover:text-blue-500 transition-colors duration-300"><Icon className="md:mx-auto" size={24}/><p className="text-sm">{text}</p></Link>
     )
 }

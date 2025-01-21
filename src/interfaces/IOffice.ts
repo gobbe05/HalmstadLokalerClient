@@ -6,6 +6,7 @@ export default interface IOffice {
     price: number,
     size: number,
     images: Array<string>,
+    files: Array<string>,
     thumbnails: Array<string>,
     hidden: boolean,
 }

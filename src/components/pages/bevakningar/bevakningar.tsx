@@ -6,6 +6,7 @@ import SavedSearch from "./savedsearch"
 import { useEffect, useState } from "react"
 import { FaSearch, FaTrashAlt } from "react-icons/fa"
 import Loading from "../../layout/loading"
+import { useAuth } from "../../../context/Auth/AuthContext"
 
 /**
  * This component works by first fetching the saved searches from the server. If there are no saved searches, a message is displayed to the user.
@@ -15,7 +16,8 @@ import Loading from "../../layout/loading"
  */
 export default function Bevakningar() {
     const [activeSavedSearch, setActiveSavedSearch] = useState<string | undefined>(undefined)
-    const queryClient = useQueryClient() 
+    const queryClient = useQueryClient()
+    const {isAuthenticated} = useAuth()
     const RemoveSearch = async () => {
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch/toggle`, {
             method: "POST",
@@ -44,12 +46,14 @@ export default function Bevakningar() {
         queryClient.invalidateQueries({queryKey: ["offices-savedsearch"]})
     }, [activeSavedSearch])
 
-    if(isPending || error) return <Loading />
-    if(!activeSavedSearch) return <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
-        <div className="flex flex-col items-center justify-center mt-4 py-8">
+    if(!activeSavedSearch || !isAuthenticated) return (
+        <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
+            <div className="flex flex-col items-center justify-center mt-4 py-8">
                 <h3 className="text-2xl font-bold">Du har inga bevakningar</h3>
                 <p className="mt-2 text-lg text-gray-600">Spara en sökning och kom tillbaks senare.</p>
-            </div></div>
+            </div>
+        </div>)
+    if(isPending || error) return <Loading /> 
     return (
         <div className="grid grid-cols-3 gap-8 w-2/3 mx-auto text-gray-700 my-32">
             {/* Selection for saved searches */}

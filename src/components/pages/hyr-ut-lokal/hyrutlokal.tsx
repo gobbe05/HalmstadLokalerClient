@@ -7,6 +7,7 @@ import BackButton from '../../buttons/backbutton';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import LocationInput from './locationinput';
 import { TagsInput } from 'react-tag-input-component';
+import ArticleIcon from '@mui/icons-material/Article';
 
 type markerType = {
     lat: number,
@@ -26,6 +27,7 @@ const HyrUtLokal = () => {
     const [tags, setTags] = useState<Array<string>>([]);
     const [description, setDescription] = useState<string>("");
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [documents, setDocuments] = useState<File[]>([]);
 
     const navigate = useNavigate();
 
@@ -38,7 +40,7 @@ const HyrUtLokal = () => {
 
         // Errors because it doesn't recognize the null check previously done by !validate()
         //@ts-ignore
-        const office = await postOffice(name, location, size, type, price, marker, images, tags, description);
+        const office = await postOffice(name, location, size, type, price, marker, images, documents, tags, description);
         if (office) {
             toast.success("Skapade en ny annons");
             navigate("/");
@@ -67,7 +69,12 @@ const HyrUtLokal = () => {
             setCurrentImagePreview(URL.createObjectURL(file));
         }
     };
-
+    const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            setDocuments([...documents, file]);
+        }
+    }
     const addImage = () => {
         if (currentImage) {
             setImages([...images, currentImage]);
@@ -146,6 +153,27 @@ const HyrUtLokal = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <TagsInput value={tags} onChange={setTags} name="tags" placeHolder="Taggar..."/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Button
+                            variant="contained"
+                            component="label"
+                            startIcon={<ArticleIcon />}
+                        >
+                            Välj dokument
+                            <input
+                                type="file"
+                                hidden
+                                onChange={handleDocumentChange}
+                            />
+                        </Button>
+                        {documents.length > 0 && (
+                            <div className="flex flex-wrap gap-2 mt-4">
+                                {documents.map((document, index) => (
+                                    <Chip key={index} label={document.name} />
+                                ))}
+                            </div>
+                        )}
                     </Grid>
                     <Grid item xs={12}>
                         <Button

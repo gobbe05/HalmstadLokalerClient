@@ -84,14 +84,14 @@ const HyrUtLokal = () => {
     };
 
     return (
-        <Container maxWidth="sm" className="bg-white my-16 p-8 rounded-lg shadow-md">
+        <div className="w-1/2 bg-white mx-auto my-16 p-8 rounded-lg shadow-md">
             <div>
                 <BackButton link={"/"}/>
                 <h1 className="text-2xl font-semibold">Lägg upp en ny annons</h1> 
             </div>
             <form className="mt-4" onSubmit={handleForm}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                <div className="grid grid-cols-1 gap-4">
+                    <div>
                         <TextField
                             fullWidth
                             label="Namn"
@@ -100,11 +100,11 @@ const HyrUtLokal = () => {
                             error={!!errors.name}
                             helperText={errors.name}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <LocationInput setLocation={setLocation} setMarker={setMarker} />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <TextField
                             fullWidth
                             label="Storlek (kvm)"
@@ -114,8 +114,8 @@ const HyrUtLokal = () => {
                             error={!!errors.size}
                             helperText={errors.size}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <TextField
                             fullWidth
                             label="Pris (SEK)"
@@ -125,8 +125,8 @@ const HyrUtLokal = () => {
                             error={!!errors.price}
                             helperText={errors.price}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <FormControl fullWidth>
                             <InputLabel>Typ</InputLabel>
                             <Select
@@ -138,8 +138,8 @@ const HyrUtLokal = () => {
                                 <MenuItem value="butik">Butik</MenuItem>
                             </Select>
                         </FormControl>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <TextField
                             fullWidth
                             label="Beskrivning"
@@ -150,11 +150,11 @@ const HyrUtLokal = () => {
                             error={!!errors.description}
                             helperText={errors.description}
                         />
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <TagsInput value={tags} onChange={setTags} name="tags" placeHolder="Taggar..."/>
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <Button
                             variant="contained"
                             component="label"
@@ -174,8 +174,8 @@ const HyrUtLokal = () => {
                                 ))}
                             </div>
                         )}
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <Button
                             variant="contained"
                             component="label"
@@ -208,15 +208,15 @@ const HyrUtLokal = () => {
                                 ))}
                             </div>
                         )}
-                    </Grid>
-                    <Grid item xs={12}>
+                    </div>
+                    <div>
                         <Button type="submit" variant="contained" color="primary" fullWidth>
                             Skapa annons
                         </Button>
-                    </Grid>
-                </Grid>
+                    </div>
+                </div>
             </form>
-        </Container>
+        </div>
     );
 };
 

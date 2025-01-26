@@ -8,14 +8,9 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import LocationInput from './locationinput';
 import { TagsInput } from 'react-tag-input-component';
 import ArticleIcon from '@mui/icons-material/Article';
-
-type markerType = {
-    lat: number,
-    lng: number
-} | undefined;
+import OfficeForm from '../../reusable/forms/officeform';
 
 const HyrUtLokal = () => {
-    const [marker, setMarker] = useState<markerType>(undefined);
     const [name, setName] = useState<string>("");
     const [location, setLocation] = useState<string>("");
     const [size, setSize] = useState<number | undefined>(undefined);
@@ -89,133 +84,7 @@ const HyrUtLokal = () => {
                 <BackButton link={"/"}/>
                 <h1 className="text-2xl font-semibold">Lägg upp en ny annons</h1> 
             </div>
-            <form className="mt-4" onSubmit={handleForm}>
-                <div className="grid grid-cols-1 gap-4">
-                    <div>
-                        <TextField
-                            fullWidth
-                            label="Namn"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            error={!!errors.name}
-                            helperText={errors.name}
-                        />
-                    </div>
-                    <div>
-                        <LocationInput setLocation={setLocation} setMarker={setMarker} />
-                    </div>
-                    <div>
-                        <TextField
-                            fullWidth
-                            label="Storlek (kvm)"
-                            type="number"
-                            value={size}
-                            onChange={(e) => setSize(Number(e.target.value))}
-                            error={!!errors.size}
-                            helperText={errors.size}
-                        />
-                    </div>
-                    <div>
-                        <TextField
-                            fullWidth
-                            label="Pris (SEK)"
-                            type="number"
-                            value={price}
-                            onChange={(e) => setPrice(Number(e.target.value))}
-                            error={!!errors.price}
-                            helperText={errors.price}
-                        />
-                    </div>
-                    <div>
-                        <FormControl fullWidth>
-                            <InputLabel>Typ</InputLabel>
-                            <Select
-                                value={type}
-                                onChange={(e) => setType(e.target.value as string)}
-                            >
-                                <MenuItem value="kontor">Kontor</MenuItem>
-                                <MenuItem value="lager">Lager</MenuItem>
-                                <MenuItem value="butik">Butik</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <div>
-                        <TextField
-                            fullWidth
-                            label="Beskrivning"
-                            multiline
-                            rows={4}
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            error={!!errors.description}
-                            helperText={errors.description}
-                        />
-                    </div>
-                    <div>
-                        <TagsInput value={tags} onChange={setTags} name="tags" placeHolder="Taggar..."/>
-                    </div>
-                    <div>
-                        <Button
-                            variant="contained"
-                            component="label"
-                            startIcon={<ArticleIcon />}
-                        >
-                            Välj dokument
-                            <input
-                                type="file"
-                                hidden
-                                onChange={handleDocumentChange}
-                            />
-                        </Button>
-                        {documents.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                {documents.map((document, index) => (
-                                    <Chip key={index} label={document.name} />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    <div>
-                        <Button
-                            variant="contained"
-                            component="label"
-                            startIcon={<AddPhotoAlternateIcon />}
-                        >
-                            Välj bild
-                            <input
-                                type="file"
-                                hidden
-                                onChange={handleImageChange}
-                            />
-                        </Button>
-                        {currentImagePreview && (
-                            <div style={{ marginTop: '10px' }}>
-                                <img src={currentImagePreview} alt="Preview" style={{ maxWidth: '100%', maxHeight: '200px' }} />
-                                <Button
-                                    variant="contained"
-                                    color="success"
-                                    onClick={addImage}
-                                    style={{ marginTop: '10px' }}
-                                >
-                                    Lägg till bild
-                                </Button>
-                            </div>
-                        )}
-                        {images.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                {images.map((image, index) => (
-                                    <Chip key={index} label={image.name} />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                    <div>
-                        <Button type="submit" variant="contained" color="primary" fullWidth>
-                            Skapa annons
-                        </Button>
-                    </div>
-                </div>
-            </form>
+            <OfficeForm method="POST" />
         </div>
     );
 };

@@ -6,12 +6,18 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import getOffice from '../../../utils/getOffice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import LocationInput from '../../pages/hyr-ut-lokal/locationinput';
 
 interface OfficeFormProps {
     id?: string,
     method: "POST" | "PUT"
 }
+type markerType = {
+    lat: number,
+    lng: number
+} | undefined;
 const OfficeForm = ({id, method}: OfficeFormProps) => {
+    const [marker, setMarker] = useState<markerType>(undefined);
     const [name, setName] = useState<string>('')
     const [size, setSize] = useState<number>(0)
     const [price, setPrice] = useState<number>(0)
@@ -64,15 +70,13 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
     
     const handleForm = async (event: FormEvent) => {
         event.preventDefault()
-        if(position === undefined) return
-        console.log(position)
         const formData = new FormData()
         formData.append("name", name)
         formData.append("location", location)
         formData.append("size", size.toString())
         formData.append("price", price.toString())
-        formData.append("lat", position.lat.toString()),
-        formData.append("lng", position.lng.toString()),
+        marker && formData.append("lat", marker.lat.toString()),
+        marker && formData.append("lng", marker.lng.toString()),
         formData.append("tags", JSON.stringify(tags))
         formData.append("type", type)
         formData.append("description", description)
@@ -98,7 +102,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                 credentials: "include",
                 body: formData
             })
-            if(response.status == 200) {
+            if(response.status == 201) {
                 toast.success("Successfully created office")
                 navigate("/")
             } else {
@@ -127,7 +131,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                 setName(office.name)
                 setSize(office.size)
                 setPrice(office.price)
-                setPosition(office.position)
+                setMarker(office.position)
                 setType(office.type)
                 setDescription(office.description)
                 setTags(office.tags)
@@ -142,6 +146,9 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
             })
         }
     }, [id])
+    useEffect(() => {
+        console.log(marker)
+    }, [marker])
 
 
     return (
@@ -157,6 +164,10 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                             helperText={errors.name}
                         />
                     </div>
+                    {method == "POST" &&
+                    <div>
+                        <LocationInput setLocation={setLocation} setMarker={setMarker} />
+                    </div>} 
                     <div>
                         <TextField
                             fullWidth
@@ -264,7 +275,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                     </div>
                     <div>
                         <Button type="submit" variant="contained" color="primary" fullWidth>
-                            Skapa annons
+                            {method == "POST" ? "Skapa annons" : "Uppdatera annons"} 
                         </Button>
                     </div>
                 </div>

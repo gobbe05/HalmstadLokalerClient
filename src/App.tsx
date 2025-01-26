@@ -20,6 +20,7 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import ScrollWrapper from "./components/layout/scrollwrapper";
 import SparadeLokaler from "./components/pages/sparade-lokaler/sparadelokaler";
 import Inkorg from "./components/pages/inkorg/inkorg";
+import { SavedSearchProvider } from "./context/savedSearchContext";
 
 const queryClient = new QueryClient()
 
@@ -28,38 +29,40 @@ const App: React.FC = () => {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API} libraries={["places"]}>
-          <Router>
-            <ScrollWrapper>
-              <ToastContainer position="top-left" theme="colored" transition={Bounce}/>
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<Home />} />
-                  <Route path="/lokal/:id" element={<Lokal />} />
-                  <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
-                    <Route index element={<HyrUtLokal />} />
+          <SavedSearchProvider>
+            <Router>
+              <ScrollWrapper>
+                <ToastContainer position="top-left" theme="colored" transition={Bounce}/>
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<Home />} />
+                    <Route path="/lokal/:id" element={<Lokal />} />
+                    <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
+                      <Route index element={<HyrUtLokal />} />
+                    </Route>
+                    <Route path="/lediga-lokaler">
+                      <Route index element={<LedigaLokaler />} />
+                    </Route>
+                    <Route path="/sparade-lokaler" element={<ProtectedRoute />}>
+                      <Route index element={<SparadeLokaler />}/>
+                    </Route>
+                    <Route path="/min-sida" element={<ProtectedRoute />}>
+                      <Route index element={<MinSida />}/>
+                      <Route path="/min-sida/alla-kontor" element={<AllaKontor />}/>
+                    </Route>
+                    <Route path="/bevakningar">
+                      <Route index element={<Bevakningar />}/>
+                    </Route>
+                    <Route path="/inkorg" element={<ProtectedRoute />}>
+                      <Route index element={<Inkorg />}/>
+                    </Route>
                   </Route>
-                  <Route path="/lediga-lokaler">
-                    <Route index element={<LedigaLokaler />} />
-                  </Route>
-                  <Route path="/sparade-lokaler" element={<ProtectedRoute />}>
-                    <Route index element={<SparadeLokaler />}/>
-                  </Route>
-                  <Route path="/min-sida" element={<ProtectedRoute />}>
-                    <Route index element={<MinSida />}/>
-                    <Route path="/min-sida/alla-kontor" element={<AllaKontor />}/>
-                  </Route>
-                  <Route path="/bevakningar">
-                    <Route index element={<Bevakningar />}/>
-                  </Route>
-                  <Route path="/inkorg" element={<ProtectedRoute />}>
-                    <Route index element={<Inkorg />}/>
-                  </Route>
-                </Route>
-              </Routes>
-            </ScrollWrapper> 
-          </Router>
+                </Routes>
+              </ScrollWrapper> 
+            </Router>
+          </SavedSearchProvider> 
         </APIProvider>
       </QueryClientProvider>
     </AuthProvider>

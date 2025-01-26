@@ -1,67 +1,42 @@
-import React, { useState, FormEvent } from 'react';
-import { TextField, Button, MenuItem, Select, InputLabel, FormControl, Chip } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import postOffice from '../../../utils/postOffice'; // Adjust the import according to your project structure
-import BackButton from '../../buttons/backbutton';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-import LocationInput from './locationinput';
-import { TagsInput } from 'react-tag-input-component';
+import { Button, Chip, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import {FormEvent, useEffect, useState} from 'react'
+import { TagsInput } from 'react-tag-input-component'
 import ArticleIcon from '@mui/icons-material/Article';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import getOffice from '../../../utils/getOffice';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-type markerType = {
-    lat: number,
-    lng: number
-} | undefined;
+interface OfficeFormProps {
+    id?: string,
+    method: "POST" | "PUT"
+}
+const OfficeForm = ({id, method}: OfficeFormProps) => {
+    const [name, setName] = useState<string>('')
+    const [size, setSize] = useState<number>(0)
+    const [price, setPrice] = useState<number>(0)
+    const [type, setType] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const [location, setLocation] = useState<string>('')
+    const [position, setPosition] = useState<{lat: number, lng: number}>()
+    const [tags, setTags] = useState<string[]>([])
+    const [documents, setDocuments] = useState<File[]>([])
+    const [images, setImages] = useState<File[]>([])
+    const [currentImage, setCurrentImage] = useState<File | null>(null)
+    const [currentImagePreview, setCurrentImagePreview] = useState<string | null>(null)
+    const [errors, setErrors] = useState<{[key: string]: string}>({})
+    const [existingDocuments, setExistingDocuments] = useState<string[]>([])
+    const [existingImages, setExistingImages] = useState<string[]>([])
+    const [existingThumbnails, setExistingThumbnails] = useState<string[] | undefined>(undefined)
 
-const HyrUtLokal = () => {
-    const [marker, setMarker] = useState<markerType>(undefined);
-    const [name, setName] = useState<string>("");
-    const [location, setLocation] = useState<string>("");
-    const [size, setSize] = useState<number | undefined>(undefined);
-    const [price, setPrice] = useState<number | undefined>(undefined);
-    const [images, setImages] = useState<File[]>([]);
-    const [currentImage, setCurrentImage] = useState<File | null>(null);
-    const [currentImagePreview, setCurrentImagePreview] = useState<string | null>(null); 
-    const [type, setType] = useState<string>("kontor");
-    const [tags, setTags] = useState<Array<string>>([]);
-    const [description, setDescription] = useState<string>("");
-    const [errors, setErrors] = useState<{ [key: string]: string }>({});
-    const [documents, setDocuments] = useState<File[]>([]);
+    const navigate = useNavigate()
 
-    const navigate = useNavigate();
-
-    const handleForm = async (event: FormEvent) => {
-        event.preventDefault();
-        if (!validate()) {
-            toast.error("Formuläret innehåller fel. Kontrollera och försök igen.");
-            return;
+    const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files[0]) {
+            const file = event.target.files[0];
+            setDocuments([...documents, file]);
         }
-
-        // Errors because it doesn't recognize the null check previously done by !validate()
-        //@ts-ignore
-        const office = await postOffice(name, location, size, type, price, marker, images, documents, tags, description);
-        if (office) {
-            toast.success("Skapade en ny annons");
-            navigate("/");
-            return;
-        }
-        toast.error("Det uppstod ett fel när din annons skulle skapas");
-    };
-
-    const validate = (): boolean => {
-        const newErrors: { [key: string]: string } = {};
-        if (!name.trim()) newErrors.name = "Rubrik är obligatoriskt.";
-        if (!description.trim()) newErrors.description = "Beskrivning är obligatoriskt.";
-        if (!location.trim()) newErrors.location = "Adress är obligatoriskt.";
-        if (!size || size <= 0) newErrors.size = "Storlek måste vara ett positivt tal.";
-        if (!price || price <= 0) newErrors.price = "Pris måste vara ett positivt tal.";
-        if (!marker) newErrors.location = "Välj en giltig adress.";
-        if (!images.length) newErrors.image = "Ladda upp en bild.";
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
+    }
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
@@ -69,27 +44,108 @@ const HyrUtLokal = () => {
             setCurrentImagePreview(URL.createObjectURL(file));
         }
     };
-    const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
-            setDocuments([...documents, file]);
-        }
-    }
     const addImage = () => {
-        if (currentImage) {
-            setImages([...images, currentImage]);
-            setCurrentImage(null);
-            setCurrentImagePreview(null);
+        setImages([...images, currentImage!]);
+        setCurrentImage(null);
+        setCurrentImagePreview(null);
+    }
+    
+    const validate = (): boolean => {
+        const newErrors: { [key: string]: string } = {};
+        if (!name.trim()) newErrors.name = "Rubrik är obligatoriskt.";
+        if (!description.trim()) newErrors.description = "Beskrivning är obligatoriskt.";
+        if (!location.trim()) newErrors.location = "Adress är obligatoriskt.";
+        if (!size || size <= 0) newErrors.size = "Storlek måste vara ett positivt tal.";
+        if (!price || price <= 0) newErrors.price = "Pris måste vara ett positivt tal.";
+        if (!images.length) newErrors.image = "Ladda upp en bild.";
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+    
+    const handleForm = async (event: FormEvent) => {
+        event.preventDefault()
+        if(position === undefined) return
+        console.log(position)
+        const formData = new FormData()
+        formData.append("name", name)
+        formData.append("location", location)
+        formData.append("size", size.toString())
+        formData.append("price", price.toString())
+        formData.append("lat", position.lat.toString()),
+        formData.append("lng", position.lng.toString()),
+        formData.append("tags", JSON.stringify(tags))
+        formData.append("type", type)
+        formData.append("description", description)
+        existingDocuments && existingDocuments.forEach((document) => {
+            formData.append("existingDocuments[]", document)
+        })
+        existingImages && existingImages.forEach((image) => {
+            formData.append("existingImages[]", image)
+        })
+        existingThumbnails && existingThumbnails.forEach((thumbnail) => {
+            formData.append("existingThumbnails[]", thumbnail)
+        })
+        images.forEach((image) => {
+            formData.append("images[]", image)
+        })
+        documents.forEach((file) => {
+            formData.append("files[]", file)
+        })
+
+        if(method == "POST") {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office`, {
+                method: "POST",
+                credentials: "include",
+                body: formData
+            })
+            if(response.status == 200) {
+                toast.success("Successfully created office")
+                navigate("/")
+            } else {
+                toast.error("Failed to create office")
+            }
+        } else if (method == "PUT") {
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${id}`, {
+                method: "PUT",
+                credentials: "include",
+                body: formData
+            })
+            if(response.status == 200) {
+                toast.success("Successfully updated office")
+                navigate("/")
+            } else {
+                toast.error("Failed to update office")
+            }
         }
     };
+    
+    useEffect(() => {
+        if(id) {
+            // Fetch office data
+            getOffice(id).then((office) => {
+                if(!office) return
+                setName(office.name)
+                setSize(office.size)
+                setPrice(office.price)
+                setPosition(office.position)
+                setType(office.type)
+                setDescription(office.description)
+                setTags(office.tags)
+                
+                // Populate documents and images with fetched links
+                setExistingDocuments(office.documents)
+                setExistingImages(office.images) 
+                setExistingThumbnails(office.thumbnails)
+            }
+            ).catch((error) => {
+                console.error(error)
+            })
+        }
+    }, [id])
+
 
     return (
-        <div className="w-1/2 bg-white mx-auto my-16 p-8 rounded-lg shadow-md">
-            <div>
-                <BackButton link={"/"}/>
-                <h1 className="text-2xl font-semibold">Lägg upp en ny annons</h1> 
-            </div>
-            <form className="mt-4" onSubmit={handleForm}>
+        <form className="mt-4" onSubmit={handleForm}>
                 <div className="grid grid-cols-1 gap-4">
                     <div>
                         <TextField
@@ -100,9 +156,6 @@ const HyrUtLokal = () => {
                             error={!!errors.name}
                             helperText={errors.name}
                         />
-                    </div>
-                    <div>
-                        <LocationInput setLocation={setLocation} setMarker={setMarker} />
                     </div>
                     <div>
                         <TextField
@@ -216,8 +269,7 @@ const HyrUtLokal = () => {
                     </div>
                 </div>
             </form>
-        </div>
-    );
-};
+    )
+}
 
-export default HyrUtLokal;
+export default OfficeForm

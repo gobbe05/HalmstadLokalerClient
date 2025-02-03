@@ -24,9 +24,28 @@ export default function Lokal() {
         }
     })
 
+    const addToPreviousLookedAt = () => {
+        const historyKey = 'visitedOffices';
+         // Retrieve the existing visited offices from localStorage, or default to an empty array.
+        const storedHistory = localStorage.getItem(historyKey);
+        const visitedOffices: {_id: string}[] = storedHistory ? JSON.parse(storedHistory) : []; 
+        
+       
+        // Check if the current office is already in the history.
+        const alreadyVisited = visitedOffices.some((item) => item._id === id); 
+
+        // Check if the current office is already in the history
+        if (!visitedOffices.find(item => item._id === id)) {
+        // Add the new office. You might want to limit the history to a certain size.
+        const newHistory = [...visitedOffices, { _id: id }];
+        localStorage.setItem(historyKey, JSON.stringify(newHistory));
+        }
+    }
+
     useEffect(() => {
         setImageLoading(true)
         setImageError(false)
+        addToPreviousLookedAt()
     }, [data?.office])
 
     if (isPending || !id) return <Loading />;

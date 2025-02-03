@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from "react";
 import BoxesSection from "./boxessection";
 import TextSection from "./textsection";
 import ListToday from "./listtoday";
-import HomeListings from "./homelistings";
+import PreviousLookedAt from "./previouslookedat";
 import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
@@ -12,7 +12,7 @@ const Home: React.FC = () => {
       <div className="w-full flex flex-col text-gray-700">
         <HomeHero />
         <div className="w-full bg-white">
-          <HomeListings />
+          <PreviousLookedAt />
         </div>
         <div className="bg-slate-600 text-white">
           <TextSection />

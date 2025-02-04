@@ -1,15 +1,12 @@
 import { FaRegEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt } from "react-icons/fa"
-import {RxCross2} from "react-icons/rx"
 import IOffice from "../../interfaces/IOffice"
 import { FormEvent, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
 import { toast } from "react-toastify"
 import RemoveDialog from "../reusable/dialogs/removedialog"
-import { Button, Chip, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material"
-import { TagsInput } from "react-tag-input-component"
-import ArticleIcon from '@mui/icons-material/Article';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import { FaUpRightFromSquare } from "react-icons/fa6";
 import OfficeForm from "../reusable/forms/officeform"
+import { Link } from "react-router-dom"
 
 interface MyPageOfficeCardProps {
     office: IOffice
@@ -37,6 +34,7 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
                     <h1 className="text-xl">{office.name}</h1>
                     <h3 className="font-light text-gray-500">{office.location}</h3>
                     <div className="ml-auto flex gap-4 mt-auto">
+                        {!office.hidden && <Link className="hover:bg-gray-300 p-2 rounded-full transition-all" to={`/lokal/${office._id}`}><FaUpRightFromSquare /></Link>}
                         <HideButton id={office._id} hidden={office.hidden} />
                         <button onClick={() => setOpenEdit(prev => !prev)} className="hover:bg-gray-300 p-2 rounded-full transition-all"><FaRegEdit /></button>
                         <button onClick={() => setOpenRemove(true)} className="hover:bg-gray-300 p-2 rounded-full transition-all"><FaRegTrashAlt /></button>

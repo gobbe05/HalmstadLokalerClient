@@ -56,18 +56,6 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
         setCurrentImagePreview(null);
     }
     
-    const validate = (): boolean => {
-        const newErrors: { [key: string]: string } = {};
-        if (!name.trim()) newErrors.name = "Rubrik är obligatoriskt.";
-        if (!description.trim()) newErrors.description = "Beskrivning är obligatoriskt.";
-        if (!location.trim()) newErrors.location = "Adress är obligatoriskt.";
-        if (!size || size <= 0) newErrors.size = "Storlek måste vara ett positivt tal.";
-        if (!price || price <= 0) newErrors.price = "Pris måste vara ett positivt tal.";
-        if (!images.length) newErrors.image = "Ladda upp en bild.";
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-    
     const handleForm = async (event: FormEvent) => {
         event.preventDefault()
         const formData = new FormData()
@@ -116,7 +104,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
             })
             if(response.status == 200) {
                 toast.success("Successfully updated office")
-                navigate("/")
+                navigate(0)
             } else {
                 toast.error("Failed to update office")
             }
@@ -146,10 +134,6 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
             })
         }
     }, [id])
-    useEffect(() => {
-        console.log(marker)
-    }, [marker])
-
 
     return (
         <form className="mt-4" onSubmit={handleForm}>
@@ -227,6 +211,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                             Välj dokument
                             <input
                                 type="file"
+                                accept=".pdf"
                                 hidden
                                 onChange={handleDocumentChange}
                             />
@@ -234,7 +219,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                         {documents.length > 0 && (
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {documents.map((document, index) => (
-                                    <Chip key={index} label={document.name} />
+                                    <Chip onDelete={() => {setDocuments(prev => prev.filter((_, i) => i!=index))}} key={index} label={document.name} />
                                 ))}
                             </div>
                         )}
@@ -248,6 +233,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                             Välj bild
                             <input
                                 type="file"
+                                accept="image/*"
                                 hidden
                                 onChange={handleImageChange}
                             />
@@ -268,7 +254,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                         {images.length > 0 && (
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {images.map((image, index) => (
-                                    <Chip key={index} label={image.name} />
+                                    <Chip onDelete={() => {setImages(prev => prev.filter((_, i) => i!=index))}} key={index} label={image.name} />
                                 ))}
                             </div>
                         )}

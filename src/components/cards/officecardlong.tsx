@@ -21,10 +21,10 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
   return (
     <Link
       to={`/lokal/${office._id}`}
-      className="h-[200px] relative flex w-full bg-white text-gray-700 border rounded-md shadow-sm hover:shadow overflow-hidden transition-all"
+      className="h-[128px] relative flex w-full bg-white text-gray-700 border rounded-md shadow-sm hover:shadow overflow-hidden transition-all"
     >
         {/* Thumbnail with consistent size */}
-        <div className="h-[200px] w-[200px] min-w-[200px] bg-gray-500 overflow-hidden">
+        <div className="h-[128px] w-[128px] min-w-[128px] bg-gray-500 overflow-hidden">
             <img
               src={office.thumbnails[0]}
               alt={`Thumbnail of ${office.name}`}
@@ -42,10 +42,10 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
             </h1>
           </div>
           <p className="font-light text-gray-600">{office.location}</p>
-          <p className="font-semibold mt-2">{office.size} m²</p>
-          <p className="h-16 text-sm text-gray-500 mt-4 overflow-hidden text-ellipsis">
-            {office.description}
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="font-semibold mt-2">{office.size} m²</p>
+            <p className="font-semibold mt-2">{office.price} kr/mån</p>
+          </div>          
           {/* Like Button */} 
           <LikeButton id={office._id}/>
         </div> 

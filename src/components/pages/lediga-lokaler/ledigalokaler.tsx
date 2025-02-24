@@ -20,6 +20,7 @@ const LedigaLokaler = () => {
     const [page, setPage] = useState<number>(1)
     const [pageCount, setPageCount] = useState<number>(0)
     const [searchString, setSearchString] = useState<string>("?")
+    const [types, setTypes] = useState<Array<string>>([])
   
     const queryClient = useQueryClient()
     const {error, isPending, data} = useQuery({
@@ -31,6 +32,7 @@ const LedigaLokaler = () => {
             if(querySearch) urlParams.append("search", querySearch)
             if(search != undefined) urlParams.set("search", search)
             if(type) urlParams.append("type", type)
+            types && types.forEach((type) => {urlParams.append("types", type)})
             if(sizeMin) urlParams.append("sizeMin", sizeMin.toString())
             if(sizeMax) urlParams.append("sizeMax", sizeMax.toString())
             if(priceMin) urlParams.append("priceMin", priceMin.toString())
@@ -65,112 +67,112 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
-        <div className="flex flex-col w-1/2 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
+        <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
             {/* Heading */}
             <h1 className="text-2xl font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
 
             {/* Search Form */}
-            <div className="mt-10">
-                <form className="w-full">
-                    <label htmlFor="default-search" className="sr-only">Search</label>
-                    <div className="relative">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg 
-                                className="w-5 h-5 text-gray-500" 
-                                aria-hidden="true" 
-                                xmlns="http://www.w3.org/2000/svg" 
-                                fill="none" 
-                                viewBox="0 0 20 20"
-                            >
-                                <path 
-                                    stroke="currentColor" 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round" 
-                                    strokeWidth="2" 
-                                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                                />
-                            </svg>
-                        </div>
-                        <input 
-                            type="search" 
-                            id="default-search" 
-                            defaultValue={queryParams.get("search") || ""}
-                            className="block w-full p-4 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-sm" 
-                            placeholder="Sök efter arbetsplatser..."
-                            onChange={(e) => setSearch(e.target.value)}
-                            required 
-                        />
-                        <button 
-                            onClick={(e) => { e.preventDefault(); queryClient.invalidateQueries({queryKey: ["offices"]}) }} 
-                            type="submit" 
-                            className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md"
+            <form className="w-full mt-8">
+                <label htmlFor="default-search" className="sr-only">Search</label>
+                <div className="relative">
+                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg 
+                            className="w-5 h-5 text-gray-500" 
+                            aria-hidden="true" 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            fill="none" 
+                            viewBox="0 0 20 20"
                         >
-                            Sök
-                        </button>
+                            <path 
+                                stroke="currentColor" 
+                                strokeLinecap="round" 
+                                strokeLinejoin="round" 
+                                strokeWidth="2" 
+                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                            />
+                        </svg>
                     </div>
-                </form>
-
-                {/* Filters */}
-                <div className="mt-10">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {/* Price Filter */}
-                        <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
-                            <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
-                            <div className="mt-3 flex">
-                                <input
-                                    onChange={(event) => { setPriceMin(+event.target.value) }} 
-                                    type="number"
-                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Min"
-                                />
-                                <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
-                                <input 
-                                    onChange={(event) => { setPriceMax(+event.target.value) }}
-                                    type="number"
-                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Max"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Size Filter */}
-                        <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
-                            <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
-                            <div className="mt-3 flex">
-                                <input
-                                    onChange={(event) => { setSizeMin(+event.target.value) }} 
-                                    type="number"
-                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Min"
-                                />
-                                <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
-                                <input 
-                                    onChange={(event) => { setSizeMax(+event.target.value) }}
-                                    type="number"
-                                    className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                    placeholder="Max"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Type Filter */}
-                        <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
-                            <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
-                            <select
-                                id="location" 
-                                className="mt-3 block w-full px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                onChange={(e) => setType(e.target.value)} 
-                            >
-                                <option value="" selected></option>
-                                <option value="kontor">Kontor</option>
-                                <option value="studio">Studio</option>
-                            </select>
-                        </div>
-                    </div>
+                    <input 
+                        type="search" 
+                        id="default-search" 
+                        defaultValue={queryParams.get("search") || ""}
+                        className="block w-full p-4 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-sm" 
+                        placeholder="Sök efter arbetsplatser..."
+                        onChange={(e) => setSearch(e.target.value)}
+                        required 
+                    />
+                    <button 
+                        onClick={(e) => { e.preventDefault(); queryClient.invalidateQueries({queryKey: ["offices"]}) }} 
+                        type="submit" 
+                        className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md"
+                    >
+                        Sök
+                    </button>
                 </div>
+            </form>
+                
+            {/* Filters */}
+            <div className="grid grid-cols-4 gap-8 mt-8">
+                <div className="col-span-1">
+                    <div>
+                        <div className="grid grid-cols-1 gap-6">
+                            {/* Price Filter */}
+                            <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                                <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
+                                <div className="mt-3 flex">
+                                    <input
+                                        onChange={(event) => { setPriceMin(+event.target.value) }} 
+                                        type="number"
+                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                        placeholder="Min"
+                                    />
+                                    <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
+                                    <input 
+                                        onChange={(event) => { setPriceMax(+event.target.value) }}
+                                        type="number"
+                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                        placeholder="Max"
+                                    />
+                                </div>
+                            </div>
 
+                            {/* Size Filter */}
+                            <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                                <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
+                                <div className="mt-3 flex">
+                                    <input
+                                        onChange={(event) => { setSizeMin(+event.target.value) }} 
+                                        type="number"
+                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                        placeholder="Min"
+                                    />
+                                    <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
+                                    <input 
+                                        onChange={(event) => { setSizeMax(+event.target.value) }}
+                                        type="number"
+                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                        placeholder="Max"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Type Filter */}
+                            <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                                <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
+                                <div className="flex flex-col gap-2 mt-4">
+                                    <div onClick={() => {setTypes(prev => prev.includes("kontor") ? prev.filter(el => el !== "kontor") : [...prev, "kontor"])}}className={`py-2 px-4 border ${types.includes("kontor") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Kontor</div>
+                                    <div onClick={() => {setTypes(prev => prev.includes("kontorshotel") ? prev.filter(el => el !== "kontorshotel") : [...prev, "kontorshotel"])}}className={`py-2 px-4 border ${types.includes("kontorshotel") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Kontorshotel</div>
+                                    <div onClick={() => {setTypes(prev => prev.includes("lager") ? prev.filter(el => el !== "lager") : [...prev, "lager"])}}className={`py-2 px-4 border ${types.includes("lager") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Lager</div>
+                                    <div onClick={() => {setTypes(prev => prev.includes("butik") ? prev.filter(el => el !== "butik") : [...prev, "butik"])}}className={`py-2 px-4 border ${types.includes("butik") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Butik</div>
+                                    <div onClick={() => {setTypes(prev => prev.includes("garage") ? prev.filter(el => el !== "garage") : [...prev, "garage"])}}className={`py-2 px-4 border ${types.includes("garage") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Garage</div>
+                                    <div onClick={() => {setTypes(prev => prev.includes("verkstad") ? prev.filter(el => el !== "verkstad") : [...prev, "verkstad"])}}className={`py-2 px-4 border ${types.includes("verkstad") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Verkstad</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
                 {/* Results */}
-                <div className="mt-10">
+                <div className="col-span-3">
                     <div className="grid gap-8">
                         {/* Save Search */}
                         <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>

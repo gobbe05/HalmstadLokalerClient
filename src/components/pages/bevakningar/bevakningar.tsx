@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { FaSearch, FaTrashAlt } from "react-icons/fa"
 import Loading from "../../layout/loading"
 import { useAuth } from "../../../context/Auth/AuthContext"
+import { useSavedSearch } from "../../../context/savedSearchContext"
 
 /**
  * This component works by first fetching the saved searches from the server. If there are no saved searches, a message is displayed to the user.
@@ -15,7 +16,7 @@ import { useAuth } from "../../../context/Auth/AuthContext"
  * @returns Component for displaying saved searches and the results of the active saved search.
  */
 export default function Bevakningar() {
-    const [activeSavedSearch, setActiveSavedSearch] = useState<string | undefined>(undefined)
+    const {activeSavedSearch, setActiveSavedSearch} = useSavedSearch()
     const queryClient = useQueryClient()
     const {isAuthenticated} = useAuth()
     const RemoveSearch = async () => {
@@ -37,7 +38,7 @@ export default function Bevakningar() {
             const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch`, {credentials: "include"})
             if(response.status == 204) return {savedSearches: []}
             const data = await response.json()
-            setActiveSavedSearch(data.savedSearches[0].searchString)
+            !activeSavedSearch && setActiveSavedSearch(data.savedSearches[0].searchString)
             return data
         }
     }) 

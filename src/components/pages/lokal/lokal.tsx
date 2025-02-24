@@ -8,6 +8,7 @@ import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
 import { HiArrowLeft } from "react-icons/hi2"
 import LikeButton from "../../buttons/likebutton"
+import ImagesContainer from "./imagescontainer"
 
 export default function Lokal() {
     const {id} = useParams()
@@ -24,9 +25,28 @@ export default function Lokal() {
         }
     })
 
+    const addToPreviousLookedAt = () => {
+        const historyKey = 'visitedOffices';
+         // Retrieve the existing visited offices from localStorage, or default to an empty array.
+        const storedHistory = localStorage.getItem(historyKey);
+        const visitedOffices: {_id: string}[] = storedHistory ? JSON.parse(storedHistory) : []; 
+        
+       
+        // Check if the current office is already in the history.
+        const alreadyVisited = visitedOffices.some((item) => item._id === id); 
+
+        // Check if the current office is already in the history
+        if (!visitedOffices.find(item => item._id === id)) {
+        // Add the new office. You might want to limit the history to a certain size.
+        const newHistory = [...visitedOffices, { _id: id }];
+        localStorage.setItem(historyKey, JSON.stringify(newHistory));
+        }
+    }
+
     useEffect(() => {
         setImageLoading(true)
         setImageError(false)
+        addToPreviousLookedAt()
     }, [data?.office])
 
     if (isPending || !id) return <Loading />;
@@ -35,7 +55,7 @@ export default function Lokal() {
 
     return (
         <div className="flex-grow" key={id}>
-            <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">  
+            <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 mt-8 rounded-lg shadow-lg">  
                 <div className={`w-full rounded bg-white py-8 px-16`}>
                     {/* Header Section */}
                     <div className="py-4 flex justify-between items-center border-b border-gray-200">
@@ -50,18 +70,7 @@ export default function Lokal() {
                     {/* Main */}
                     <div className="mt-8 grid grid-cols-3 gap-8">
                         <div className="col-span-2 space-y-6">
-                            {/* Image */}
-                            <div className="relative">
-                                {imageLoading && !imageError && <Loading />}
-                                <img
-                                    src={imageError ? "/fallback-image.jpg" : data.office.images[0]}
-                                    alt={data.office.name}
-                                    onError={() => setImageError(true)}
-                                    onLoad={() => setImageLoading(false)}
-                                    className="w-full h-96 object-cover rounded-md"
-                                />
-                                <LikeButton id={data.office._id}/>
-                            </div>
+                            <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
                             {/* Office Info */}
                             <div>
                                 <h1 className="text-2xl font-semibold">{data.office.name}</h1>

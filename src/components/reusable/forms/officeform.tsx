@@ -7,6 +7,8 @@ import getOffice from '../../../utils/getOffice';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import LocationInput from '../../pages/hyr-ut-lokal/locationinput';
+import validateForm from './validateofficeform';
+import Multiselect from 'multiselect-react-dropdown';
 
 interface OfficeFormProps {
     id?: string,
@@ -21,7 +23,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
     const [name, setName] = useState<string>('')
     const [size, setSize] = useState<number>(0)
     const [price, setPrice] = useState<number>(0)
-    const [type, setType] = useState<string>('')
+    //const [type, setType] = useState<string>('temp')
     const [description, setDescription] = useState<string>('')
     const [location, setLocation] = useState<string>('')
     const [position, setPosition] = useState<{lat: number, lng: number}>()
@@ -34,6 +36,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
     const [existingDocuments, setExistingDocuments] = useState<string[]>([])
     const [existingImages, setExistingImages] = useState<string[]>([])
     const [existingThumbnails, setExistingThumbnails] = useState<string[] | undefined>(undefined)
+    const [types, setTypes] = useState<{name: string, id: number}[]>([])
 
     const navigate = useNavigate()
 
@@ -58,6 +61,14 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
     
     const handleForm = async (event: FormEvent) => {
         event.preventDefault()
+
+        const validationErrors = validateForm({ name, size, price, types, description, location, marker });
+        if (Object.keys(validationErrors).length > 0) {
+            console.log(validationErrors)
+            setErrors(validationErrors);
+            return;
+        }
+
         const formData = new FormData()
         formData.append("name", name)
         formData.append("location", location)
@@ -66,7 +77,8 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
         marker && formData.append("lat", marker.lat.toString()),
         marker && formData.append("lng", marker.lng.toString()),
         formData.append("tags", JSON.stringify(tags))
-        formData.append("type", type)
+        //formData.append("type", type)
+        formData.append("types", JSON.stringify(types.map((item) => item.name)))
         formData.append("description", description)
         existingDocuments && existingDocuments.forEach((document) => {
             formData.append("existingDocuments[]", document)
@@ -119,8 +131,10 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                 setName(office.name)
                 setSize(office.size)
                 setPrice(office.price)
+                setLocation(office.location)
                 setMarker(office.position)
-                setType(office.type)
+                //setType(office.type)
+                setTypes(office.types.map((item, index) => {return {name: item, id: index}}))
                 setDescription(office.description)
                 setTags(office.tags)
                 
@@ -134,6 +148,9 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
             })
         }
     }, [id])
+    useEffect(() => {
+        console.log(types)
+    }, [types])
 
     return (
         <form className="mt-4" onSubmit={handleForm}>
@@ -176,15 +193,24 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                     </div>
                     <div>
                         <FormControl fullWidth>
-                            <InputLabel>Typ</InputLabel>
-                            <Select
+                            <Multiselect 
+                                options={[{name: "kontor", id: 1}, {name: "kontorshotel", id: 2}]}
+                                selectedValues={types}
+                                onSelect={(_, type) => setTypes(prev => [...prev, type])} 
+                                onRemove={(_, type) => setTypes(prev => prev.filter(x => x.id != type.id))} 
+                                displayValue={"name"}
+                                />
+                            {/*<Select
                                 value={type}
                                 onChange={(e) => setType(e.target.value as string)}
                             >
                                 <MenuItem value="kontor">Kontor</MenuItem>
+                                <MenuItem value="kontorshotel">Kontorshotel</MenuItem>
                                 <MenuItem value="lager">Lager</MenuItem>
                                 <MenuItem value="butik">Butik</MenuItem>
-                            </Select>
+                                <MenuItem value="garage">Garage</MenuItem>
+                                <MenuItem value="verkstad">Verkstad</MenuItem>
+                            </Select> */} 
                         </FormControl>
                     </div>
                     <div>

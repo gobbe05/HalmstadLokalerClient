@@ -183,7 +183,7 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                     <div>
                         <TextField
                             fullWidth
-                            label="Pris (SEK)"
+                            label="Pris (kr/mån)"
                             type="number"
                             value={price}
                             onChange={(e) => setPrice(Number(e.target.value))}

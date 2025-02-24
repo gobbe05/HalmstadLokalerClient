@@ -5,7 +5,7 @@ export default interface IOffice {
     description: string,
     price: number,
     size: number,
-    type: string,
+    types: Array<string>,
     position: {lat: number, lng: number},
     tags: Array<string>,
     images: Array<string>,

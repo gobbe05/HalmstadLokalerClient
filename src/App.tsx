@@ -20,8 +20,8 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import ScrollWrapper from "./components/layout/scrollwrapper";
 import SparadeLokaler from "./components/pages/sparade-lokaler/sparadelokaler";
 import Inkorg from "./components/pages/inkorg/inkorg";
+import Nyheter from "./components/pages/nyheter/nyheter";
 import { SavedSearchProvider } from "./context/savedSearchContext";
-
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
@@ -38,6 +38,7 @@ const App: React.FC = () => {
                   <Route path="/register" element={<Register />} />
                   <Route path="/" element={<Layout />}>
                     <Route index element={<Home />} />
+                    <Route path="/nyheter/" element={<Nyheter />} />
                     <Route path="/lokal/:id" element={<Lokal />} />
                     <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
                       <Route index element={<HyrUtLokal />} />

@@ -38,6 +38,18 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
     const [existingThumbnails, setExistingThumbnails] = useState<string[] | undefined>(undefined)
     const [types, setTypes] = useState<{name: string, id: number}[]>([])
 
+    // Define which office types should exist
+    const officetypes = [
+    { name: "Butiker", id: 1 },
+    { name: "Industrier & verkstäder", id: 2 },
+    { name: "Kontor", id: 3 },
+    { name: "Kontorshotell & Coworking", id: 4 },
+    { name: "Lager & logistik", id: 5 },
+    { name: "Resturanger & cafeer", id: 6 },
+    { name: "Skola, vård & omsorg", id: 7 },
+    { name: "Övrigt", id: 8 }
+];
+
     const navigate = useNavigate()
 
     const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -194,23 +206,12 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
                     <div>
                         <FormControl fullWidth>
                             <Multiselect 
-                                options={[{name: "kontor", id: 1}, {name: "kontorshotel", id: 2}]}
+                                options={officetypes}
                                 selectedValues={types}
                                 onSelect={(_, type) => setTypes(prev => [...prev, type])} 
                                 onRemove={(_, type) => setTypes(prev => prev.filter(x => x.id != type.id))} 
                                 displayValue={"name"}
                                 />
-                            {/*<Select
-                                value={type}
-                                onChange={(e) => setType(e.target.value as string)}
-                            >
-                                <MenuItem value="kontor">Kontor</MenuItem>
-                                <MenuItem value="kontorshotel">Kontorshotel</MenuItem>
-                                <MenuItem value="lager">Lager</MenuItem>
-                                <MenuItem value="butik">Butik</MenuItem>
-                                <MenuItem value="garage">Garage</MenuItem>
-                                <MenuItem value="verkstad">Verkstad</MenuItem>
-                            </Select> */} 
                         </FormControl>
                     </div>
                     <div>

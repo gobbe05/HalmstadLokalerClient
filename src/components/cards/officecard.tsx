@@ -6,14 +6,14 @@ export default function OfficeCard({office}: {office: IOffice}) {
   return (
     <Link to={"/lokal/"+office._id} className="w-full bg-white text-gray-700 border shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-all transform group">
       <img 
-        className="w-full h-[150px] object-cover" 
+        className="w-full h-[128px] object-cover" 
         src={office.thumbnails[0]} 
         alt={`Bild på lokal i ${location}`} 
       />
       <div className="p-4">
-        <h3 className="text-xl font-semibold group-hover:underline underline-offset-2">{office.location}</h3>
-        <p className="text-sm font-light mt-1">
-          Detta är en liten kort beskrivning om kontoret
+        <h3 className="text-lg font-semibold group-hover:underline underline-offset-2">{office.location}</h3>
+        <p className="max-h-4 w-full overflow-hidden overflow-ellipsis text-sm font-light mt-1">
+          {office.description}
         </p>
 
         <div className="flex mt-4">

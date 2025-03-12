@@ -32,7 +32,7 @@ export default function PreviousLookedAt() {
   }, [])
 
   return (
-      <div className="w-11/12 lg:w-2/3 mx-auto py-16">
+      <div className="w-11/12 xl:w-1/2 mx-auto py-16">
         <div className="flex flex-col items-center">
           {/* Section Heading */}
           <h1 className="text-3xl font-semibold text-gray-800 text-center">

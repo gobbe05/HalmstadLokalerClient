@@ -35,7 +35,7 @@ export default function Bevakningar() {
     const {isPending, error, data} = useQuery({
         queryKey: ["savedsearches"],
         queryFn: async () => {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch`, {credentials: "include"})
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch?limit=2`, {credentials: "include"})
             if(response.status == 204) return {savedSearches: []}
             const data = await response.json()
             !activeSavedSearch && setActiveSavedSearch(data.savedSearches[0].searchString)
@@ -90,7 +90,7 @@ const Offices = ({activeSavedSearch} : {activeSavedSearch: string}) => {
     const {error, isPending, data} = useQuery({
         queryKey: ["offices-savedsearch"],
         queryFn: async () => {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?search=${activeSavedSearch}`, {credentials: "include"})
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?search=${activeSavedSearch}&limit=6`, {credentials: "include"})
             const data = await response.json()
             return data.offices || []
         }

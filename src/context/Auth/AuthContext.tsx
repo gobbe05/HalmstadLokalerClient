@@ -45,8 +45,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         localStorage.setItem("isAuthenticated", "true"); // Save to localStorage
         return response.status
     }
-    if(response.status == 403) return 403
-
     throw new Error("401")
   }
   const logout = async () => {

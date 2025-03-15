@@ -22,7 +22,6 @@ import SparadeLokaler from "./components/pages/sparade-lokaler/sparadelokaler";
 import Inkorg from "./components/pages/inkorg/inkorg";
 import Nyheter from "./components/pages/nyheter/nyheter";
 import { SavedSearchProvider } from "./context/savedSearchContext";
-import Accept from "./components/pages/accept/accept";
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
@@ -43,9 +42,6 @@ const App: React.FC = () => {
                     <Route path="/lokal/:id" element={<Lokal />} />
                     <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
                       <Route index element={<HyrUtLokal />} />
-                    </Route>
-                    <Route path="/accept" element={<ProtectedRoute />}>
-                      <Route index element={<Accept />} />
                     </Route>
                     <Route path="/lediga-lokaler">
                       <Route index element={<LedigaLokaler />} />

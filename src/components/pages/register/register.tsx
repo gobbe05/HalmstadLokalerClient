@@ -23,7 +23,7 @@ const Register: React.FC = () => {
       const registerPromise = register(email, username, password, confirmPassword, accountType)
       toast.promise(registerPromise, {
         pending: "Kontrollerar dina inloggningsuppgifter", 
-        success: "Registrering lyckades! Du kommer nu att omdirigeras till inloggningssidan.",
+        success: "Inloggning lyckades",
         error: "Något gick tyvärr fel. Försök igen!"
       }, {
         position: "top-right",
@@ -84,7 +84,6 @@ const Register: React.FC = () => {
         </div>
         <Logo />
         <h2 className="text-2xl font-semibold text-gray-700 mt-6">Registrera ett nytt konto</h2>
-        <p>Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
 
         <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-8">
         <div>

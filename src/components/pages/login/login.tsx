@@ -16,7 +16,7 @@ const Login: React.FC = () => {
     toast.promise(login(username, password), {
       pending: "Kontrollerar dina inloggningsuppgifter", 
       success: "Inloggning lyckades",
-      error: "Något gick tyvärr fel. Försök igen!"
+      error: "Något gick tyvärr fel. Försök igen!",
     })
   };
   if(isAuthenticated) {

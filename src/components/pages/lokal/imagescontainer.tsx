@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FaTimes } from "react-icons/fa";
 
 interface ImagesContainerProps {
     images: string[];
@@ -46,6 +47,7 @@ export default function ImagesContainer({images}: ImagesContainerProps) {
                 setSelectedImage(null);
               }}
             >
+              <FaTimes />
             </button>
             <img
               src={selectedImage}

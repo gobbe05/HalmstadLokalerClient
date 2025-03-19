@@ -23,6 +23,7 @@ import Inkorg from "./components/pages/inkorg/inkorg";
 import Nyheter from "./components/pages/nyheter/nyheter";
 import { SavedSearchProvider } from "./context/savedSearchContext";
 import Accept from "./components/pages/accept/accept";
+import AdminRoute from "./routes/AdminRoute";
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
@@ -44,7 +45,7 @@ const App: React.FC = () => {
                     <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
                       <Route index element={<HyrUtLokal />} />
                     </Route>
-                    <Route path="/accept" element={<ProtectedRoute />}>
+                    <Route path="/accept" element={<AdminRoute />}>
                       <Route index element={<Accept />} />
                     </Route>
                     <Route path="/lediga-lokaler">

@@ -6,6 +6,7 @@ import Loading from "../../components/layout/loading";
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  isAdmin: boolean;
   authId: string | undefined,
   type: string | undefined,
   isLoading: boolean,
@@ -22,10 +23,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [authId, setAuthId] = useState<string | undefined>(undefined)
   const [type, setType] = useState<string | undefined>("")
   const [isLoading, setIsLoading] = useState(true)
+  const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
   // Check authentication status on initial load
   useEffect(() => {
-    initializeAuth(setIsAuthenticated, setIsLoading, setAuthId, setType)
+    initializeAuth(setIsAuthenticated, setIsAdmin, setIsLoading, setAuthId, setType)
   }, []);
   
   const login = async (username: string, password: string): Promise<number> => {
@@ -55,7 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     })
     if(response.status == 200) {
         setIsAuthenticated(false)
-        initializeAuth(setIsAuthenticated, setIsLoading, setAuthId, setType)
+        initializeAuth(setIsAuthenticated, setIsAdmin, setIsLoading, setAuthId, setType)
         localStorage.removeItem("isAuthenticated"); // Remove from localStorage
     }
   };
@@ -63,7 +65,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   if(isLoading)
     return <Loading />
   return (
-    <AuthContext.Provider value={{ isAuthenticated, authId, type, setIsAuthenticated, logout, login, register, isLoading }}>
+    <AuthContext.Provider value={{ isAuthenticated, isAdmin, authId, type, setIsAuthenticated, logout, login, register, isLoading }}>
       {children}
     </AuthContext.Provider>
   );

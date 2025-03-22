@@ -1,21 +1,29 @@
 import { useQuery } from "@tanstack/react-query"
-import Loading from "../../layout/loading"
+import { useAuth } from "../../../context/Auth/AuthContext"
 import IMessage from "../../../interfaces/IMessage"
 import { useEffect, useState } from "react"
-import Message from "./message"
+import Message from "../inkorg/message"
 
-export default function Inkorg() {
+export default function Skickade() {
     const [activeMessageId, setActiveMessageId] = useState<string | null>(null)
     const [activeMessage, setActiveMessage] = useState<IMessage | null>(null)
-    const {isPending, error, data} = useQuery({
-        queryKey: ['messages'],
+
+    const {authId} = useAuth()
+    const {data, error, isPending} = useQuery({
+        queryKey: ["sent-messages"],
         queryFn: async () => {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message`, {
-                credentials: "include"
-            })
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/sent/${authId}`,
+                {
+                    credentials: "include"
+                }
+            )
+            if(!response.ok) {
+                throw new Error("Failed to fetch messages")
+            }
+
             const data = await response.json()
-            setActiveMessageId(data.messages[0]?._id || null);
-            return data
+            setActiveMessageId(data.messages[0]?._id || null)
+            return data 
         }
     })
 
@@ -35,9 +43,11 @@ export default function Inkorg() {
         updateActiveMessage()
     }, [activeMessageId])
 
-    if(isPending || error) return <Loading />
-   return (
-    <div className="flex-grow my-16 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+    if(isPending) return <div>Loading...</div>
+    if(error) return <div>Error: {error.message}</div>
+    return (
+        <>
+        <div className="flex-grow my-16 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
         {/* Inbox Section */}
         <div className="col-span-1 p-6 bg-white rounded-lg shadow-md">
             <h1 className="text-2xl font-bold text-gray-800">Inkorg</h1>
@@ -49,7 +59,7 @@ export default function Inkorg() {
                             passedMessage={message}
                             activeMessageId={activeMessageId}
                             setActiveMessageId={setActiveMessageId}
-                            showRemove={true}
+                            showRemove={false}
                         />
                     ))
                 ) : (
@@ -81,7 +91,6 @@ export default function Inkorg() {
             </div>
         </div>
     </div>
-);
- 
+        </>
+    )
 }
-

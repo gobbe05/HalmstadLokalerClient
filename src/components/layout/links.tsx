@@ -17,7 +17,7 @@ export default function Links() {
             {isAuthenticated ? 
             <>
                 <HeaderLink text="Sparade lokaler" link="/sparade-lokaler" Icon={HiOutlineHeart} />
-                {type != "buyer" && <HeaderLink link="/inkorg" text="Inkorg" Icon={HiOutlineInbox} />}
+                {type != "buyer" ? <HeaderLink link="/inkorg" text="Inkorg" Icon={HiOutlineInbox} /> : <HeaderLink link="/skickade" text="Skickade" Icon={HiOutlineChatBubbleLeftEllipsis} />}
                 {type != "buyer" && <HeaderLink link="/min-sida" text="Min Sida" Icon={HiOutlineUserCircle} /> }
                 <button className="flex md:flex-col gap-2 md:gap-0 hover:text-red-500 transition-colors duration-300" onClick={logout}><HiOutlineLogout className="md:mx-auto" size={24}/><p className="text-sm">Logout</p></button>
             </> : 

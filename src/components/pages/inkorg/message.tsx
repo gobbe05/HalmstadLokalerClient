@@ -11,10 +11,11 @@ import RemoveDialog from "../../reusable/dialogs/removedialog"
 type Props = {
     passedMessage: IMessage;
     activeMessageId: string | null;
+    showRemove: boolean;
     setActiveMessageId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export default function Message({ passedMessage, activeMessageId, setActiveMessageId }: Props) {
+export default function Message({ passedMessage, activeMessageId, setActiveMessageId, showRemove }: Props) {
     const [openRemove, setOpenRemove] = useState<boolean>(false)
 
     const queryClient = useQueryClient();
@@ -40,12 +41,13 @@ export default function Message({ passedMessage, activeMessageId, setActiveMessa
                 </div>
 
                 {/* Delete Button */}
-                <button
-                    onClick={(e) => {setOpenRemove(true); e.stopPropagation()}}
-                    className="ml-4 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                >
+                {showRemove &&
+                    <button
+                        onClick={(e) => {setOpenRemove(true); e.stopPropagation()}}
+                        className="ml-4 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
                     <HiOutlineTrash size={20} />
-                </button>
+                    </button>
+                }
             </div>
             <RemoveDialog open={openRemove} setOpen={setOpenRemove} handleRemove={handleRemove} dialogText={"Är du säker på att du vill ta bort detta meddelandet?"}/>
         </> 

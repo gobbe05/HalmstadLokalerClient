@@ -28,9 +28,21 @@ export default function Bevakningar() {
                 "Content-Type" : "application/json"
             }
         })
-        setActiveSavedSearch(undefined)
-        queryClient.invalidateQueries({queryKey: ["savedsearches"]})
-        queryClient.invalidateQueries({queryKey: ["offices-savedsearch"]})    
+        if(response.ok) {
+            queryClient.invalidateQueries({ queryKey: ["savedsearches"] });
+
+            // Refetch saved searches and select a new one if available
+            const updatedSearches = await queryClient.fetchQuery({
+                queryKey: ["savedsearches"],
+                queryFn: async () => {
+                    const res = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch?limit=2`, { credentials: "include" });
+                    if (res.status === 204) return { savedSearches: [] };
+                    return await res.json();
+                }
+            });
+            setActiveSavedSearch(updatedSearches.savedSearches.length > 0 ? updatedSearches.savedSearches[0].searchString : undefined);
+            queryClient.invalidateQueries({ queryKey: ["offices-savedsearch"] });
+        }
     }
     const {isPending, error, data} = useQuery({
         queryKey: ["savedsearches"],
@@ -38,13 +50,17 @@ export default function Bevakningar() {
             const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch?limit=2`, {credentials: "include"})
             if(response.status == 204) return {savedSearches: []}
             const data = await response.json()
-            !activeSavedSearch && setActiveSavedSearch(data.savedSearches[0].searchString)
+            if(data.savedSearches.length > 0 && !activeSavedSearch) {
+                setActiveSavedSearch(data.savedSearches[0].searchString)
+            }
             return data
         }
     }) 
 
     useEffect(() => {
-        queryClient.invalidateQueries({queryKey: ["offices-savedsearch"]})
+        if(activeSavedSearch) {
+            queryClient.invalidateQueries({queryKey: ["offices-savedsearch"]})
+        }
     }, [activeSavedSearch])
 
     if(!activeSavedSearch || !isAuthenticated) return (

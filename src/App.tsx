@@ -24,6 +24,7 @@ import Nyheter from "./components/pages/nyheter/nyheter";
 import { SavedSearchProvider } from "./context/savedSearchContext";
 import Accept from "./components/pages/accept/accept";
 import AdminRoute from "./routes/AdminRoute";
+import Skickade from "./components/pages/skickade/skickade";
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
@@ -63,6 +64,9 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/inkorg" element={<ProtectedRoute />}>
                       <Route index element={<Inkorg />}/>
+                    </Route>
+                    <Route path="/skickade" element={<ProtectedRoute />}>
+                      <Route index element={<Skickade />}/>
                     </Route>
                   </Route>
                 </Routes>

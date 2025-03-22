@@ -2,8 +2,10 @@ import { Link } from "react-router-dom";
 import IOffice from "../../interfaces/IOffice";
 import { useQuery} from "@tanstack/react-query";
 import LikeButton from "../buttons/likebutton";
+import { useAuth } from "../../context/Auth/AuthContext";
 
 export default function OfficeCardLong({ office }: { office: IOffice }) {
+  const {isAuthenticated, type} = useAuth()
   // Fetch like status
   const { error, isPending, data } = useQuery({
     queryKey: [`like-${office._id}`],
@@ -47,7 +49,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
             <p className="font-semibold mt-2">{office.price} kr/mån</p>
           </div>          
           {/* Like Button */} 
-          <LikeButton id={office._id}/>
+         {type != "seller" && <LikeButton id={office._id}/>} 
         </div> 
       </div>
     </Link>

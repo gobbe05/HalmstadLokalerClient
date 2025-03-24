@@ -5,6 +5,9 @@ import { SaveSearchButton } from "./savesearchbuttont"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Loading from "../../layout/loading"
 import { Pagination } from "@mui/material"
+import officeTypes from "../../../utils/officeTypes"
+import CategoryButton from "./categorybutton"
+import { useLocation } from "react-router-dom"
 
 const LedigaLokaler = () => {
     const limit = 10
@@ -22,14 +25,17 @@ const LedigaLokaler = () => {
     const [searchString, setSearchString] = useState<string>("?")
     const [types, setTypes] = useState<Array<string>>([])
   
+    const location = useLocation()
+
     const queryClient = useQueryClient()
     const {error, isPending, data} = useQuery({
         queryKey: ["offices"],
         queryFn: async () => {
-            const querySearch = queryParams.get("search")
+            //const querySearch = location.state ? location.state.search : search
+            //const queryTypes: string[] = location.state ? location.state.types : types
             // Create query string
             const urlParams = new URLSearchParams()
-            if(querySearch) urlParams.append("search", querySearch)
+            if(search) urlParams.append("search", search)
             if(search != undefined) urlParams.set("search", search)
             if(type) urlParams.append("type", type)
             types && types.forEach((type) => {urlParams.append("types", type)})
@@ -57,6 +63,11 @@ const LedigaLokaler = () => {
         const {count} = await response.json()
         setPageCount(Math.ceil(count / limit))
     }
+    useEffect(() => {
+        setTypes(location.state ? location.state.types : [])
+        setSearch(location.state ? location.state.search : "")
+    }, [location.state])
+
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ["offices"]})
     }, [page])
@@ -99,6 +110,7 @@ const LedigaLokaler = () => {
                         className="block w-full p-4 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-sm" 
                         placeholder="Sök efter arbetsplatser..."
                         onChange={(e) => setSearch(e.target.value)}
+                        value={search}
                         required 
                     />
                     <button 
@@ -160,14 +172,9 @@ const LedigaLokaler = () => {
                             <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
                                 <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
                                 <div className="flex flex-col gap-2 mt-4">
-                                    <div onClick={() => setTypes(prev => prev.includes("Kontor") ? prev.filter(el => el !== "Kontor") : [...prev, "Kontor"]) } className={`py-2 px-4 border ${types.includes("Kontor") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Kontor</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Kontorshotell & Coworking") ? prev.filter(el => el !== "Kontorshotell & Coworking") : [...prev, "Kontorshotell & Coworking"]) } className={`py-2 px-4 border ${types.includes("Kontorshotell & Coworking") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Kontorshotell & Coworking</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Lager & logistik") ? prev.filter(el => el !== "Lager & logistik") : [...prev, "Lager & logistik"]) } className={`py-2 px-4 border ${types.includes("Lager & logistik") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Lager & logistik</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Butiker") ? prev.filter(el => el !== "Butiker") : [...prev, "Butiker"]) } className={`py-2 px-4 border ${types.includes("Butiker") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Butiker</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Industrier & verkstäder") ? prev.filter(el => el !== "Industrier & verkstäder") : [...prev, "Industrier & verkstäder"]) } className={`py-2 px-4 border ${types.includes("Industrier & verkstäder") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Industrier & verkstäder</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Skola, vård & omsorg") ? prev.filter(el => el !== "Skola, vård & omsorg") : [...prev, "Skola, vård & omsorg"]) } className={`py-2 px-4 border ${types.includes("Skola, vård & omsorg") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Skola, vård & omsorg</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Resturanger & cafeer") ? prev.filter(el => el !== "Resturanger & cafeer") : [...prev, "Resturanger & cafeer"]) } className={`py-2 px-4 border ${types.includes("Resturanger & cafeer") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Resturanger & cafeer</div>
-                                    <div onClick={() => setTypes(prev => prev.includes("Övrigt") ? prev.filter(el => el !== "Övrigt") : [...prev, "Övrigt"]) } className={`py-2 px-4 border ${types.includes("Övrigt") ? "bg-blue-400 text-white" : "border-gray-200 hover:bg-gray-200"} rounded-lg cursor-pointer`}>Övrigt</div>
+                                    {officeTypes.map((type) => (
+                                        <CategoryButton setTypes={setTypes} types={types} type={type.name} key={type.id} />
+                                    ))}
                                 </div>
                             </div>
                         </div>

@@ -1,10 +1,12 @@
 // src/components/home.tsx
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import BoxesSection from "./boxessection";
 import TextSection from "./textsection";
 import ListToday from "./listtoday";
 import PreviousLookedAt from "./previouslookedat";
 import { useNavigate } from "react-router-dom";
+import Multiselect from "multiselect-react-dropdown";
+import officetypes from "../../../utils/officeTypes";
 
 const Home: React.FC = () => {
   return (
@@ -28,12 +30,28 @@ const Home: React.FC = () => {
 
 const HomeHero = () => {
   const [search, setSearch] = useState<string>("")
+  const [types, setTypes] = useState<{name: string, id: number}[]>([])
+  const [placeholder, setPlaceholder] = useState<string>("Välj kontorstyp")
   const navigate = useNavigate()
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault()
-    navigate(`/lediga-lokaler?search=${search}`)
+    navigate(`/lediga-lokaler`, {
+      state: {
+        search: search,
+        types: types.map(x => x.name)
+      }
+    })
   }
+
+  useEffect(() => {
+    if (types.length == 1)
+      setPlaceholder("1 vald")
+    else if (types.length > 1)
+      setPlaceholder(`${types.length} valda`)
+    else
+      setPlaceholder("Välj kontorstyp")
+  }, [types])
 
   return (
     <div 
@@ -42,7 +60,7 @@ const HomeHero = () => {
         backgroundImage: "url('https://www.halmstad.se/images/18.11d2c7de185c4e35fb5f995/1715169490732/Stadsvy-med-biblioteket-dronarvy.webp')",
       }}
     >
-      <div className="flex flex-col items-start bg-white bg-opacity-90 p-16 rounded shadow-lg">
+      <div className="flex flex-col items-start bg-white bg-opacity-90 p-16 rounded shadow-lg max-w-[720px]">
         <h1 className="text-3xl font-semibold text-gray-800">
           Hitta en lokal i Halmstad som passar dig
         </h1>
@@ -76,13 +94,34 @@ const HomeHero = () => {
               type="search" 
               id="default-search"
               onChange={(event) => {setSearch(event.target.value)}}
-              className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+              className="w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
               placeholder="Sök efter arbetsplatser..." 
               required 
             />
-            <button 
+          </div>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+              <Multiselect className="bg-gray-50 border-gray-300 text-gray-500 text-sm rounded-lg startpage-multiselect" 
+                options={officetypes}
+                selectedValues={types}
+                placeholder={placeholder}
+                onSelect={(_, type) => setTypes(prev => [...prev, type])} 
+                onRemove={(_, type) => setTypes(prev => prev.filter(x => x.id != type.id))} 
+                displayValue={"name"}
+                showCheckbox={true}
+                
+
+                style={
+                  {inputField: {
+                    padding: "1rem",
+                    marginTop: "0",
+                  },
+                  searchBox: {
+                    padding: "0rem 0.5rem",
+                  }}}
+              />
+              <button 
               type="submit" 
-              className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all"
             >
               Sök
             </button>

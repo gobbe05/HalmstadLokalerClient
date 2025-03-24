@@ -18,3 +18,7 @@ body {
 .rti--tag {
   @apply bg-gray-200 text-gray-500 rounded-full ps-3 !important;
 }
+
+.startpage-multiselect .chip {
+  display: none !important; /* Hides the selected value chips */
+}

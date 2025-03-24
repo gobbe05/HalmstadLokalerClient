@@ -26,7 +26,6 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
     //const [type, setType] = useState<string>('temp')
     const [description, setDescription] = useState<string>('')
     const [location, setLocation] = useState<string>('')
-    const [position, setPosition] = useState<{lat: number, lng: number}>()
     const [tags, setTags] = useState<string[]>([])
     const [documents, setDocuments] = useState<File[]>([])
     const [images, setImages] = useState<File[]>([])

@@ -28,46 +28,50 @@ const LedigaLokaler = () => {
     const location = useLocation()
 
     const queryClient = useQueryClient()
-    const {error, isPending, data} = useQuery({
-        queryKey: ["offices"],
+    const { error, isPending, data } = useQuery({
+    queryKey: ["offices"],
         queryFn: async () => {
-            //const querySearch = location.state ? location.state.search : search
-            //const queryTypes: string[] = location.state ? location.state.types : types
-            // Create query string
-            const urlParams = new URLSearchParams()
-            if(search) urlParams.append("search", search)
-            if(search != undefined) urlParams.set("search", search)
-            if(type) urlParams.append("type", type)
-            types && types.forEach((type) => {urlParams.append("types", type)})
-            if(sizeMin) urlParams.append("sizeMin", sizeMin.toString())
-            if(sizeMax) urlParams.append("sizeMax", sizeMax.toString())
-            if(priceMin) urlParams.append("priceMin", priceMin.toString())
-            if(priceMax) urlParams.append("priceMax", priceMax.toString())
-            if(limit) urlParams.append("limit", limit.toString())
-            if(page) urlParams.append("page", page.toString())
-            
-            setSearchString(urlParams.toString())
+            // Construct query parameters
+            const params = new URLSearchParams({
+            search: search || "",
+            type: type || "",
+            sizeMin: sizeMin?.toString() || "",
+            sizeMax: sizeMax?.toString() || "",
+            priceMin: priceMin?.toString() || "",
+            priceMax: priceMax?.toString() || "",
+            limit: limit?.toString() || "",
+            page: page?.toString() || "",
+            });
 
-            // Get offices
-            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?${urlParams.toString()}`)
-            if(response.status != 200) throw new Error("There was an error fetching offices")
-            const data = await response.json()
-            if(!data) throw new Error("There was an error when fetching offices")
-            if(search && search != "") setSubmittedSearch(search)
-            return data.offices
-        }
-    })
+            // Append multiple types if provided
+            types?.forEach((t) => params.append("types", t));
+
+            // Update the search string state
+            setSearchString(params.toString());
+
+            // Fetch data
+            const res = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?${params}`);
+            if (!res.ok) throw new Error("Error fetching offices");
+
+            const { offices } = await res.json();
+            if (!offices) throw new Error("Invalid response format");
+
+            search && setSubmittedSearch(search);
+
+            return offices;
+        },
+    });
 
     const updatePageCount = async () => {
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/count?${searchString}`)
         const {count} = await response.json()
         setPageCount(Math.ceil(count / limit))
     }
+
     useEffect(() => {
         setTypes(location.state ? location.state.types : [])
         setSearch(location.state ? location.state.search : "")
     }, [location.state])
-
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ["offices"]})
     }, [page])

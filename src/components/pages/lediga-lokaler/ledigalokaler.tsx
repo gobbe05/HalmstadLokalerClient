@@ -14,7 +14,7 @@ const LedigaLokaler = () => {
 
     const queryParams = new URLSearchParams(window.location.search);
     const [search, setSearch] = useState<string | undefined>(undefined)
-    const [submittedSearch, setSubmittedSearch] = useState<string | undefined>(undefined)
+    const [submittedSearch, setSubmittedSearch] = useState<string>("")
     const [priceMin, setPriceMin] = useState<number | undefined>()
     const [priceMax, setPriceMax] = useState<number | undefined>()
     const [sizeMin, setSizeMin] = useState<number | undefined>()
@@ -29,12 +29,12 @@ const LedigaLokaler = () => {
 
     const queryClient = useQueryClient()
     const { error, isPending, data } = useQuery({
-    queryKey: ["offices"],
+    queryKey: ["offices", submittedSearch],
         queryFn: async () => {
+            if (submittedSearch === undefined) return []; // Don't fetch if search is empty
             // Construct query parameters
             const params = new URLSearchParams({
             search: search || "",
-            type: type || "",
             sizeMin: sizeMin?.toString() || "",
             sizeMax: sizeMax?.toString() || "",
             priceMin: priceMin?.toString() || "",
@@ -62,6 +62,12 @@ const LedigaLokaler = () => {
         },
     });
 
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        setSubmittedSearch(search || ""); // Store last submitted search term
+        queryClient.invalidateQueries({ queryKey: ["offices"] });
+    };
+
     const updatePageCount = async () => {
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/count?${searchString}`)
         const {count} = await response.json()
@@ -69,8 +75,10 @@ const LedigaLokaler = () => {
     }
 
     useEffect(() => {
-        setTypes(location.state ? location.state.types : [])
-        setSearch(location.state ? location.state.search : "")
+        if (location.state) {
+            setTypes(location.state.types || []);
+            setSearch(location.state.search || "");
+        }
     }, [location.state])
     useEffect(() => {
         queryClient.invalidateQueries({queryKey: ["offices"]})
@@ -87,7 +95,7 @@ const LedigaLokaler = () => {
             <h1 className="text-2xl font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
 
             {/* Search Form */}
-            <form className="w-full mt-8">
+            <form className="w-full mt-8" onSubmit={(e) => {e.preventDefault(); handleSearch(e);}}>
                 <label htmlFor="default-search" className="sr-only">Search</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -110,23 +118,21 @@ const LedigaLokaler = () => {
                     <input 
                         type="search" 
                         id="default-search" 
-                        defaultValue={queryParams.get("search") || ""}
+                        value={search || ""}
                         className="block w-full p-4 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-sm" 
                         placeholder="Sök efter arbetsplatser..."
                         onChange={(e) => setSearch(e.target.value)}
-                        value={search}
                         required 
                     />
                     <button 
-                        onClick={(e) => { e.preventDefault(); queryClient.invalidateQueries({queryKey: ["offices"]}) }} 
-                        type="submit" 
+                        onClick={(e) => handleSearch(e)} 
+                        type="button" 
                         className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md"
                     >
                         Sök
                     </button>
                 </div>
-            </form>
-                
+            </form> 
             {/* Filters */}
             <div className="grid grid-cols-4 gap-8 mt-8">
                 <div className="col-span-1">

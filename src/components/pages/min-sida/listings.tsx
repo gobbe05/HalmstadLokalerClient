@@ -13,7 +13,7 @@ export default function Listings() {
     const {isPending,error,data} = useQuery({
         queryKey: ['my-offices'],
         queryFn: () => {
-            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/user/${authId}?limit=4`, {
+            return fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/self?limit=4`, {
                 credentials: "include"
             }).then(response => response.json())
         }

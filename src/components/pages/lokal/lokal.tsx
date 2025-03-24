@@ -58,10 +58,10 @@ export default function Lokal() {
             <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 mt-8 rounded-lg shadow-lg">  
                 <div className={`w-full rounded bg-white py-8 px-16`}>
                     {/* Header Section */}
-                    <div className="py-4 flex justify-between items-center border-b border-gray-200">
+                    <div className="py-4 flex justify-between items-center">
                         <button
                             onClick={() => navigate(-1)}
-                            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition"
+                            className="flex gap-1 hover:gap-2 items-center hover:px-4 py-2 rounded-full hover:bg-gray-700 hover:text-white transition-all"
                         >
                             <HiArrowLeft size={20} />
                             <span className="text-sm font-medium">Gå tillbaks</span>
@@ -120,16 +120,16 @@ export default function Lokal() {
                     </div>
                 </div> 
             </div>
-            <OtherOffices />
+            <OtherOffices seller={data.office.owner} />
         </div>
     )
 }
 
-const OtherOffices = () => {
+const OtherOffices = ({seller}: {seller: string}) => {
     const {error, isPending, data} = useQuery({
         queryKey: ["other-offices"],
         queryFn: async () => {
-            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?limit=8`)
+            const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/user/${seller}?limit=8`)
             const data = await response.json()
             return data
         }
@@ -138,14 +138,17 @@ const OtherOffices = () => {
     if (error || isPending) return <Loading />
     return (
         <div className="w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
-            <h1 className="text-2xl font-semibold text-gray-700 text-center">Andra lokaler</h1>
+            <h1 className="text-2xl font-semibold text-gray-700 text-center">Andra lokaler från samma säljare</h1>
             <div className="py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
-                {data.offices.map((office: IOffice) => (
+                {data.offices.length > 0 && data.offices.map((office: IOffice) => (
                     <OfficeCard
                     key={office._id} // Assuming each office has a unique ID
                     office={office} 
                     />
                 ))}
+                {data.offices.length === 0 && (
+                    <div className="text-center text-gray-500">Inga andra lokaler hittades från samma säljare.</div>
+                )}
             </div>
         </div>
     )

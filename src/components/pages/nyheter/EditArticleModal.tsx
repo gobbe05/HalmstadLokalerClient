@@ -2,6 +2,7 @@ import { Box, Button, Modal, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import IArticle from "../../../interfaces/IArticle";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface EditArticleModalProps {
     article: IArticle,
@@ -14,8 +15,23 @@ export default function EditArticleModal({article, handleClose, show}: EditArtic
     const [content, setContent] = useState<undefined | string>(undefined);
     const [image, setImage] = useState<undefined | string>(undefined)
     
-    const handleSubmit = () => {
+    const queryClient = useQueryClient()
 
+    const handleSubmit = async () => {
+        const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/article/${article._id}`, {
+            method: "PUT",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: article.title,
+                content,
+                image
+            }) 
+        })
+        handleClose()
+        queryClient.invalidateQueries({queryKey: ["news"]})
     }
 
     useEffect(() => {

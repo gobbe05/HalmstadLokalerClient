@@ -19,6 +19,7 @@ export default function NewsCard({article, isAdmin}: NewsCardProps) {
         setShowEdit(false)
     }
     const handleDelete = async () => {
+        if(!confirm("Är du säker på att du vill ta bort denna nyheten?")) return
         await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/article/${article._id}`, {
             method: "DELETE",
             credentials: "include"

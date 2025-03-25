@@ -34,7 +34,7 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
                     <h1 className="text-xl">{office.name}</h1>
                     <h3 className="font-light text-gray-500">{office.location}</h3>
                     <div className="ml-auto flex gap-4 mt-auto">
-                        {!office.hidden && <Link className="hover:bg-gray-300 p-2 rounded-full transition-all" to={`/lokal/${office._id}`}><FaUpRightFromSquare /></Link>}
+                        {!office.hidden && <Link className="text-gray-700 hover:bg-gray-300 p-2 rounded-full transition-all" to={`/lokal/${office._id}`}><FaUpRightFromSquare /></Link>}
                         <HideButton id={office._id} hidden={office.hidden} />
                         <button onClick={() => setOpenEdit(prev => !prev)} className="hover:bg-gray-300 p-2 rounded-full transition-all"><FaRegEdit /></button>
                         <button onClick={() => setOpenRemove(true)} className="hover:bg-gray-300 p-2 rounded-full transition-all"><FaRegTrashAlt /></button>

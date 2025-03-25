@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import register from "./register";
 import initializeAuth from "./initializeAuth";
 import Loading from "../../components/layout/loading";
+import { toast } from "react-toastify";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -45,11 +46,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setAuthId(data._id)
         setType(data.type)
         localStorage.setItem("isAuthenticated", "true"); // Save to localStorage
-        return response.status
+        toast.success("Inloggning lyckades.")
+        return 200
     }
-    if(response.status == 403) return 403
-
-    throw new Error("401")
+    if(response.status == 403) {
+      toast.warning("Användare väntar på att bli accepterad. Du kommer att få ett mail när du kan logga in.")
+      return 403
+    }
+    
+    if(response.status == 400) {
+      toast.error("Fel användarnamn eller lösenord.")
+      return 401
+    }
   }
   const logout = async () => {
     const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/logout`, {

@@ -13,12 +13,9 @@ const Login: React.FC = () => {
 
   const handleLogin = async (event: FormEvent) => {
     event.preventDefault()
-    toast.promise(login(username, password), {
-      pending: "Kontrollerar dina inloggningsuppgifter", 
-      success: "Inloggning lyckades",
-      error: "Något gick tyvärr fel. Försök igen!",
-    })
+    login(username, password)  
   };
+
   if(isAuthenticated) {
     return <Navigate to="/"></Navigate>
   }

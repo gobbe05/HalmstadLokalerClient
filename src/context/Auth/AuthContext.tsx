@@ -58,6 +58,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       toast.error("Fel användarnamn eller lösenord.")
       return 401
     }
+    return 500
   }
   const logout = async () => {
     const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/logout`, {

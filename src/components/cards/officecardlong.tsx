@@ -28,7 +28,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
         {/* Thumbnail with consistent size */}
         <div className="h-[128px] w-[128px] min-w-[128px] bg-gray-500 overflow-hidden">
             <img
-              src={office.thumbnails[0]}
+              src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]}
               alt={`Thumbnail of ${office.name}`}
               className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
             />

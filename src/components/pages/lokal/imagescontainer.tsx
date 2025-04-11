@@ -24,7 +24,7 @@ export default function ImagesContainer({images}: ImagesContainerProps) {
             onClick={() => setSelectedImage(image)}
           >
             <img
-              src={imageError ? "/fallback-image.jpg" : image}
+              src={imageError ? "/fallback-image.jpg" : import.meta.env.VITE_BUCKET_ADDRESS + image}
               onError={() => setImageError(true)}
               className="w-full h-full object-cover rounded-md transition-all hover:opacity-80"
             />
@@ -50,7 +50,7 @@ export default function ImagesContainer({images}: ImagesContainerProps) {
               <FaTimes />
             </button>
             <img
-              src={selectedImage}
+              src={import.meta.env.VITE_BUCKET_ADDRESS + selectedImage}
               alt="Selected Office Image"
               className="w-full max-h-[80vh] object-contain rounded-md"
             />

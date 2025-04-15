@@ -7,7 +7,7 @@ export default function OfficeCard({office}: {office: IOffice}) {
     <Link to={"/lokal/"+office._id} className="w-full bg-white text-gray-700 border shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-all transform group">
       <img 
         className="w-full h-[128px] object-cover" 
-        src={office.thumbnails[0]} 
+        src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]} 
         alt={`Bild på lokal i ${location}`} 
       />
       <div className="p-4">

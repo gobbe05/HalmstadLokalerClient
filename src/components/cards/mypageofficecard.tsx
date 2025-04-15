@@ -1,4 +1,4 @@
-import { FaRegEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt } from "react-icons/fa"
+import { FaRegEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt, FaSave } from "react-icons/fa"
 import IOffice from "../../interfaces/IOffice"
 import { FormEvent, useState } from "react"
 import { useQueryClient } from "@tanstack/react-query"
@@ -7,6 +7,8 @@ import RemoveDialog from "../reusable/dialogs/removedialog"
 import { FaUpRightFromSquare } from "react-icons/fa6";
 import OfficeForm from "../reusable/forms/officeform"
 import { Link } from "react-router-dom"
+import { Button, Modal } from "@mui/material"
+import { IoClose } from "react-icons/io5"
 
 interface MyPageOfficeCardProps {
     office: IOffice
@@ -28,7 +30,7 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
         <>
             <div key={"mypage-office-" + office._id} className="w-full flex bg-white text-gray-700 border rounded-md overflow-hidden group transition-all">
                 <div className="h-32 w-32 min-w-32 bg-gray-700">
-                    <img src={office.thumbnails[0]} className="w-full h-full object-cover" />
+                    <img src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]} className="w-full h-full object-cover" />
                 </div>
                 <div className="w-full flex flex-col h-full px-8 py-4">
                     <h1 className="text-xl">{office.name}</h1>
@@ -42,7 +44,7 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
                 </div>
                 <RemoveDialog open={openRemove} setOpen={setOpenRemove} handleRemove={handleRemove} dialogText={"Är du säker på att du vill ta bort det här kontoret?"} />            
             </div>
-            {openEdit && <EditForm setOpenEdit={setOpenEdit} id={office._id} />}
+            <EditForm open={openEdit} setOpenEdit={setOpenEdit} id={office._id} />
         </>
     )
 }
@@ -66,14 +68,16 @@ const HideButton = ({id, hidden} : HideButtonProps) => {
     )
 }
 
-const EditForm = ({setOpenEdit, id}: {setOpenEdit: (value: boolean) => void, id: string}) => {
-    const handleForm = (event: FormEvent) => {
-        event.preventDefault()
+const EditForm = ({open, setOpenEdit, id}: {open: boolean, setOpenEdit: (value: boolean) => void, id: string}) => {
+    const handleClose = () => {
+        setOpenEdit(false)
     }
     return (
-        <>
-            <OfficeForm id={id} method={"PUT"}/>
-        </>
+        <Modal onClose={handleClose} open={open} className="flex items-center justify-center">
+            <div className="bg-white overflow-y-scroll w-2/3 h-3/4 p-16 rounded-md shadow-lg">
+                <OfficeForm handleClose={handleClose} id={id} method={"PUT"}/>
+            </div>
+        </Modal>
     )
 }
 export default MyPageOfficeCard

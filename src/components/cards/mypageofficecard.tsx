@@ -7,8 +7,8 @@ import RemoveDialog from "../reusable/dialogs/removedialog"
 import { FaUpRightFromSquare } from "react-icons/fa6";
 import OfficeForm from "../reusable/forms/officeform"
 import { Link } from "react-router-dom"
-import { Button, Modal } from "@mui/material"
-import { IoClose } from "react-icons/io5"
+import { Modal } from "@mui/material"
+import { MdOutlineImageNotSupported } from "react-icons/md"
 
 interface MyPageOfficeCardProps {
     office: IOffice
@@ -30,7 +30,14 @@ const MyPageOfficeCard = ({office}: MyPageOfficeCardProps) => {
         <>
             <div key={"mypage-office-" + office._id} className="w-full flex bg-white text-gray-700 border rounded-md overflow-hidden group transition-all">
                 <div className="h-32 w-32 min-w-32 bg-gray-700">
-                    <img src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]} className="w-full h-full object-cover" />
+                    {
+                        office.thumbnails[0] ?
+                        <img src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]} className="w-full h-full object-cover" />
+                        :
+                        <div className="w-full h-full flex items-center justify-center text-gray-300">
+                            <MdOutlineImageNotSupported size={32} />
+                        </div>
+                    }
                 </div>
                 <div className="w-full flex flex-col h-full px-8 py-4">
                     <h1 className="text-xl">{office.name}</h1>

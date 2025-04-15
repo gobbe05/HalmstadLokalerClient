@@ -3,6 +3,7 @@ import IOffice from "../../interfaces/IOffice";
 import { useQuery} from "@tanstack/react-query";
 import LikeButton from "../buttons/likebutton";
 import { useAuth } from "../../context/Auth/AuthContext";
+import { MdOutlineImageNotSupported } from "react-icons/md";
 
 export default function OfficeCardLong({ office }: { office: IOffice }) {
   const {isAuthenticated, type} = useAuth()
@@ -26,12 +27,19 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
       className="h-[128px] relative flex w-full bg-white text-gray-700 border rounded-md shadow-sm hover:shadow overflow-hidden transition-all"
     >
         {/* Thumbnail with consistent size */}
-        <div className="h-[128px] w-[128px] min-w-[128px] bg-gray-500 overflow-hidden">
+        <div className="h-[128px] w-[128px] min-w-[128px] bg-gray-700 overflow-hidden">
+          {
+            office.thumbnails[0] ?
             <img
               src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]}
               alt={`Thumbnail of ${office.name}`}
               className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
             />
+            :
+            <div className="h-full w-full flex items-center justify-center text-gray-300">
+              <MdOutlineImageNotSupported size={32} />
+            </div>
+          } 
         </div>
 
       {/* Office Details */}

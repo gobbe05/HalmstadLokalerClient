@@ -13,13 +13,14 @@ import { IoMdClose } from 'react-icons/io';
 
 interface OfficeFormProps {
     id?: string,
-    method: "POST" | "PUT"
+    method: "POST" | "PUT",
+    handleClose?: () => void | undefined
 }
 type markerType = {
     lat: number,
     lng: number
 } | undefined;
-const OfficeForm = ({id, method}: OfficeFormProps) => {
+const OfficeForm = ({id, method, handleClose}: OfficeFormProps) => {
     const [marker, setMarker] = useState<markerType>(undefined);
     const [name, setName] = useState<string>('')
     const [size, setSize] = useState<number>(0)
@@ -162,12 +163,14 @@ const OfficeForm = ({id, method}: OfficeFormProps) => {
             })
         }
     }, [id])
-    useEffect(() => {
-console.log(documents)
-    }, [documents])
 
     return (
         <form className="mt-4" onSubmit={handleForm}>
+            {method == "PUT" && 
+            <div className="flex gap-2 justify-end w-full mb-8">
+                <Button type="submit" variant="contained" color="success">Spara</Button>
+                <Button type="button" onClick={() => {handleClose && handleClose()}} variant="contained" color="error" className="ml-auto mb-8">Avbryt</Button>
+            </div>}
             <div className="grid grid-cols-1 gap-4">
                 <div>
                     <TextField
@@ -276,7 +279,7 @@ console.log(documents)
                         <div>
                         {existingImages.length > 0 && <h3>Redan tillagda bilder</h3>}
                         {existingImages.length > 0 && (
-                            <div className="flex gap-2 my-2">
+                            <div className="flex gap-2 my-4">
                                 {existingImages.map((image, index) => (
                                     <PreviousImages key={index} image={image} setExistingImages={setExistingImages} setExistingThumbnails={setExistingThumbnails} />                                    
                                 ))}
@@ -284,9 +287,8 @@ console.log(documents)
                         </div>
                     </div>
                 <div>
-                    <Button type="submit" variant="contained" color="primary" fullWidth>
-                        {method == "POST" ? "Skapa annons" : "Uppdatera annons"} 
-                    </Button>
+                {method == "POST" &&
+                <Button type="submit" variant="contained" color="primary" fullWidth>Skapa annons</Button>}
                 </div>
             </div>
         </form>

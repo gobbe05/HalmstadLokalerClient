@@ -72,56 +72,60 @@ const Register: React.FC = () => {
   }
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex flex-col lg:flex-row items-stretch h-full lg:h-auto w-full lg:max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="flex flex-col lg:flex-row items-stretch h-full  w-full  bg-white shadow-lg rounded-lg overflow-hidden">
       
       <div className="lg:w-1/2 h-48 lg:h-auto bg-cover bg-center" style={{ backgroundImage: "url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')" }}>
         <div className="bg-black opacity-40 w-full h-full"></div>
       </div>
 
-      <div className="lg:w-1/2 p-12 my-auto">
+      <div className="lg:w-1/2 p-8 lg:p-16 my-auto">
         <div className="mb-6">
-          <BackButton link="/" />
+          <BackButton link="/login" />
         </div>
         <Logo />
-        <h2 className="text-2xl font-semibold text-gray-700 mt-6">Registrera ett nytt konto</h2>
-        <p>Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
+        <h2 className="text-xl font-semibold text-gray-700 mt-6">Registrera ett nytt konto</h2>
+        <p className="text-sm">Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
 
         <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-8">
         <div>
-          <input
+            <label className="font-semibold text-gray-500">Email</label>
+            <input
             type="email"
             onChange={(e) => setEmail(e.target.value)}
-            className={`w-full text-gray-600 font-semibold border-b-2 ${errors.email ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.email ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
             placeholder="Email..."
-          />
+          /> 
           {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
         </div>
 
         <div>
+          <label className="font-semibold text-gray-500">Användarnamn</label>
           <input
             type="text"
             onChange={(e) => setUsername(e.target.value)}
-            className={`w-full text-gray-600 font-semibold border-b-2 ${errors.username ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.username ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
             placeholder="Användarnamn..."
           />
           {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
         </div>
 
         <div>
+          <label className="font-semibold text-gray-500">Lösenord</label>
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
-            className={`w-full text-gray-600 font-semibold border-b-2 ${errors.password ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.password ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
             placeholder="Lösenord..."
           />
           {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
         </div>
 
         <div>
+          <label className="font-semibold text-gray-500">Bekräfta Lösenord</label>
           <input
             type="password"
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className={`w-full text-gray-600 font-semibold border-b-2 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
             placeholder="Bekräfta lösenord..."
           />
           {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}

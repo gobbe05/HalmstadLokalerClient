@@ -72,13 +72,13 @@ const Register: React.FC = () => {
   }
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex items-stretch w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="flex flex-col lg:flex-row items-stretch h-full lg:h-auto w-full lg:max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
       
-      <div className="w-1/2 bg-cover bg-center" style={{ backgroundImage: "url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')" }}>
+      <div className="lg:w-1/2 h-48 lg:h-auto bg-cover bg-center" style={{ backgroundImage: "url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')" }}>
         <div className="bg-black opacity-40 w-full h-full"></div>
       </div>
 
-      <div className="w-1/2 p-12">
+      <div className="lg:w-1/2 p-12 my-auto">
         <div className="mb-6">
           <BackButton link="/" />
         </div>

@@ -72,10 +72,10 @@ export default function Bevakningar() {
         </div>)
     if(isPending || error) return <Loading /> 
     return (
-        <div className="grid grid-cols-3 gap-8 w-2/3 mx-auto text-gray-700 my-32">
+        <div className="grid lg:grid-cols-3 sm:gap-8 w-full sm:w-4/5 md:w-2/3 mx-auto text-gray-700 sm:my-32">
             {/* Selection for saved searches */}
             <SavedSearches savedSearches={data.savedSearches} activeSavedSearch={activeSavedSearch} setActiveSavedSearch={setActiveSavedSearch} />
-            <div className="bg-white p-8 col-span-2 rounded-lg shadow-lg">
+            <div className="bg-white pb-32 pt-16 sm:pt-8 sm:pb-8 p-8 lg:col-span-2 sm:rounded-lg sm:shadow-lg">
                 <h1 className="text-lg font-semibold">Resultat för sökning "{activeSavedSearch}"</h1>
                 <div className="flex gap-2 mt-4">
                     <Link className="flex gap-2 py-2 px-3 items-center border border-gray-600 rounded text-gray-600" to={`/lediga-lokaler?search=${activeSavedSearch}`}><FaSearch size={16} /><span className="font-semibold">Gå till sökning</span></Link>
@@ -93,7 +93,7 @@ export default function Bevakningar() {
  */
 const SavedSearches = ({savedSearches, activeSavedSearch, setActiveSavedSearch} : {savedSearches: Array<{_id: string, searchString: string}>, activeSavedSearch : string | undefined, setActiveSavedSearch: React.Dispatch<React.SetStateAction<string | undefined>>}) => { 
     return (
-        <div className="bg-white p-8 col-span-1 rounded-lg shadow-lg">
+        <div className="bg-white pt-32 sm:pt-8 p-8 col-span-1 sm:rounded-lg sm:shadow-lg">
             <h1 className="flex items-center gap-2"><span className="text-lg font-semibold text-nowrap">Dina bevakningar</span></h1>
             <div className="mt-4">
                 {savedSearches.map((search: {_id: string, searchString: string}) => <SavedSearch setActiveSavedSearch={setActiveSavedSearch} active={activeSavedSearch==search.searchString} search={search} key={search._id} />)}

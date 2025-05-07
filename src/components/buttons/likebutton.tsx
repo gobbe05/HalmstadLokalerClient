@@ -46,7 +46,7 @@ const LikeButton = ({id} : {id: string}) => {
     if(isLoading || error) return ""
     if(data === "noauth") return ""
     return (
-        <div className="absolute bottom-2 left-2 flex justify-end">
+        <div className="absolute bottom-2 left-2 hidden md:flex justify-end ">
             <button
                 onClick={ToggleLike}
                 className="bg-white flex items-center justify-center border border-gray-400 p-2 rounded-full hover:bg-gray-100 transition-all"

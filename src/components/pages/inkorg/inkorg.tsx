@@ -37,9 +37,9 @@ export default function Inkorg() {
 
     if(isPending || error) return <Loading />
    return (
-    <div className="flex-grow my-16 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+    <div className="flex-grow py-16 md:py-0 md:my-16 bg-white md:bg-transparent px-8 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
         {/* Inbox Section */}
-        <div className="col-span-1 p-6 bg-white rounded-lg shadow-md">
+        <div className="col-span-1 p-6 bg-white rounded-lg md:shadow-md">
             <h1 className="text-2xl font-bold text-gray-800">Inkorg</h1>
             <div className="flex flex-col gap-4 mt-6">
                 {data.messages && data.messages.length > 0 ? (
@@ -59,7 +59,7 @@ export default function Inkorg() {
         </div>
 
         {/* Message Details Section */}
-        <div className="col-span-2 p-6 bg-white rounded-lg shadow-md">
+        <div className="md:col-span-2 p-6 bg-white rounded-lg md:shadow-md">
             <div className="space-y-4">
                 <h1 className="text-2xl font-bold text-gray-800">Meddelande</h1>
                 <div>

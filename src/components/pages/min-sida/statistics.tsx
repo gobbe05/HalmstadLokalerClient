@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 
 export default function Statistics() {
     return (
-        <div className="bg-white p-8 rounded">
+        <div className="bg-white py-16 lg:pt-8 p-8 lg:rounded">
             <h3 className="text-2xl font-semibold">Statistik</h3>
             <div className="mt-4">
                 <Offices />

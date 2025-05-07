@@ -24,10 +24,10 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
   return (
     <Link
       to={`/lokal/${office._id}`}
-      className="h-[128px] relative flex w-full bg-white text-gray-700 border rounded-md shadow-sm hover:shadow overflow-hidden transition-all"
+      className="h-[128px] relative flex w-full bg-white text-gray-700 sm:border sm:rounded-md sm:shadow-sm hover:shadow overflow-hidden transition-all active:bg-gray-400 sm:active:bg-white"
     >
         {/* Thumbnail with consistent size */}
-        <div className="h-[128px] w-[128px] min-w-[128px] bg-gray-700 overflow-hidden">
+        <div className="h-[128px] w-[64px] md:w-[128px] min-w-[64px] md:min-w-[128px] bg-gray-700 overflow-hidden">
           {
             office.thumbnails[0] ?
             <img
@@ -51,7 +51,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
               {office.name}
             </h1>
           </div>
-          <p className="font-light text-gray-600">{office.location}</p>
+          <p className="font-light text-gray-600 text-nowrap">{office.location}</p>
           <div className="flex items-center gap-4">
             <p className="font-semibold mt-2">{office.size} m²</p>
             <p className="font-semibold mt-2">{office.price} kr/mån</p>

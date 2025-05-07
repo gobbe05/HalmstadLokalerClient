@@ -55,8 +55,8 @@ export default function Lokal() {
 
     return (
         <div className="flex-grow" key={id}>
-            <div className="flex flex-col gap-16 w-2/3 mx-auto text-gray-700 bg-white p-16 mt-8 rounded-lg shadow-lg">  
-                <div className={`w-full rounded bg-white py-8 px-16`}>
+            <div className="flex flex-col gap-16 md:w-2/3 mx-auto text-gray-700 bg-white xl:p-8 md:mt-8 md:rounded-lg shadow-lg">  
+                <div className={`w-full rounded bg-white py-8 p-8 xl:px-12`}>
                     {/* Header Section */}
                     <div className="py-4 flex justify-between items-center">
                         <button
@@ -69,7 +69,7 @@ export default function Lokal() {
                     </div>
                     {/* Main */}
                     <div className="mt-8 grid grid-cols-3 gap-8">
-                        <div className="col-span-2 space-y-6">
+                        <div className="col-span-3 lg:col-span-2 space-y-6">
                             <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
                             {/* Office Info */}
                             <div>
@@ -77,7 +77,7 @@ export default function Lokal() {
                                 <p className="text-gray-500">{data.office.location}</p>
                             </div>
                             {/* Size and Price */}
-                            <div className="grid grid-cols-2 gap-8">
+                            <div className="grid sm:grid-cols-2 gap-8">
                                 <div>
                                     <h3 className="text-gray-500">Yta</h3>
                                     <p className="text-lg font-semibold">{data.office.size} m²</p>
@@ -137,8 +137,8 @@ const OtherOffices = ({seller}: {seller: string}) => {
     
     if (error || isPending) return <Loading />
     return (
-        <div className="w-2/3 mx-auto text-gray-700 bg-white p-16 my-32 rounded-lg shadow-lg">
-            <h1 className="text-2xl font-semibold text-gray-700 text-center">Andra lokaler från samma säljare</h1>
+        <div className="md:w-2/3 mx-auto text-gray-700 bg-white p-8 md:p-16 md:my-32 rounded-lg shadow-lg">
+            <h1 className="text-2xl font-semibold text-gray-700 text-center mt-16 md:mt-0">Andra lokaler från samma säljare</h1>
             <div className="py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
                 {data.offices.length > 0 && data.offices.map((office: IOffice) => (
                     <OfficeCard

@@ -47,11 +47,11 @@ export default function Skickade() {
     if(error) return <div>Error: {error.message}</div>
     return (
         <>
-        <div className="flex-grow my-16 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
+        <div className="flex-grow my-16 p-4 md:p-0 mx-auto md:grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
         {/* Inbox Section */}
         <div className="col-span-1 p-6 bg-white rounded-lg shadow-md">
             <h1 className="text-2xl font-bold text-gray-800">Inkorg</h1>
-            <div className="flex flex-col gap-4 mt-6">
+            <div className="flex flex-col gap-4 mt-6 max-h-64 lg:max-h-max overflow-y-auto">
                 {data.messages && data.messages.length > 0 ? (
                     data.messages.map((message: IMessage) => (
                         <Message
@@ -69,7 +69,7 @@ export default function Skickade() {
         </div>
 
         {/* Message Details Section */}
-        <div className="col-span-2 p-6 bg-white rounded-lg shadow-md">
+        <div className="mt-8 md:mt-0 col-span-2 p-6 bg-white rounded-lg shadow-md">
             <div className="space-y-4">
                 <h1 className="text-2xl font-bold text-gray-800">Meddelande</h1>
                 <div>

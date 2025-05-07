@@ -21,12 +21,12 @@ const Login: React.FC = () => {
   }
   return (
     <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex items-stretch shadow-lg rounded-lg overflow-hidden w-full max-w-4xl bg-white">
-        <div className="w-1/2 bg-cover bg-center bg-[url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')]">
+      <div className="flex flex-col lg:flex-row items-stretch shadow-lg rounded-lg overflow-hidden h-full lg:h-auto w-full lg:max-w-4xl bg-white">
+        <div className="lg:w-1/2 h-48 lg:h-auto bg-cover bg-center bg-[url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')]">
           <div className="bg-black opacity-50 w-full h-full"></div>
         </div>
 
-        <form onSubmit={handleLogin} className="w-1/2 p-12">
+        <form onSubmit={handleLogin} className="lg:w-1/2 p-12 my-auto">
           <div className="mb-6">
             <BackButton link="/" />
           </div>

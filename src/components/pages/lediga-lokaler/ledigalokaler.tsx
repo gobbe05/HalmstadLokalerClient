@@ -4,10 +4,13 @@ import OfficeCardLong from "../../cards/officecardlong"
 import { SaveSearchButton } from "./savesearchbuttont"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import Loading from "../../layout/loading"
-import { Pagination } from "@mui/material"
+import { Accordion, AccordionDetails, AccordionSummary, Pagination } from "@mui/material"
 import officeTypes from "../../../utils/officeTypes"
 import CategoryButton from "./categorybutton"
 import { useLocation } from "react-router-dom"
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { Filter } from "@mui/icons-material"
+
 
 const LedigaLokaler = () => {
     const limit = 10
@@ -90,12 +93,146 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
-        <div className="flex flex-col w-2/3 mx-auto text-gray-700 bg-white p-16 mt-16 mb-32 rounded-lg shadow-lg">
+        <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 bg-white xl:p-16 sm:p-8 xl:mt-16 xl:mb-32 xl:rounded-lg shadow-lg">
             {/* Heading */}
-            <h1 className="text-2xl font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
+            <h1 className="text-2xl mt-8 sm:mb-8 xl:my-0 font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
 
             {/* Search Form */}
-            <form className="w-full mt-8" onSubmit={(e) => {e.preventDefault(); handleSearch(e);}}>
+            <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
+            <div className="grid xl:grid-cols-4 gap-8 mt-8">
+                {/* Filters for mobile screens */}
+                <Accordion style={{borderRadius:10, boxShadow: "none", backgroundColor: "rgb(255 255 255)", borderWidth: 1}} className="mx-4 sm:mx-0 xl:hidden">
+                    <AccordionSummary
+                        expandIcon={<ArrowDownwardIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                    >
+                        <h3>Filtrera</h3>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+                    </AccordionDetails>
+                </Accordion>
+                {/* Filters for big screens */}
+                <div className="hidden xl:block">
+                    <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+                </div>
+
+                {/* Results */}
+                <div className="xl:col-span-3">
+                    <div className="grid sm:gap-8">
+                        {/* Save Search */}
+                        <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
+                            <SaveSearchButton submittedSearch={submittedSearch} />
+                        </div>
+
+                        {/* No Results */}
+                        {!data.length && (
+                            <div className="text-center text-gray-700 py-16">
+                                <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
+                                <p className="text-lg">Testa med att utöka din sökning</p>
+                            </div>
+                        )}
+
+                        {/* Results List */}
+                        {data.map((office: IOffice) => (
+                            <OfficeCardLong office={office} key={office._id} />
+                        ))}
+
+                        {/* Pagination */}
+                        {!!data.length && (
+                            <Pagination
+                                count={pageCount}
+                                page={page}
+                                onChange={(_, page) => { setPage(page) }}
+                                className="mx-auto xl:mx-0 mt-8"
+                                shape="rounded"
+                            />
+                        )}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    )
+}
+interface FiltersProps {
+    setPriceMin: React.Dispatch<React.SetStateAction<number | undefined>>
+    setPriceMax: React.Dispatch<React.SetStateAction<number | undefined>>
+    setSizeMin: React.Dispatch<React.SetStateAction<number | undefined>>
+    setSizeMax: React.Dispatch<React.SetStateAction<number | undefined>>
+    setTypes: React.Dispatch<React.SetStateAction<Array<string>>>
+    types: Array<string>
+}
+const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, types}: FiltersProps) => {
+    return (
+        <div className="col-span-1">
+            <div>
+                <div className="grid grid-cols-1 gap-6">
+                    {/* Price Filter */}
+                    <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                        <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
+                        <div className="mt-3 flex">
+                            <input
+                                onChange={(event) => { setPriceMin(+event.target.value) }} 
+                                type="number"
+                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                placeholder="Min"
+                            />
+                            <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
+                            <input 
+                                onChange={(event) => { setPriceMax(+event.target.value) }}
+                                type="number"
+                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                placeholder="Max"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Size Filter */}
+                    <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                        <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
+                        <div className="mt-3 flex">
+                            <input
+                                onChange={(event) => { setSizeMin(+event.target.value) }} 
+                                type="number"
+                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                placeholder="Min"
+                            />
+                            <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
+                            <input 
+                                onChange={(event) => { setSizeMax(+event.target.value) }}
+                                type="number"
+                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                placeholder="Max"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Type Filter */}
+                    <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
+                        <div className="flex flex-col gap-2 mt-4">
+                            {officeTypes.map((type) => (
+                                <CategoryButton setTypes={setTypes} types={types} type={type.name} key={type.id} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    )
+}
+
+interface SearchBarProps {
+    handleSearch: (e: React.FormEvent) => void
+    search: string | undefined
+    setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
+}
+const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
+    return (
+        <>
+            <form className="p-4 sm:p-0 w-full mt-8" onSubmit={(e) => {e.preventDefault(); handleSearch(e);}}>
                 <label htmlFor="default-search" className="sr-only">Search</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -133,98 +270,7 @@ const LedigaLokaler = () => {
                     </button>
                 </div>
             </form> 
-            {/* Filters */}
-            <div className="grid grid-cols-4 gap-8 mt-8">
-                <div className="col-span-1">
-                    <div>
-                        <div className="grid grid-cols-1 gap-6">
-                            {/* Price Filter */}
-                            <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
-                                <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
-                                <div className="mt-3 flex">
-                                    <input
-                                        onChange={(event) => { setPriceMin(+event.target.value) }} 
-                                        type="number"
-                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                        placeholder="Min"
-                                    />
-                                    <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
-                                    <input 
-                                        onChange={(event) => { setPriceMax(+event.target.value) }}
-                                        type="number"
-                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                        placeholder="Max"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Size Filter */}
-                            <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
-                                <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
-                                <div className="mt-3 flex">
-                                    <input
-                                        onChange={(event) => { setSizeMin(+event.target.value) }} 
-                                        type="number"
-                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                        placeholder="Min"
-                                    />
-                                    <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
-                                    <input 
-                                        onChange={(event) => { setSizeMax(+event.target.value) }}
-                                        type="number"
-                                        className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
-                                        placeholder="Max"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Type Filter */}
-                            <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
-                                <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
-                                <div className="flex flex-col gap-2 mt-4">
-                                    {officeTypes.map((type) => (
-                                        <CategoryButton setTypes={setTypes} types={types} type={type.name} key={type.id} />
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
-                </div>
-                {/* Results */}
-                <div className="col-span-3">
-                    <div className="grid gap-8">
-                        {/* Save Search */}
-                        <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
-                            <SaveSearchButton submittedSearch={submittedSearch} />
-                        </div>
-
-                        {/* No Results */}
-                        {!data.length && (
-                            <div className="text-center text-gray-700 py-16">
-                                <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
-                                <p className="text-lg">Testa med att utöka din sökning</p>
-                            </div>
-                        )}
-
-                        {/* Results List */}
-                        {data.map((office: IOffice) => (
-                            <OfficeCardLong office={office} key={office._id} />
-                        ))}
-
-                        {/* Pagination */}
-                        {!!data.length && (
-                            <Pagination
-                                count={pageCount}
-                                page={page}
-                                onChange={(_, page) => { setPage(page) }}
-                                shape="rounded"
-                            />
-                        )}
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        </>
     )
 }
 

@@ -35,19 +35,25 @@ const Login: React.FC = () => {
           <h2 className="text-2xl font-semibold text-gray-700 mt-8">Logga in</h2>
 
           <div className="flex flex-col gap-6 mt-6">
-            <input
-              onChange={(e) => setUsername(e.target.value)}
-              className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
-              placeholder="Användarnamn..."
-              type="text"
-            />
+            <div className="w-full">
+              <p className="font-semibold text-gray-500">Användarnamn / E-post</p>
+              <input
+                onChange={(e) => setUsername(e.target.value)}
+                className="mt-1 w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
+                placeholder="Användarnamn..."
+                type="text"
+              />
+            </div> 
 
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              className="text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
-              placeholder="Lösenord..."
-              type="password"
-            />
+            <div className="w-full">
+              <p className="font-semibold text-gray-500">Lösenord</p>
+              <input
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
+                placeholder="Lösenord..."
+                type="password"
+              />
+            </div>
 
             <button
               type="submit"

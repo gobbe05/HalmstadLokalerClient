@@ -36,9 +36,14 @@ interface SellerCardProps {
 const SellerCard = ({seller}:SellerCardProps) => {
     return (
         <Link to={`/profile/${seller._id}`}>
-            <div className="flex flex-col gap-2 p-4 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200 hover:border-gray-400 hover:bg-gray-50 cursor-pointer">
-                <h2 className="text-xl text-gray-700 font-bold">{seller.username}</h2>
-                <p className="text-gray-600">{seller.email}</p>
+            <div className="flex items-center gap-4 p-4 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200 hover:border-gray-400 hover:bg-gray-50 cursor-pointer">
+                <div>
+                    <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${seller.username}`} alt="Profile" className="w-16 h-16 rounded-full border border-gray-300" />   
+                </div>
+                <div>
+                    <h2 className="text-xl text-gray-700 font-bold">{seller.username}</h2>
+                    <p className="text-gray-600">{seller.email}</p>
+                </div>  
             </div>
         </Link>
     );

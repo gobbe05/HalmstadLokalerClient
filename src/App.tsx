@@ -25,6 +25,7 @@ import { SavedSearchProvider } from "./context/savedSearchContext";
 import Accept from "./components/pages/accept/accept";
 import AdminRoute from "./routes/AdminRoute";
 import Skickade from "./components/pages/skickade/skickade";
+import Sellers from "./components/pages/sellers/sellers";
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
@@ -54,6 +55,9 @@ const App: React.FC = () => {
                     </Route>
                     <Route path="/sparade-lokaler" element={<ProtectedRoute />}>
                       <Route index element={<SparadeLokaler />}/>
+                    </Route>
+                    <Route path="/sellers" element={<ProtectedRoute />}>
+                      <Route index element={<Sellers />}/>
                     </Route>
                     <Route path="/min-sida" element={<ProtectedRoute />}>
                       <Route index element={<MinSida />}/>

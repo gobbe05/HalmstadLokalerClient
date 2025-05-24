@@ -1,4 +1,4 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"
 import Loading from "../../layout/loading"
 import ContactButton from "../../buttons/contactbutton"
@@ -7,14 +7,16 @@ import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
 import { HiArrowLeft } from "react-icons/hi2"
-import LikeButton from "../../buttons/likebutton"
 import ImagesContainer from "./imagescontainer"
+import ProfileCard from "../profile/profile"
+import { FaRegUserCircle } from "react-icons/fa"
 
 export default function Lokal() {
     const {id} = useParams()
     const navigate = useNavigate()
     const [imageLoading, setImageLoading] = useState<boolean>(true)
     const [imageError, setImageError] = useState<boolean>(false)
+    const [openProfile, setOpenProfile] = useState<boolean>(false)
 
     const {isAuthenticated, type} = useAuth()
 
@@ -47,6 +49,7 @@ export default function Lokal() {
         setImageLoading(true)
         setImageError(false)
         addToPreviousLookedAt()
+        setOpenProfile(false)
     }, [data?.office])
 
     if (isPending || !id) return <Loading />;
@@ -70,7 +73,10 @@ export default function Lokal() {
                     {/* Main */}
                     <div className="mt-8 grid grid-cols-3 gap-8">
                         <div className="col-span-3 lg:col-span-2 space-y-6">
-                            <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
+                            <div>
+                                <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
+                                <button onClick={() => setOpenProfile(true)} className="mt-2 flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition-colors duration-300"><FaRegUserCircle size={16}/>Visa säljare</button>
+                            </div> 
                             {/* Office Info */}
                             <div>
                                 <h1 className="text-2xl font-semibold">{data.office.name}</h1>
@@ -120,6 +126,7 @@ export default function Lokal() {
                     </div>
                 </div> 
             </div>
+            {<ProfileCard openProfile={openProfile} setOpenProfile={setOpenProfile} id={data.office.owner} />}
             <OtherOffices seller={data.office.owner} />
         </div>
     )

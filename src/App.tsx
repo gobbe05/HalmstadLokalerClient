@@ -26,6 +26,7 @@ import Accept from "./components/pages/accept/accept";
 import AdminRoute from "./routes/AdminRoute";
 import Skickade from "./components/pages/skickade/skickade";
 import Sellers from "./components/pages/sellers/sellers";
+import Profile from "./components/pages/profile/profile";
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {

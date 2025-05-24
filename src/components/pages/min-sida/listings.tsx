@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
-import { useAuth } from "../../../context/Auth/AuthContext"
 import Loading from "../../layout/loading"
 import FiveHundred from "../../layout/FiveHundred"
 import IOffice from "../../../interfaces/IOffice"
-import { Link } from "react-router-dom"
 import MyPageOfficeCard from "../../cards/mypageofficecard"
+import ShowAllButton from "../../buttons/showallbutton"
 
 export default function Listings() {
-    const {authId} = useAuth()
-
     const {isPending,error,data} = useQuery({
         queryKey: ['my-offices'],
         queryFn: () => {
@@ -25,7 +22,7 @@ export default function Listings() {
             <h1 className="text-2xl font-semibold mb-4">Dina annonser</h1>
             {data.offices.map((office: IOffice) => <MyPageOfficeCard office={office} />)}
             <div className="flex justify-center mt-4">
-                <Link to="/min-sida/alla-kontor" className="text-gray-700 border border-gray-700 hover:bg-gray-700 hover:text-white rounded-full px-4 py-2 transition-all">Visa alla dina annonser</Link>
+                <ShowAllButton link={`/min-sida/alla-kontor`} text="Visa alla annonser" />
             </div>
         </div>
     )

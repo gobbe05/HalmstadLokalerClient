@@ -1,5 +1,6 @@
 import {useQuery} from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import ProfileCard from "../profile/profile";
+import { useState } from "react";
 
 interface ISeller {
     username: string;
@@ -8,6 +9,8 @@ interface ISeller {
 }
 
 export default function Sellers() {
+    const [openProfile, setOpenProfile] = useState<boolean>(false)
+    const [id, setId] = useState<string | null>(null)
     const {error, isPending, data} = useQuery({
         queryKey: ["sellers"],
         queryFn: async () => {
@@ -24,18 +27,24 @@ export default function Sellers() {
                 Säljare
             </h1>
             <div className="flex flex-col gap-8 mt-16">
-                {data && data.sellers.map((seller: ISeller) => (<SellerCard seller={seller} key={seller._id} />))}
+                {data && data.sellers.map((seller: ISeller) => (<SellerCard setId={setId} setOpenProfile={setOpenProfile} seller={seller} key={seller._id} />))}
             </div>
+            {id && <ProfileCard openProfile={openProfile} setOpenProfile={setOpenProfile} id={id}/>}
         </div>
     );
 }
 
 interface SellerCardProps {
    seller: ISeller;
+   setOpenProfile: React.Dispatch<React.SetStateAction<boolean>>;
+   setId: React.Dispatch<React.SetStateAction<string | null>>;
 }
-const SellerCard = ({seller}:SellerCardProps) => {
+const SellerCard = ({seller, setOpenProfile, setId}:SellerCardProps) => {
     return (
-        <Link to={`/profile/${seller._id}`}>
+        <button onClick={() => {
+            setOpenProfile(true)
+            setId(seller._id)
+        }}>
             <div className="flex items-center gap-4 p-4 rounded-lg shadow hover:shadow-md transition-shadow border border-gray-200 hover:border-gray-400 hover:bg-gray-50 cursor-pointer">
                 <div>
                     <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${seller.username}`} alt="Profile" className="w-16 h-16 rounded-full border border-gray-300" />   
@@ -45,6 +54,6 @@ const SellerCard = ({seller}:SellerCardProps) => {
                     <p className="text-gray-600">{seller.email}</p>
                 </div>  
             </div>
-        </Link>
+        </button>
     );
 }

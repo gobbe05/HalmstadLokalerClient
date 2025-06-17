@@ -4,7 +4,7 @@ import register from "./register";
 import initializeAuth from "./initializeAuth";
 import Loading from "../../components/layout/loading";
 import { toast } from "react-toastify";
-
+import INewUser from "./INewUser";
 interface AuthContextType {
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -13,7 +13,7 @@ interface AuthContextType {
   isLoading: boolean,
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   login: (username: string, password: string) => Promise<number>;
-  register: (email: string, username: string, password: string, confirmPassword: string, type: "buyer" | "seller") => Promise<number | Error>;
+  register: (newUser: INewUser) => Promise<number | Error>;
   logout: () => Promise<void>;
 }
 

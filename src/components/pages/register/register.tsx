@@ -5,6 +5,9 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import Logo from "../../layout/logo";
 import { Bounce, toast } from "react-toastify";
 import BackButton from "../../buttons/backbutton";
+import FirstRegisterStage from "./firstregisterstage";
+import SecondRegisterStage from "./secondregisterstage";
+import { HiArrowLeft, HiHome } from "react-icons/hi2";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -13,14 +16,36 @@ const Register: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [accountType, setAccountType] = useState<"seller" | "buyer">("buyer")
+  const [firstName, setFirstName] = useState<string | undefined>("");
+  const [lastName, setLastName] = useState<string | undefined>("");
+  const [companyName, setCompanyName] = useState<string | undefined>("");
+  const [orgNr, setOrgNr] = useState<string | undefined>("");
+  const [invoiceAddress, setInvoiceAddress] = useState<string | undefined>("");
+
+  const [stage, setStage] = useState<1 | 2>(1); // 1 for first stage, 2 for second stage
+
   const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (!validate()) return;
+    if (!validateFirstStage()) return;
+    if (accountType == "seller" && stage === 1) {
+      setStage(2);
+      return;
+    }
     try {
-      const registerPromise = register(email, username, password, confirmPassword, accountType)
+      const registerPromise = accountType == "buyer" ? register({
+        email, username, password, confirmPassword, accountType
+      }) : register({
+        email, username, password, confirmPassword, accountType, firstName, lastName, companyName, orgNr, invoiceAddress
+      });
+      // Show toast notification with promise handling
+      // This will show a loading state while the promise is pending
+      // and will show success or error based on the promise result
+      // The promise should resolve to a status code, e.g., 200 for success
+      // and any other code for failure
+      // Note: Adjust the promise handling based on your actual register function implementation
       toast.promise(registerPromise, {
         pending: "Kontrollerar dina inloggningsuppgifter", 
         success: "Registrering lyckades! Du kommer nu att omdirigeras till inloggningssidan.",
@@ -44,7 +69,7 @@ const Register: React.FC = () => {
     }
   };
 
-  const validate = (): boolean => {
+  const validateFirstStage = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
     if (!email) newErrors.email = "Email är obligatoriskt.";
@@ -79,65 +104,41 @@ const Register: React.FC = () => {
       </div>
 
       <div className="lg:w-1/2 p-8 lg:p-16 my-auto">
-        <div className="mb-6">
-          <BackButton link="/login" />
+        <div className="mb-6 flex gap-2">
+          {stage === 2 &&
+          <div className="flex">
+            <button onClick={() => setStage(1)} className="flex gap-2 items-center px-4 py-2 rounded-full text-gray-700 hover:bg-gray-700 hover:text-white transition-all"><HiArrowLeft size={16} /> <span className="text-sm">Backa</span></button>
+          </div>} 
+          <div className="flex">
+            <Link to={"/"} className="flex gap-2 items-center px-4 py-2 rounded-full text-gray-700 hover:bg-gray-700 hover:text-white transition-all"><span className="text-sm">Hem</span><HiHome size={16} /></Link>
+          </div> 
         </div>
         <Logo />
         <h2 className="text-xl font-semibold text-gray-700 mt-6">Registrera ett nytt konto</h2>
         <p className="text-sm">Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
 
         <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-8">
-        <div>
-            <label className="font-semibold text-gray-500">Email</label>
-            <input
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.email ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
-            placeholder="Email..."
-          /> 
-          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-        </div>
-
-        <div>
-          <label className="font-semibold text-gray-500">Användarnamn</label>
-          <input
-            type="text"
-            onChange={(e) => setUsername(e.target.value)}
-            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.username ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
-            placeholder="Användarnamn..."
-          />
-          {errors.username && <p className="text-red-500 text-sm">{errors.username}</p>}
-        </div>
-
-        <div>
-          <label className="font-semibold text-gray-500">Lösenord</label>
-          <input
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.password ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
-            placeholder="Lösenord..."
-          />
-          {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
-        </div>
-
-        <div>
-          <label className="font-semibold text-gray-500">Bekräfta Lösenord</label>
-          <input
-            type="password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
-            placeholder="Bekräfta lösenord..."
-          />
-          {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword}</p>}
-        </div>
-        <div className="flex items-stretch w-full rounded-lg overflow-hidden font-semibold text-gray-600">
-          <div onClick={() => {setAccountType("buyer")}} className={`${accountType == "buyer" ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all cursor-pointer w-1/2 p-4 text-center`}>
-            <h3>Köpare</h3>
-          </div>
-          <div onClick={() => {setAccountType("seller")}} className={`${accountType == "seller" ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all cursor-pointer w-1/2 p-4 text-center`}>
-            <h3>Säljare</h3>
-          </div>
-        </div>
+        {stage === 1 && 
+        <FirstRegisterStage 
+          setEmail={setEmail} 
+          errors={errors} 
+          setUsername={setUsername} 
+          setConfirmPassword={setConfirmPassword} 
+          setPassword={setPassword} 
+          accountType={accountType} 
+          setAccountType={setAccountType}
+        />}  
+        
+        {stage === 2 &&
+        <SecondRegisterStage 
+          setFirstName={setFirstName} 
+          setLastName={setLastName} 
+          setCompanyName={setCompanyName} 
+          setOrgNr={setOrgNr} 
+          setInvoiceAddress={setInvoiceAddress} 
+          errors={errors} 
+        />}
+        
         <button
           type="submit"
           className="p-3 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"

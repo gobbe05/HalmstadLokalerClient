@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query"
 import { FaHeart, FaRegHeart } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 
-const LikeButton = ({id} : {id: string}) => {
+const LikeButton = ({id, longButton} : {id: string, longButton?: boolean}) => {
     const queryClient = useQueryClient()
     const navigate = useNavigate()
 
@@ -45,6 +45,12 @@ const LikeButton = ({id} : {id: string}) => {
 
     if(isLoading || error) return ""
     if(data === "noauth") return ""
+    if(longButton) return (
+        <button onClick={ToggleLike} className="border-2 border-gray-500 text-gray-700 flex items-center px-4 rounded-md font-semibold">
+            <span className="mr-2">Spara lokal</span>
+            {data.saved ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+        </button>
+    )
     return (
         <div className="absolute bottom-2 left-2 hidden md:flex justify-end ">
             <button

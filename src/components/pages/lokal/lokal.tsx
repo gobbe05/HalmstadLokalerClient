@@ -75,7 +75,13 @@ export default function Lokal() {
                         <div className="col-span-3 lg:col-span-2 space-y-6">
                             <div>
                                 <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
-                                <button onClick={() => setOpenProfile(true)} className="mt-2 flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition-colors duration-300"><FaRegUserCircle size={16}/>Visa säljare</button>
+                                <div className="flex gap-2 mt-2">
+                                    <button onClick={() => setOpenProfile(true)} className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition-colors duration-300"><FaRegUserCircle size={16}/>Visa säljare</button>
+                                    {/* Contact Button */}
+                                    {isAuthenticated && type === "buyer" && (
+                                    <ContactButton broker={data.office.owner} />
+                                    )}
+                                </div> 
                             </div> 
                             {/* Office Info */}
                             <div>
@@ -118,10 +124,7 @@ export default function Lokal() {
                             </div>
                             )}
 
-                            {/* Contact Button */}
-                            {isAuthenticated && type === "buyer" && (
-                            <ContactButton broker={data.office.owner} />
-                            )}
+                            
                         </div>
                     </div>
                 </div> 

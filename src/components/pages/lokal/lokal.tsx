@@ -9,7 +9,8 @@ import { useEffect, useState } from "react"
 import { HiArrowLeft } from "react-icons/hi2"
 import ImagesContainer from "./imagescontainer"
 import ProfileCard from "../profile/profile"
-import { FaRegUserCircle } from "react-icons/fa"
+import { FaHeart, FaRegHeart, FaRegUserCircle } from "react-icons/fa"
+import LikeButton from "../../buttons/likebutton"
 
 export default function Lokal() {
     const {id} = useParams()
@@ -81,6 +82,9 @@ export default function Lokal() {
                                     {isAuthenticated && type === "buyer" && (
                                     <ContactButton broker={data.office.owner} />
                                     )}
+                                    {/* Like Button */}
+                                    {isAuthenticated && type === "buyer" && (
+                                    <LikeButton id={data.office._id} longButton={true}/>)}
                                 </div> 
                             </div> 
                             {/* Office Info */}

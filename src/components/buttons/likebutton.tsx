@@ -46,9 +46,9 @@ const LikeButton = ({id, longButton} : {id: string, longButton?: boolean}) => {
     if(isLoading || error) return ""
     if(data === "noauth") return ""
     if(longButton) return (
-        <button onClick={ToggleLike} className="border-2 border-gray-500 text-gray-700 flex items-center px-4 rounded-md font-semibold">
+        <button onClick={ToggleLike} className="group border-2 border-gray-500 text-gray-700 flex items-center px-4 rounded-md shadow-sm font-semibold transition-all">
             <span className="mr-2">Spara lokal</span>
-            {data.saved ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
+            {data.saved ? <FaHeart className="text-red-500" /> : <FaRegHeart size={16} className="group-hover:text-red-500 transition-all"/>}
         </button>
     )
     return (

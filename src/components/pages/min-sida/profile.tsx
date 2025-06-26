@@ -27,6 +27,7 @@ export default function MyProfile({id}: {id: string}) {
                 <div className="text-gray-700 mb-6 mr-auto">
                     <p><strong>Email:</strong> {profileData && profileData.user.email}</p>
                     <p><strong>Företag:</strong> {profileData && profileData.user.companyName}</p>
+                    <p><strong>Telefon:</strong> {profileData && profileData.user.phoneNumber}</p>
                     <p><strong>Org. Nr:</strong> {profileData && profileData.user.orgNr}</p>
                     <p><strong>Fakturaadress:</strong> {profileData && profileData.user.invoiceAddress}</p>
                 </div>

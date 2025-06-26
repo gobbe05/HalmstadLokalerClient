@@ -18,6 +18,7 @@ const Register: React.FC = () => {
   const [accountType, setAccountType] = useState<"seller" | "buyer">("buyer")
   const [firstName, setFirstName] = useState<string | undefined>("");
   const [lastName, setLastName] = useState<string | undefined>("");
+  const [phoneNumber, setPhoneNumber] = useState<string | undefined>("");
   const [companyName, setCompanyName] = useState<string | undefined>("");
   const [orgNr, setOrgNr] = useState<string | undefined>("");
   const [invoiceAddress, setInvoiceAddress] = useState<string | undefined>("");
@@ -38,7 +39,7 @@ const Register: React.FC = () => {
       const registerPromise = accountType == "buyer" ? register({
         email, username, password, confirmPassword, accountType
       }) : register({
-        email, username, password, confirmPassword, accountType, firstName, lastName, companyName, orgNr, invoiceAddress
+        email, username, password, confirmPassword, accountType, firstName, lastName, phoneNumber, companyName, orgNr, invoiceAddress
       });
       // Show toast notification with promise handling
       // This will show a loading state while the promise is pending
@@ -133,6 +134,7 @@ const Register: React.FC = () => {
         <SecondRegisterStage 
           setFirstName={setFirstName} 
           setLastName={setLastName} 
+          setPhoneNumber={setPhoneNumber}
           setCompanyName={setCompanyName} 
           setOrgNr={setOrgNr} 
           setInvoiceAddress={setInvoiceAddress} 

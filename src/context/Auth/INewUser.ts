@@ -6,6 +6,7 @@ export default interface INewUser {
   accountType: "buyer" | "seller";
   firstName?: string;
   lastName?: string;
+  phoneNumber?: string;
   companyName?: string;
   orgNr?: string;
   invoiceAddress?: string;

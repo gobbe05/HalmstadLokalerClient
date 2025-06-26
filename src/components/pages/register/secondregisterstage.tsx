@@ -1,15 +1,18 @@
 interface SecondRegisterStageProps {
   setFirstName: React.Dispatch<React.SetStateAction<string | undefined>>;
   setLastName: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setPhoneNumber: React.Dispatch<React.SetStateAction<string | undefined>>;
   setCompanyName: React.Dispatch<React.SetStateAction<string | undefined>>;
   setOrgNr: React.Dispatch<React.SetStateAction<string | undefined>>;
   setInvoiceAddress: React.Dispatch<React.SetStateAction<string | undefined>>;
   errors: { [key: string]: string };
 
 }
-const SecondRegisterStage = ({setFirstName, setLastName, setCompanyName, setOrgNr, setInvoiceAddress, errors}: SecondRegisterStageProps) => {
+const SecondRegisterStage = ({setFirstName, setLastName, setPhoneNumber, setCompanyName, setOrgNr, setInvoiceAddress, errors}: SecondRegisterStageProps) => {
   return (
     <>
+      {/* First name and last name inputs */}
+      {/* First name */}
       <div>
         <label className="font-semibold text-gray-500">Förnamn</label>
         <input
@@ -20,6 +23,7 @@ const SecondRegisterStage = ({setFirstName, setLastName, setCompanyName, setOrgN
         /> 
         {errors.firstname && <p className="text-red-500 text-sm">{errors.firstname}</p>}
       </div>
+      {/* Last name */}
       <div>
         <label className="font-semibold text-gray-500">Efternamn</label>
         <input
@@ -31,25 +35,38 @@ const SecondRegisterStage = ({setFirstName, setLastName, setCompanyName, setOrgN
         {errors.lastname && <p className="text-red-500 text-sm">{errors.lastname}</p>}
       </div>
       <div>
-        <label className="font-semibold text-gray-500">Företag</label>
+        <label className="font-semibold text-gray-500">Telefon</label>
         <input
           type="text"
-          onChange={(e) => setCompanyName(e.target.value)}
-          className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.company ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
-          placeholder="Företag..."
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.phone ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+          placeholder="Telefon..."
         /> 
-        {errors.company && <p className="text-red-500 text-sm">{errors.company}</p>}
+        {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
       </div>
-      <div>
-        <label className="font-semibold text-gray-500">Org. Nr</label>
-        <input
-          type="text"
-          onChange={(e) => setOrgNr(e.target.value)}
-          className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.orgnr? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
-          placeholder="Org. Nr..."
-        /> 
-        {errors.orgnr && <p className="text-red-500 text-sm">{errors.orgnr}</p>}
-      </div>
+      {/* Company information */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="font-semibold text-gray-500">Företag</label>
+          <input
+            type="text"
+            onChange={(e) => setCompanyName(e.target.value)}
+            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.company ? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+            placeholder="Företag..."
+          /> 
+          {errors.company && <p className="text-red-500 text-sm">{errors.company}</p>}
+        </div>
+        <div>
+          <label className="font-semibold text-gray-500">Org. Nr</label>
+          <input
+            type="text"
+            onChange={(e) => setOrgNr(e.target.value)}
+            className={`mt-1 w-full text-gray-600 font-semibold border-b-2 ${errors.orgnr? 'border-red-500' : 'border-gray-300'} bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300`}
+            placeholder="Org. Nr..."
+          /> 
+          {errors.orgnr && <p className="text-red-500 text-sm">{errors.orgnr}</p>}
+        </div>
+      </div> 
       <div>
         <label className="font-semibold text-gray-500">Faktureringsadress</label>
         <input

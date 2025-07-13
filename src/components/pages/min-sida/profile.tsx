@@ -57,6 +57,7 @@ interface EditProfileModalProps {
 const EditProfileModal = ({isOpen, onClose, profileData}: EditProfileModalProps) => {
     const [firstName, setFirstName] = useState(profileData && profileData.user.firstName);
     const [lastName, setLastName] = useState(profileData && profileData.user.lastName);
+    const [phoneNumber, setPhoneNumber] = useState(profileData && profileData.user.phoneNumber);
     const [invoiceAddress, setInvoiceAddress] = useState(profileData && profileData.user.invoiceAddress);
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -91,6 +92,7 @@ const EditProfileModal = ({isOpen, onClose, profileData}: EditProfileModalProps)
             body: JSON.stringify({
                 firstName,
                 lastName,
+                phoneNumber,
                 invoiceAddress
             })
         });
@@ -131,6 +133,16 @@ const EditProfileModal = ({isOpen, onClose, profileData}: EditProfileModalProps)
                             type="email" 
                             id="email" 
                             defaultValue={profileData && profileData.user.email} 
+                            className="w-full px-3 py-2 border rounded"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-gray-700 mb-2" htmlFor="phoneNumber">Telefonnummer</label>
+                        <input 
+                            type="text" 
+                            id="phoneNumber" 
+                            defaultValue={profileData && profileData.user.phoneNumber} 
+                            onChange={(e) => setPhoneNumber(e.target.value)}
                             className="w-full px-3 py-2 border rounded"
                         />
                     </div>

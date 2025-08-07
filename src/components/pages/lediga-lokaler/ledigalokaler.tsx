@@ -100,23 +100,7 @@ const LedigaLokaler = () => {
             {/* Search Form */}
             <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
             <div className="grid xl:grid-cols-4 gap-8 mt-8">
-                {/* Filters for mobile screens */}
-                <Accordion style={{borderRadius:10, boxShadow: "none", backgroundColor: "rgb(255 255 255)", borderWidth: 1}} className="mx-4 sm:mx-0 xl:hidden">
-                    <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        <h3>Filtrera</h3>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                        <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
-                    </AccordionDetails>
-                </Accordion>
-                {/* Filters for big screens */}
-                <div className="hidden xl:block">
-                    <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
-                </div>
+                
 
                 {/* Results */}
                 <div className="xl:col-span-3">
@@ -150,6 +134,23 @@ const LedigaLokaler = () => {
                             />
                         )}
                     </div>
+                </div>
+{/* Filters for mobile screens */}
+                <Accordion style={{borderRadius:10, boxShadow: "none", backgroundColor: "rgb(255 255 255)", borderWidth: 1}} className="mx-4 sm:mx-0 xl:hidden">
+                    <AccordionSummary
+                        expandIcon={<ArrowDownwardIcon />}
+                        aria-controls="panel1-content"
+                        id="panel1-header"
+                    >
+                        <h3>Filtrera</h3>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+                    </AccordionDetails>
+                </Accordion>
+                {/* Filters for big screens */}
+                <div className="hidden xl:block">
+                    <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
                 </div>
             </div>
         </div>

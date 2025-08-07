@@ -13,7 +13,7 @@ interface AuthContextType {
   isLoading: boolean,
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
   login: (username: string, password: string) => Promise<number>;
-  register: (newUser: INewUser) => Promise<number | Error>;
+  register: (newUser: INewUser) => Promise<Response>;
   logout: () => Promise<void>;
 }
 

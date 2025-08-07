@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface FirstRegisterStageProps {
   setEmail: React.Dispatch<React.SetStateAction<string>>;
   errors: { [key: string]: string };

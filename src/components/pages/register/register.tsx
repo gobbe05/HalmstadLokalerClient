@@ -8,6 +8,7 @@ import BackButton from "../../buttons/backbutton";
 import FirstRegisterStage from "./firstregisterstage";
 import SecondRegisterStage from "./secondregisterstage";
 import { HiArrowLeft, HiHome } from "react-icons/hi2";
+import validateFirstStageFromServer from "./validateFirstStageFromServer";
 
 const Register: React.FC = () => {
   const [username, setUsername] = useState<string>("");
@@ -30,8 +31,8 @@ const Register: React.FC = () => {
 
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (!validateFirstStage()) return;
     if (accountType == "seller" && stage === 1) {
+      if (!await validateFirstStageFromServer({email, username, password, confirmPassword, accountType})) return;
       setStage(2);
       return;
     }
@@ -47,30 +48,38 @@ const Register: React.FC = () => {
       // The promise should resolve to a status code, e.g., 200 for success
       // and any other code for failure
       // Note: Adjust the promise handling based on your actual register function implementation
-      toast.promise(registerPromise, {
-        pending: "Kontrollerar dina inloggningsuppgifter", 
-        success: "Registrering lyckades! Du kommer nu att omdirigeras till inloggningssidan.",
-        error: "Något gick tyvärr fel. Försök igen!"
-      }, {
-        position: "top-right",
+      const ok = (await registerPromise).ok;
+      const data = await (await registerPromise).json();
+      if(!ok) {
+        toast.error(data.message, {
+          position: "top-right",
           autoClose: 5000,
           hideProgressBar: true,
           pauseOnHover: false,
           draggable: true,
           theme: "colored",
           transition: Bounce,
-      }) 
-      if(await registerPromise == 200) {
-        navigate("/login")
+        });
+        return;
       } else {
-        navigate("/register")
+        toast.success("Registrering lyckades! Du kommer nu att omdirigeras till inloggningssidan.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          pauseOnHover: false,
+          draggable: true,
+          theme: "colored",
+          transition: Bounce,
+        });
+        navigate("/login");
+        return;
       }
     } catch(e) {
       toast.error("Ett oväntat fel uppstod.")
     }
   };
 
-  const validateFirstStage = (): boolean => {
+  const validateFirstStageClient = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
     if (!email) newErrors.email = "Email är obligatoriskt.";

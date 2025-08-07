@@ -1,6 +1,6 @@
 import INewUser from "./INewUser"
 
-export default async function register (newUser: INewUser): Promise<number | Error> {
+export default async function register (newUser: INewUser): Promise<Response> {
     const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/auth/register`, {
       method: "POST",
       credentials: "include",
@@ -9,8 +9,6 @@ export default async function register (newUser: INewUser): Promise<number | Err
       },
       body: JSON.stringify(newUser)
     })
-    if(response.status == 200) {
-      return 200
-    }
+    return response
     throw new Error("500")
   }

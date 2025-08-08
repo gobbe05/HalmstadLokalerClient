@@ -9,7 +9,6 @@ import { useEffect, useState } from "react"
 import { HiArrowLeft } from "react-icons/hi2"
 import ImagesContainer from "./imagescontainer"
 import ProfileCard from "../profile/profile"
-import { FaHeart, FaRegHeart, FaRegUserCircle } from "react-icons/fa"
 import LikeButton from "../../buttons/likebutton"
 
 export default function Lokal() {
@@ -17,7 +16,6 @@ export default function Lokal() {
     const navigate = useNavigate()
     const [imageLoading, setImageLoading] = useState<boolean>(true)
     const [imageError, setImageError] = useState<boolean>(false)
-    const [openProfile, setOpenProfile] = useState<boolean>(false)
 
     const {isAuthenticated, type} = useAuth()
 
@@ -50,7 +48,6 @@ export default function Lokal() {
         setImageLoading(true)
         setImageError(false)
         addToPreviousLookedAt()
-        setOpenProfile(false)
     }, [data?.office])
 
     if (isPending || !id) return <Loading />;
@@ -58,82 +55,87 @@ export default function Lokal() {
     if (!data?.office) return <div>Office details not found.</div>;
 
     return (
-        <div className="flex-grow" key={id}>
-            <div className="flex flex-col gap-16 md:w-2/3 mx-auto text-gray-700 bg-white xl:p-8 md:mt-8 md:rounded-lg shadow-lg">  
-                <div className={`w-full rounded bg-white py-8 p-8 xl:px-12`}>
-                    {/* Header Section */}
-                    <div className="py-4 flex justify-between items-center">
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="flex gap-1 hover:gap-2 items-center hover:px-4 py-2 rounded-full hover:bg-gray-700 hover:text-white transition-all"
-                        >
-                            <HiArrowLeft size={20} />
-                            <span className="text-sm font-medium">Gå tillbaks</span>
-                        </button>
-                    </div>
+        <div className="bg-white flex-grow" key={id}>
+            <div className="max-w-3xl mx-auto text-gray-700 xl:py-8 md:rounded-lg">  
+                <div className={`w-full rounded bg-white`}> 
                     {/* Main */}
-                    <div className="mt-8 grid grid-cols-3 gap-8">
-                        <div className="col-span-3 lg:col-span-2 space-y-6">
-                            <div>
-                                <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
-                                <div className="flex gap-2 mt-2">
-                                    <button onClick={() => setOpenProfile(true)} className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md shadow-md transition-colors duration-300"><FaRegUserCircle size={16}/><span className="hidden sm:block">Visa säljare</span></button>
-                                    {/* Contact Button */}
-                                    {isAuthenticated && type === "buyer" && (
-                                    <ContactButton broker={data.office.owner} />
-                                    )}
-                                    {/* Like Button */}
-                                    {isAuthenticated && type === "buyer" && (
-                                    <LikeButton id={data.office._id} longButton={true}/>)}
-                                </div> 
-                            </div> 
-                            {/* Office Info */}
+                    <div>
+                        <div className="w-full">
+                            <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
+                            {/* 
+                            <div className="flex gap-2 mt-2">
+                                {isAuthenticated && type === "buyer" && (
+                                <ContactButton broker={data.office.owner} />
+                                )}
+                                {isAuthenticated && type === "buyer" && (
+                                <LikeButton id={data.office._id} longButton={true}/>)}
+                            </div>
+                            */} 
+                        </div>
+                        {/* Header Section */}
+                        {/*<div className="flex justify-between items-center">
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="flex gap-1 hover:gap-2 items-center hover:px-4 py-2 rounded-full hover:bg-gray-700 hover:text-white transition-all"
+                            >
+                                <HiArrowLeft size={20} />
+                                <span className="text-sm font-medium">Gå tillbaks</span>
+                            </button>
+                        </div>*/}
+
+                        {/* Office Info */}
+                        <div className="flex items-center justify-between mb-4 mt-4">
                             <div>
                                 <h1 className="text-2xl font-semibold">{data.office.name}</h1>
                                 <p className="text-gray-500">{data.office.location}</p>
                             </div>
-                            {/* Size and Price */}
-                            <div className="grid sm:grid-cols-2 gap-8">
-                                <div>
-                                    <h3 className="text-gray-500">Yta</h3>
-                                    <p className="text-lg font-semibold">{data.office.size} m²</p>
-                                </div>
-                                <div>
-                                    <h3 className="text-gray-500">Pris</h3>
-                                    <p className="text-lg font-semibold">{data.office.price} kr/mån</p>
-                                </div>
-                            </div>
-
-                            {/* Description */}
-                            {data.office.description && (
                             <div>
-                                <h3 className="text-lg font-semibold">Beskrivning</h3>
-                                <p className="text-gray-700">{data.office.description}</p>
+                                {isAuthenticated && type === "buyer" && (
+                                <LikeButton id={data.office._id} longButton={true}/>)}
                             </div>
-                            )}
-                            {/* Tags */}
-                            {data.office.tags.length > 0 && (
-                            <div>
-                                <h3 className="text-lg font-semibold">Taggar</h3>
-                                <div className="flex gap-2 flex-wrap mt-2">
-                                {data.office.tags.map((tag: any) => (
-                                    <span
-                                    key={tag}
-                                    className="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                                    >
-                                    {tag}
-                                    </span>
-                                ))}
-                                </div>
-                            </div>
-                            )}
-
-                            
                         </div>
+                        {/* Size and Price */}
+                        <div className="grid sm:grid-cols-2 gap-8">
+                            <div>
+                                <h3 className="text-gray-500">Yta</h3>
+                                <p className="text-lg font-semibold">{data.office.size} m²</p>
+                            </div>
+                            <div>
+                                <h3 className="text-gray-500">Pris</h3>
+                                <p className="text-lg font-semibold">{data.office.price} kr/mån</p>
+                            </div>
+                        </div>
+                        <hr className="border-slate-300 my-8"/>
+                        {/* Description */}
+                        {data.office.description && (
+                        <div>
+                            <h3 className="text-lg font-semibold">Beskrivning</h3>
+                            <p className="text-gray-700">{data.office.description}</p>
+                        </div>
+                        )}
+                        {/* Tags */}
+                        {data.office.tags.length > 0 && (
+                        <div className="my-8">
+                            <h3 className="text-lg font-semibold">Taggar</h3>
+                            <div className="flex gap-2 flex-wrap mt-2">
+                            {data.office.tags.map((tag: any) => (
+                                <span
+                                key={tag}
+                                className="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
+                                >
+                                {tag}
+                                </span>
+                            ))}
+                            </div>
+                        </div>
+                        )}
                     </div>
-                </div> 
+                </div>
+                <hr />
+                <div>
+                    <ProfileCard showOffices={false} id={data.office.owner} />
+                </div>
             </div>
-            {<ProfileCard openProfile={openProfile} setOpenProfile={setOpenProfile} id={data.office.owner} />}
             <OtherOffices seller={data.office.owner} />
         </div>
     )
@@ -151,9 +153,9 @@ const OtherOffices = ({seller}: {seller: string}) => {
     
     if (error || isPending) return <Loading />
     return (
-        <div className="md:w-2/3 mx-auto text-gray-700 bg-white p-8 md:p-16 md:my-32 rounded-lg shadow-lg">
+        <div className="text-gray-700 bg-gray-100 p-8 md:p-16 md:my-32">
             <h1 className="text-2xl font-semibold text-gray-700 text-center mt-16 md:mt-0">Andra lokaler från samma säljare</h1>
-            <div className="py-8 grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
+            <div className="max-w-3xl mx-auto py-8 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
                 {data.offices.length > 0 && data.offices.map((office: IOffice) => (
                     <OfficeCard
                     key={office._id} // Assuming each office has a unique ID

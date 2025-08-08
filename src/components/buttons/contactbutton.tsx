@@ -17,8 +17,6 @@ export default function ContactButton({broker}: Props) {
     const [phone, setPhone] = useState<string>("")
     const [message, setMessage] = useState<string>("")
 
-    const navigate = useNavigate()
-
     const sendFirstMessage = async (event: FormEvent) => {
         event.preventDefault()
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/`, {
@@ -46,8 +44,8 @@ export default function ContactButton({broker}: Props) {
         onClick={() => setOpen(true)}
         className="flex items-center gap-2 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all"
       >
+        <span className="hidden sm:block">Skicka meddelande</span>
         <HiOutlineMail size={18} />
-        <span className="hidden sm:block">Meddelande</span>
       </button>
     </div>
 

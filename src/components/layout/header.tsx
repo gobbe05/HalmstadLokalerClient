@@ -7,7 +7,7 @@ export default function Header () {
     const [open, setOpen] = useState<boolean>(false)
     return (
         <>
-            <div className="flex items-center justify-between bg-white py-4 px-8 shadow-md text-gray-700">
+            <div className="flex items-center justify-between z-10 py-4 px-8 bg-white text-gray-700 shadow-sm">
                 <Logo />
                 <div className="hidden md:block">
                     <Links />

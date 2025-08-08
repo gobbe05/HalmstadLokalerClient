@@ -22,9 +22,9 @@ export default function OfficeCard({office}: {office: IOffice}) {
       </div>
 
       <div className="p-4">
-        <h3 className="text-lg font-semibold underline-offset-2">{office.location}</h3>
+        <h3 className="text-lg font-semibold underline-offset-2">{office.name}</h3>
         <p className="max-h-4 w-full overflow-hidden overflow-ellipsis text-sm font-light mt-1">
-          {office.description}
+          {office.location}
         </p>
 
         <div className="flex mt-4">

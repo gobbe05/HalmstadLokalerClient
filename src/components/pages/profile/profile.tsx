@@ -35,7 +35,7 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
 
   return (
     <div>
-        <div ref={boxRef} className="bg-white max-w-2xl overflow-hidden w-full mt-8">
+        <div ref={boxRef} className="bg-white overflow-hidden mt-8">
             <div className="flex">
                 <div className="flex flex-col items-center">
                     <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-full border border-gray-300" />

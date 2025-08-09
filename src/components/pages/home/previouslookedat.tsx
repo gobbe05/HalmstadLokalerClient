@@ -13,7 +13,7 @@ export default function PreviousLookedAt() {
     const storedHistory = localStorage.getItem(historyKey);
     const officeIds: {_id: string}[] = storedHistory ? JSON.parse(storedHistory) : [];
     if(officeIds.length == 0) {
-      const respone = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?limit=8`)
+      const respone = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office?limit=4`)
       const data = await respone.json()
       setPreviousOffices(data.offices)
       setNoPreviousOffices(true)
@@ -32,18 +32,18 @@ export default function PreviousLookedAt() {
   }, [])
 
   return (
-      <div className="w-11/12 xl:w-1/2 mx-auto py-16">
-        <div className="flex flex-col items-center">
+      <div className="max-w-5xl mx-auto py-16 pb-64">
+        <div className="flex flex-col">
           {/* Section Heading */}
-          <h1 className="text-3xl font-semibold text-gray-800 text-center">
+          <h1 className="text-4xl font-bold text-primary">
             {noPreviouosOffices ? "Populära lokaler i Halmstad" : "Senast tittade på lokaler"} 
           </h1>
-          <p className="mt-4 text-gray-600 text-center">
-            {noPreviouosOffices ? "Här är några av de mest populära lokaler i Halmstad" : "Välkommen tillbaks, här är de senaste lokaler du tittat på"} 
+          <p className="font-semibold mt-1 text-neutral">
+            {noPreviouosOffices ? "Här är några av de mest populära lokalerna i Halmstad" : "Här kommer de senaste lokaler du tittat på..."} 
           </p>
 
           {/* Grid Section */}
-          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
             {previousOffices.map((office: IOffice) => (
               <OfficeCard
                 key={office._id} // Assuming each office has a unique ID
@@ -55,7 +55,7 @@ export default function PreviousLookedAt() {
           {/* CTA Button */}
           <Link 
             to="/lediga-lokaler" 
-            className="mt-12 px-6 py-3 rounded-full border border-gray-700 text-gray-700 hover:bg-gray-700 hover:text-white transition-all duration-300"
+            className="mt-12 mr-auto px-6 py-3 rounded-md border bg-primary text-white hover:bg-primary-dark hover:text-white transition-all duration-300"
           >
             Visa alla lediga lokaler
           </Link>

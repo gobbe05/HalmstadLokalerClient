@@ -10,6 +10,7 @@ import CategoryButton from "./categorybutton"
 import { useLocation } from "react-router-dom"
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Filter } from "@mui/icons-material"
+import { HiOutlineSearch } from "react-icons/hi"
 
 
 const LedigaLokaler = () => {
@@ -93,68 +94,67 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
-        <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 bg-white xl:p-16 sm:p-8 xl:mt-16 xl:mb-32 xl:rounded-lg shadow-lg">
-            {/* Heading */}
-            <h1 className="text-2xl mt-8 sm:mb-8 xl:my-0 font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
+        <div className="bg-white">
+            <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 xl:p-16 sm:p-8 xl:mb-32">
+                {/* Heading */}
+                <h1 className="text-2xl mt-8 sm:mb-8 xl:my-0 font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
 
-            {/* Search Form */}
-            <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
-            <div className="grid xl:grid-cols-4 gap-8 mt-8">
-                
-
-                {/* Results */}
-                <div className="xl:col-span-3">
-                    <div className="grid sm:gap-8">
-                        {/* Save Search */}
-                        <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
-                            <SaveSearchButton submittedSearch={submittedSearch} />
-                        </div>
-
-                        {/* No Results */}
-                        {!data.length && (
-                            <div className="text-center text-gray-700 py-16">
-                                <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
-                                <p className="text-lg">Testa med att utöka din sökning</p>
+                {/* Search Form */}
+                <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
+                <div className="grid xl:grid-cols-4 gap-4 mt-8">
+                    {/* Results */}
+                    <div className="xl:col-span-3">
+                        <div className="grid sm:gap-4">
+                            {/* Save Search */}
+                            <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
+                                <SaveSearchButton submittedSearch={submittedSearch} />
                             </div>
-                        )}
 
-                        {/* Results List */}
-                        {data.map((office: IOffice) => (
-                            <OfficeCardLong office={office} key={office._id} />
-                        ))}
+                            {/* No Results */}
+                            {!data.length && (
+                                <div className="text-center text-gray-700 py-16">
+                                    <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
+                                    <p className="text-lg">Testa med att utöka din sökning</p>
+                                </div>
+                            )}
 
-                        {/* Pagination */}
-                        {!!data.length && (
-                            <Pagination
-                                count={pageCount}
-                                page={page}
-                                onChange={(_, page) => { setPage(page) }}
-                                className="mx-auto xl:mx-0 mt-8"
-                                shape="rounded"
-                            />
-                        )}
+                            {/* Results List */}
+                            {data.map((office: IOffice) => (
+                                <OfficeCardLong office={office} key={office._id} />
+                            ))}
+
+                            {/* Pagination */}
+                            {!!data.length && (
+                                <Pagination
+                                    count={pageCount}
+                                    page={page}
+                                    onChange={(_, page) => { setPage(page) }}
+                                    className="mx-auto xl:mx-0 mt-8"
+                                    shape="rounded"
+                                />
+                            )}
+                        </div>
                     </div>
-                </div>
-{/* Filters for mobile screens */}
-                <Accordion style={{borderRadius:10, boxShadow: "none", backgroundColor: "rgb(255 255 255)", borderWidth: 1}} className="mx-4 sm:mx-0 xl:hidden">
-                    <AccordionSummary
-                        expandIcon={<ArrowDownwardIcon />}
-                        aria-controls="panel1-content"
-                        id="panel1-header"
-                    >
-                        <h3>Filtrera</h3>
-                    </AccordionSummary>
-                    <AccordionDetails>
+                    {/* Filters for mobile screens */}
+                    <Accordion style={{borderRadius:10, boxShadow: "none", backgroundColor: "rgb(255 255 255)", borderWidth: 1}} className="mx-4 sm:mx-0 xl:hidden">
+                        <AccordionSummary
+                            expandIcon={<ArrowDownwardIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            <h3>Filtrera</h3>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+                        </AccordionDetails>
+                    </Accordion>
+                    {/* Filters for big screens */}
+                    <div className="hidden xl:block">
                         <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
-                    </AccordionDetails>
-                </Accordion>
-                {/* Filters for big screens */}
-                <div className="hidden xl:block">
-                    <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+                    </div>
                 </div>
             </div>
         </div>
-
     )
 }
 interface FiltersProps {
@@ -169,9 +169,9 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
     return (
         <div className="col-span-1">
             <div>
-                <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 gap-4">
                     {/* Price Filter */}
-                    <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                    <div className="p-4 bg-gray-50 border">
                         <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
                         <div className="mt-3 flex">
                             <input
@@ -191,7 +191,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                     </div>
 
                     {/* Size Filter */}
-                    <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                    <div className="p-4 bg-gray-50 border">
                         <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
                         <div className="mt-3 flex">
                             <input
@@ -211,7 +211,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                     </div>
 
                     {/* Type Filter */}
-                    <div className="p-4 bg-gray-50 border rounded-lg shadow-sm">
+                    <div className="p-4 bg-gray-50 border">
                         <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
                         <div className="flex flex-col gap-2 mt-4">
                             {officeTypes.map((type) => (
@@ -267,7 +267,7 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
                         type="button" 
                         className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md"
                     >
-                        Sök
+                        <HiOutlineSearch size={20} />
                     </button>
                 </div>
             </form> 

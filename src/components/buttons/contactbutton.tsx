@@ -44,7 +44,7 @@ export default function ContactButton({broker}: Props) {
         onClick={() => setOpen(true)}
         className="flex items-center gap-2 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all"
       >
-        <span className="hidden sm:block">Skicka meddelande</span>
+        <span className="text-nowrap hidden sm:block">Skicka meddelande</span>
         <HiOutlineMail size={18} />
       </button>
     </div>

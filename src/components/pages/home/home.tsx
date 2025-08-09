@@ -7,22 +7,23 @@ import PreviousLookedAt from "./previouslookedat";
 import { useNavigate } from "react-router-dom";
 import Multiselect from "multiselect-react-dropdown";
 import officetypes from "../../../utils/officeTypes";
+import { HiOutlineSearch } from "react-icons/hi";
 
 const Home: React.FC = () => {
   return (
     <>
-      <div className="w-full flex flex-col text-gray-700">
+      <div className="w-full flex flex-col">
         <HomeHero />
-        <div className="w-full bg-white">
-          <PreviousLookedAt />
-        </div>
-        <div className="bg-slate-600 text-white">
+       <div>
           <TextSection />
         </div>
-        <ListToday />
-        <div className="bg-slate-600 text-white py-32 px-4 sm:px-8 lg:px-16">
+        <div className="w-full bg-white">
+          <PreviousLookedAt />
+        </div> 
+        <div className="bg-primary text-white py-32">
           <BoxesSection />   
         </div>
+        <ListToday />
       </div>
     </>
   )
@@ -55,16 +56,16 @@ const HomeHero = () => {
 
   return (
     <div 
-      className="flex justify-center items-center gap-16 bg-gray-400 bg-blend-multiply bg-cover bg-center py-48 rounded"
+      className="flex justify-center items-center gap-16 bg-gray-400 bg-blend-multiply bg-cover bg-center py-32 rounded"
       style={{
         backgroundImage: "url('https://www.halmstad.se/images/18.11d2c7de185c4e35fb5f995/1715169490732/Stadsvy-med-biblioteket-dronarvy.webp')",
       }}
     >
-      <div className="flex flex-col items-start bg-white bg-opacity-90 md:p-16 p-8 rounded shadow-lg max-w-[720px] md:m-0 m-4">
-        <h1 className="text-3xl font-semibold text-gray-800">
+      <div className="flex flex-col items-start bg-primary bg-opacity-90 md:p-16 p-8 rounded shadow-lg max-w-5xl w-full md:m-0 m-4">
+        <h1 className="text-4xl font-bold text-white">
           Hitta en lokal i Halmstad som passar dig
         </h1>
-        <p className="mt-2 text-gray-700">
+        <p className="mt-1 text-white">
           Vi hjälper dig på vägen
         </p>
 
@@ -94,12 +95,12 @@ const HomeHero = () => {
               type="search" 
               id="default-search"
               onChange={(event) => {setSearch(event.target.value)}}
-              className="w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none" 
+              className="w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-secondary focus:border-secondary outline-none" 
               placeholder="Sök efter arbetsplatser..." 
               required 
             />
           </div>
-          <div className="grid grid-cols-2 gap-2 mt-2">
+          <div className="grid grid-cols-2 gap-4 mt-4">
               <Multiselect className="bg-gray-50 border-gray-300 text-gray-500 text-sm rounded-lg startpage-multiselect" 
                 options={officetypes}
                 selectedValues={types}
@@ -121,9 +122,10 @@ const HomeHero = () => {
               />
               <button 
               type="submit" 
-              className="bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all"
+              className="flex items-center justify-center bg-accent hover:text-accent-dark text-white font-medium rounded-full text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all"
             >
-              Sök
+              <HiOutlineSearch className="inline mr-2" size={18}/>
+              <span className="text-lg">Sök</span>
             </button>
           </div>
         </form>

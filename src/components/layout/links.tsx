@@ -19,7 +19,7 @@ export default function Links() {
                 {type != "seller" && <HeaderLink text="Sparade lokaler" link="/sparade-lokaler" Icon={HiOutlineHeart} />} 
                 {type != "buyer" ? <HeaderLink link="/inkorg" text="Inkorg" Icon={HiOutlineInbox} /> : <HeaderLink link="/skickade" text="Skickade" Icon={HiOutlineChatBubbleLeftEllipsis} />}
                 {type != "buyer" && <HeaderLink link="/min-sida" text="Min Sida" Icon={HiOutlineUserCircle} /> }
-                <button className="flex md:flex-col gap-2 md:gap-0 hover:text-red-500 transition-colors duration-300" onClick={logout}><HiOutlineLogout className="md:mx-auto" size={24}/><p className="text-sm">Logout</p></button>
+                <button className="flex md:flex-col gap-2 md:gap-0 hover:text-accent transition-colors duration-300" onClick={logout}><HiOutlineLogout className="md:mx-auto" size={24}/><p className="text-sm">Logout</p></button>
             </> : 
             <HeaderLink link="/login" text="Logga in" Icon={HiOutlineUserCircle }/>}
             
@@ -36,6 +36,6 @@ type HeaderLinkProps = {
 
 const HeaderLink = ({text, link, Icon}: HeaderLinkProps) => {
     return (
-        <Link to={link} className="select-none flex md:flex-col gap-2 md:gap-0 items-center text-gray-700 hover:text-blue-500 transition-colors duration-300"><Icon className="md:mx-auto" size={24}/><p className="text-sm">{text}</p></Link>
+        <Link to={link} className="select-none flex md:flex-col gap-2 md:gap-0 items-center text-gray-700 hover:text-secondary transition-colors duration-300"><Icon className="md:mx-auto" size={24}/><p className="text-sm">{text}</p></Link>
     )
 }

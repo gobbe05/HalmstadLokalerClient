@@ -28,20 +28,19 @@ export default function Lokal() {
 
     const addToPreviousLookedAt = () => {
         const historyKey = 'visitedOffices';
-         // Retrieve the existing visited offices from localStorage, or default to an empty array.
         const storedHistory = localStorage.getItem(historyKey);
-        const visitedOffices: {_id: string}[] = storedHistory ? JSON.parse(storedHistory) : []; 
-        
-       
-        // Check if the current office is already in the history.
-        const alreadyVisited = visitedOffices.some((item) => item._id === id); 
+        let visitedOffices: {_id: string}[] = storedHistory ? JSON.parse(storedHistory) : [];
 
-        // Check if the current office is already in the history
-        if (!visitedOffices.find(item => item._id === id)) {
-        // Add the new office. You might want to limit the history to a certain size.
-        const newHistory = [...visitedOffices, { _id: id }];
-        localStorage.setItem(historyKey, JSON.stringify(newHistory));
-        }
+        // Remove the current office if it already exists
+        visitedOffices = visitedOffices.filter((item) => item._id !== id);
+
+        // Add the current office to the front
+        visitedOffices.unshift({ _id: id! });
+
+        // Keep only the latest 4
+        visitedOffices = visitedOffices.slice(0, 4);
+
+        localStorage.setItem(historyKey, JSON.stringify(visitedOffices));
     }
 
     useEffect(() => {
@@ -56,7 +55,7 @@ export default function Lokal() {
 
     return (
         <div className="bg-white flex-grow" key={id}>
-            <div className="max-w-3xl mx-auto text-gray-700 xl:py-8 md:rounded-lg">  
+            <div className="max-w-3xl mx-auto text-gray-700 xl:py-16 md:rounded-lg">  
                 <div className={`w-full rounded bg-white`}> 
                     {/* Main */}
                     <div>

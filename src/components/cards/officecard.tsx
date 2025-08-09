@@ -5,7 +5,7 @@ import { MdOutlineImageNotSupported } from "react-icons/md";
 export default function OfficeCard({office}: {office: IOffice}) {
   
   return (
-    <Link to={"/lokal/"+office._id} className="w-full bg-white text-gray-700 border shadow-md hover:shadow-md rounded-lg overflow-hidden transition-all transform group border-gray-200 hover:border-gray-400 hover:bg-gray-50">
+    <Link to={"/lokal/"+office._id} className="w-full bg-white text-gray-700 border border-gray-100 rounded-sm overflow-hidden transition-all transform group  hover:bg-gray-100">
       
       <div className="h-[128px] text-white bg-gray-700">
         {office.thumbnails[0] ?
@@ -23,7 +23,7 @@ export default function OfficeCard({office}: {office: IOffice}) {
 
       <div className="p-4">
         <h3 className="text-lg font-semibold underline-offset-2">{office.name}</h3>
-        <p className="max-h-4 w-full overflow-hidden overflow-ellipsis text-sm font-light mt-1">
+        <p className="max-h-4 w-full overflow-hidden overflow-ellipsis text-sm font-light">
           {office.location}
         </p>
 

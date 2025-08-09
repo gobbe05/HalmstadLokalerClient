@@ -43,7 +43,7 @@ export default function ImagesContainer({ images }: ImagesContainerProps) {
     return (
         <div>
             {/* Carousel */}
-            <div className="relative flex items-center justify-center min-h-[128px] max-h-[128px] md:min-h-[256px] md:max-h-[256px] bg-gray-700">
+            <div className="relative flex items-center justify-center min-h-[128px] max-h-[128px] md:min-h-[256px] md:max-h-[256px] bg-gray-100">
                 <button
                     className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-60 text-white p-2 rounded-full z-10 hover:bg-opacity-90"
                     onClick={handlePrev}

@@ -3,6 +3,8 @@ import OfficeCardLong from '../../cards/officecardlong';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import ContactButton from '../../buttons/contactbutton';
 import { useAuth } from '../../../context/Auth/AuthContext';
+import { IoIosCall } from 'react-icons/io';
+import { IoBusinessOutline, IoCallOutline, IoMailOutline } from 'react-icons/io5';
 
 const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
     const [limit, setLimit] = useState<number | null>(3)
@@ -35,8 +37,8 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
 
   return (
     <div>
-        <div ref={boxRef} className="bg-white overflow-hidden mt-8">
-            <div className="flex">
+        <div ref={boxRef} className="overflow-hidden mt-8">
+            <div className="flex flex-col items-start">
                 <div className="flex flex-col items-center">
                     <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-full border border-gray-300" />
                     <h2 className="mt-2 text-2xl font-bold text-gray-800">{profileData && profileData.user.firstName + profileData.user.lastName}</h2>
@@ -46,13 +48,11 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
                     )}
                 </div> 
 
-                {/*<div className="text-gray-700 mb-6">
-                    <p><strong>Email:</strong> {profileData && profileData.user.email}</p>
-                    <p><strong>Telefon:</strong> {profileData && profileData.user.phoneNumber}</p>
-                    <p><strong>Företag:</strong> {profileData && profileData.user.companyName}</p>
-                    <p><strong>Org. Nr:</strong> {profileData && profileData.user.orgNr}</p>
-                    <p><strong>Fakturaadress:</strong> {profileData && profileData.user.invoiceAddress}</p>
-                </div>*/} 
+                <div className="flex flex-col gap-1 text-gray-700 mt-8">
+                    <p className="flex items-center gap-2"><IoMailOutline /> {profileData && profileData.user.email}</p>
+                    <p className="flex items-center gap-2"><IoCallOutline /> {profileData && profileData.user.phoneNumber}</p>
+                    <p className="flex items-center gap-2"><IoBusinessOutline /> {profileData && profileData.user.companyName}</p>
+                </div>
 
                 <div className={`${!officesData?.offices?.length || !showOffices && "hidden"} w-full overflow-scroll max-h-[40dvh]`}>
                     <h3 className="text-lg font-semibold text-gray-800 mb-2">Offices</h3>

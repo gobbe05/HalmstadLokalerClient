@@ -32,24 +32,24 @@ const Login: React.FC = () => {
           </div>
           <Logo />
 
-          <h2 className="text-2xl font-semibold text-gray-700 mt-8">Logga in</h2>
+          <h2 className="text-2xl font-semibold text-neutral mt-8">Logga in</h2>
 
           <div className="flex flex-col gap-6 mt-6">
             <div className="w-full">
-              <p className="font-semibold text-gray-500">Användarnamn / E-post</p>
+              <p className="font-semibold text-neutral">Användarnamn / E-post</p>
               <input
                 onChange={(e) => setUsername(e.target.value)}
-                className="mt-1 w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
+                className="mt-1 w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-primary p-3 transition-all duration-300"
                 placeholder="Användarnamn..."
                 type="text"
               />
             </div> 
 
             <div className="w-full">
-              <p className="font-semibold text-gray-500">Lösenord</p>
+              <p className="font-semibold text-neutral">Lösenord</p>
               <input
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-blue-500 p-3 transition-all duration-300"
+                className="w-full text-gray-600 font-semibold border-b-2 border-gray-300 bg-gray-100 outline-none focus:border-primary p-3 transition-all duration-300"
                 placeholder="Lösenord..."
                 type="password"
               />
@@ -57,7 +57,7 @@ const Login: React.FC = () => {
 
             <button
               type="submit"
-              className="p-3 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
+              className="p-3 bg-primary hover:bg-primary-dark hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
             >
               Logga in
             </button>
@@ -65,7 +65,7 @@ const Login: React.FC = () => {
 
           <p className="mt-6 text-center text-gray-600">
             Har du inget konto?{' '}
-            <Link className="text-blue-500 underline underline-offset-2" to="/register">
+            <Link className="text-accent underline underline-offset-2" to="/register">
               Skapa ett nytt!
             </Link>
           </p>

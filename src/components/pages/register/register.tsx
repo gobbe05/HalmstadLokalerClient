@@ -117,14 +117,14 @@ const Register: React.FC = () => {
         <div className="mb-6 flex gap-2">
           {stage === 2 &&
           <div className="flex">
-            <button onClick={() => setStage(1)} className="flex gap-2 items-center px-4 py-2 rounded-full text-gray-700 hover:bg-gray-700 hover:text-white transition-all"><HiArrowLeft size={16} /> <span className="text-sm">Backa</span></button>
+            <button onClick={() => setStage(1)} className="flex gap-2 items-center px-4 py-2 rounded-full text-neutral hover:bg-neutral hover:text-white transition-all"><HiArrowLeft size={16} /> <span className="text-sm">Backa</span></button>
           </div>} 
           <div className="flex">
-            <Link to={"/"} className="flex gap-2 items-center px-4 py-2 rounded-full text-gray-700 hover:bg-gray-700 hover:text-white transition-all"><span className="text-sm">Hem</span><HiHome size={16} /></Link>
+            <Link to={"/"} className="flex gap-2 items-center px-4 py-2 rounded-full text-neutral hover:bg-neutral hover:text-white transition-all"><span className="text-sm">Hem</span><HiHome size={16} /></Link>
           </div> 
         </div>
         <Logo />
-        <h2 className="text-xl font-semibold text-gray-700 mt-6">Registrera ett nytt konto</h2>
+        <h2 className="text-xl font-semibold text-neutral mt-6">Registrera ett nytt konto</h2>
         <p className="text-sm">Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
 
         <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-8">
@@ -152,16 +152,16 @@ const Register: React.FC = () => {
         
         <button
           type="submit"
-          className="p-3 bg-blue-500 hover:bg-blue-600 hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
+          className="p-3 bg-primary hover:bg-primary-dark hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
         >
           Registrera dig
         </button>
         </form>
  
 
-        <p className="mt-4 text-center text-gray-600">
+        <p className="mt-4 text-center text-neutral">
           Har du redan ett konto?{' '}
-          <Link className="text-blue-500 underline underline-offset-2" to="/login">
+          <Link className="text-accent underline underline-offset-2" to="/login">
             Logga in!
           </Link>
         </p>

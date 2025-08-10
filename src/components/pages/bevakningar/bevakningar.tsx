@@ -94,7 +94,7 @@ export default function Bevakningar() {
                     activeSavedSearch={activeSavedSearch}
                     setActiveSavedSearch={setActiveSavedSearch}
                 />
-                <div className="bg-white lg:col-span-2 p-8 rounded-md shadow">
+                <div className="bg-white lg:col-span-2 p-8 rounded-md border border-gray-200">
                     <h1 className="text-lg font-semibold mb-4">Resultat för sökning "{activeSavedSearch}"</h1>
                     <div className="flex gap-2 mb-4">
                         <Link
@@ -133,7 +133,7 @@ const SavedSearches = ({
     setActiveSavedSearch: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
     return (
-        <div className="bg-white col-span-1 p-8 rounded-md shadow">
+        <div className="bg-white col-span-1 p-8 rounded-md border border-gray-200">
             <h2 className="text-neutral text-lg font-semibold mb-4">Dina sparade sökningar</h2>
             <div className="flex flex-col gap-2">
                 {savedSearches.map((search: { _id: string; searchString: string }) => (

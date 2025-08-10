@@ -95,10 +95,10 @@ const LedigaLokaler = () => {
     if(error || isPending) return <Loading />
     return (
         <div className="bg-white">
-            <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 xl:p-16 sm:p-8 xl:mb-32">
+            <div className="flex flex-col w-full xl:w-2/3 mx-auto text-neutral xl:p-16 sm:p-8 xl:mb-32">
                 {/* Heading */}
-                <h1 className="text-2xl mt-8 sm:mb-8 xl:my-0 font-bold text-center text-gray-700">Hitta en lokal som passar dig</h1>
-
+                <h1 className="text-4xl mt-8 sm:mb-8 xl:my-0 font-bold text-primary">Hitta en lokal som passar dig</h1>
+                <p className="font-semibold mt-1">Sök bland lokaler i Halmstad...</p>
                 {/* Search Form */}
                 <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
                 <div className="grid xl:grid-cols-4 gap-4 mt-8">
@@ -112,7 +112,7 @@ const LedigaLokaler = () => {
 
                             {/* No Results */}
                             {!data.length && (
-                                <div className="text-center text-gray-700 py-16">
+                                <div className="text-center text-neutral py-16">
                                     <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
                                     <p className="text-lg">Testa med att utöka din sökning</p>
                                 </div>
@@ -172,19 +172,19 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                 <div className="grid grid-cols-1 gap-4">
                     {/* Price Filter */}
                     <div className="p-4 bg-gray-50 border">
-                        <label htmlFor="size" className="block text-sm font-medium text-gray-700">Pris (kr/månad)</label>
+                        <label htmlFor="size" className="block text-sm font-medium text-neutral">Pris (kr/månad)</label>
                         <div className="mt-3 flex">
                             <input
                                 onChange={(event) => { setPriceMin(+event.target.value) }} 
                                 type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                className="w-1/2 px-4 py-2 text-sm text-neutral border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
                                 placeholder="Min"
                             />
                             <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
                             <input 
                                 onChange={(event) => { setPriceMax(+event.target.value) }}
                                 type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                className="w-1/2 px-4 py-2 text-sm text-neutral border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
                                 placeholder="Max"
                             />
                         </div>
@@ -197,14 +197,14 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                             <input
                                 onChange={(event) => { setSizeMin(+event.target.value) }} 
                                 type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
                                 placeholder="Min"
                             />
                             <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
                             <input 
                                 onChange={(event) => { setSizeMax(+event.target.value) }}
                                 type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
                                 placeholder="Max"
                             />
                         </div>
@@ -238,7 +238,7 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <svg 
-                            className="w-5 h-5 text-gray-500" 
+                            className="w-5 h-5 text-primary" 
                             aria-hidden="true" 
                             xmlns="http://www.w3.org/2000/svg" 
                             fill="none" 
@@ -257,7 +257,7 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
                         type="search" 
                         id="default-search" 
                         value={search || ""}
-                        className="block w-full p-4 pl-12 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 outline-none shadow-sm" 
+                        className="block w-full p-4 pl-12 text-sm text-neutral border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none shadow-sm" 
                         placeholder="Sök efter arbetsplatser..."
                         onChange={(e) => setSearch(e.target.value)}
                         required 
@@ -265,7 +265,7 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
                     <button 
                         onClick={(e) => handleSearch(e)} 
                         type="button" 
-                        className="absolute right-2.5 bottom-2.5 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 shadow-md"
+                        className="absolute right-2.5 bottom-2.5 bg-primary hover:bg-primary-dark text-white font-medium rounded-md text-sm px-4 py-2 shadow-md transition-all"
                     >
                         <HiOutlineSearch size={20} />
                     </button>

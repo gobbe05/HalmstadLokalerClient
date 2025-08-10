@@ -61,7 +61,7 @@ const HomeHero = () => {
         backgroundImage: "url('https://www.halmstad.se/images/18.11d2c7de185c4e35fb5f995/1715169490732/Stadsvy-med-biblioteket-dronarvy.webp')",
       }}
     >
-      <div className="flex flex-col items-start bg-primary bg-opacity-90 md:p-16 p-8 rounded shadow-lg max-w-5xl w-full md:m-0 m-4">
+      <div className="flex flex-col items-start bg-primary md:p-16 p-8 rounded-md shadow-lg max-w-5xl w-full md:m-0 m-4">
         <h1 className="text-4xl font-bold text-white">
           Hitta en lokal i Halmstad som passar dig
         </h1>

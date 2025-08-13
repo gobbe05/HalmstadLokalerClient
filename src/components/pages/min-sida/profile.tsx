@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { AiOutlineCheck, AiOutlineLoading3Quarters } from "react-icons/ai";
+import { IoBusinessOutline, IoCallOutline, IoIdCardOutline, IoLocationOutline, IoMailOutline, IoPinOutline } from "react-icons/io5";
 import { RxCross2 } from "react-icons/rx";
 
 
@@ -18,22 +19,22 @@ export default function MyProfile({id}: {id: string}) {
     })
     return (
         <>
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-            <div className="flex flex-col items-center mb-6">
-                <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-full border border-gray-300" />
-                <h2 className="text-2xl font-bold text-gray-800">{profileData && profileData.user.firstName + profileData.user.lastName}</h2>
-                <p className="text-sm text-gray-500 mb-10">{profileData && "@"+profileData.user.username}</p>
+        <div className="text-neutral bg-white border border-gray-200 rounded-lg p-8 mb-4">
+            <div className="flex flex-col mb-6">
+                <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-lg" />
+                <h2 className="text-2xl font-bold text-gray-800 mt-2">{profileData && profileData.user.firstName + profileData.user.lastName}</h2>
+                <p className="text-sm text-gray-500">{profileData && "@"+profileData.user.username}</p>
 
-                <div className="text-gray-700 mb-6 mr-auto">
-                    <p><strong>Email:</strong> {profileData && profileData.user.email}</p>
-                    <p><strong>Företag:</strong> {profileData && profileData.user.companyName}</p>
-                    <p><strong>Telefon:</strong> {profileData && profileData.user.phoneNumber}</p>
-                    <p><strong>Org. Nr:</strong> {profileData && profileData.user.orgNr}</p>
-                    <p><strong>Fakturaadress:</strong> {profileData && profileData.user.invoiceAddress}</p>
+                <div className="grid gap-1 text-neutral mt-4 mr-auto">
+                    <p className="flex items-center gap-2"><IoMailOutline />{profileData && profileData.user.email ? profileData.user.email : <p>Ingen data hittades</p>}</p>
+                    <p className="flex items-center gap-2"><IoCallOutline />{profileData && profileData.user.phoneNumber ? profileData.user.phoneNumber : <p>Ingen data hittades</p>}</p>
+                    <p className="flex items-center gap-2"><IoBusinessOutline />{profileData && profileData.user.companyName ? profileData.user.companyName : <p>Ingen data hittades</p>}</p>
+                    <p className="flex items-center gap-2"><IoIdCardOutline />{profileData && profileData.user.orgNr ? profileData.user.orgNr : <p>Ingen data hittades</p>}</p>
+                    <p className="flex items-center gap-2"><IoPinOutline />{profileData && profileData.user.invoiceAddress ? profileData.user.invoiceAddress : <p>Ingen data hittades</p>}</p>
                 </div>
             </div>
             <p className="text-gray-600 mb-2">Hantera din profilinformation och inställningar.</p>
-            <button onClick={() => setOpenEditProfile(true)} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+            <button onClick={() => setOpenEditProfile(true)} className="bg-primary hover:bg-primary-dark text-white px-4 py-2 rounded-md transition-colors mt-1">
                 Redigera Profil
             </button>
         </div>

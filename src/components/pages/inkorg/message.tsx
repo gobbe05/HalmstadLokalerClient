@@ -33,7 +33,7 @@ export default function Message({ passedMessage, activeMessageId, setActiveMessa
        <>
             <div
                 onClick={() => setActiveMessageId(passedMessage._id)}
-                className={`flex items-center justify-between p-4 ${activeMessageId == passedMessage._id ? "bg-blue-400 text-white" : "bg-gray-50 hover:bg-gray-100"} rounded-lg transition cursor-pointer`}
+                className={`flex items-center justify-between p-4 ${activeMessageId == passedMessage._id ? "bg-primary text-white" : "bg-gray-50 hover:bg-gray-100"} rounded-md transition cursor-pointer`}
             >
                 {/* Message Preview */}
                 <div className="w-full">

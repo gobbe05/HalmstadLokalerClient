@@ -4,7 +4,7 @@ const SavedSearch = ({search, active, setActiveSavedSearch}: {search: {searchStr
     const queryClient = useQueryClient() 
        
     return (
-        <div onClick={() => setActiveSavedSearch(search.searchString)} className={`select-none cursor-pointer w-full p-4 my-2 rounded ${active ? "bg-blue-500 text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all`}>
+        <div onClick={() => setActiveSavedSearch(search.searchString)} className={`select-none cursor-pointer w-full p-4 rounded ${active ? "bg-primary text-white" : "bg-gray-100 hover:bg-gray-200"} transition-all`}>
             <p>{search.searchString}</p>
         </div>
     )

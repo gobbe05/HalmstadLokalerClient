@@ -24,11 +24,14 @@ export default function AllaKontor() {
     if(isPending) return <Loading />
     if(error) return <FiveHundred />
     return (
-        <div className="w-full md:w-2/3 mx-auto md:my-16 p-16 rounded bg-white">
-            <BackButton link="/min-sida" />
-            <h1 className="text-2xl font-semibold text-gray-700 mt-2">Alla kontor</h1>
-            <div className="flex flex-col gap-4 mt-8">
-                {data.offices.map((office: IOffice) => <MyPageOfficeCard office={office} />)}
+        <div className="w-full mx-auto p-16 rounded bg-white">
+            <div className="max-w-6xl mx-auto">
+                <BackButton link="/min-sida" />
+                <h1 className="text-4xl font-semibold text-primary mt-2">Alla kontor</h1>
+                <p className="text-neutral text-lg">Hantera alla dina annonserade lokaler...</p>
+                <div className="flex flex-col gap-4 mt-8">
+                    {data.offices.map((office: IOffice) => <MyPageOfficeCard office={office} />)}
+                </div>
             </div>
         </div>
     )

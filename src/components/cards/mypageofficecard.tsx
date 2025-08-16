@@ -1,14 +1,14 @@
-import { FaEllipsisV, FaRegEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt, FaExternalLinkAlt } from "react-icons/fa";
+import { FaEllipsisV, FaRegEdit, FaRegEye, FaRegEyeSlash, FaRegTrashAlt, FaExternalLinkAlt, FaTimes } from "react-icons/fa";
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import IOffice from "../../interfaces/IOffice";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import RemoveDialog from "../reusable/dialogs/removedialog";
-import OfficeForm from "../reusable/forms/officeform";
 import { Link } from "react-router-dom";
 import { Modal } from "@mui/material";
 import { MdOutlineImageNotSupported } from "react-icons/md";
+import MultiStepOfficeForm from "../reusable/forms/createofficeform/multistepofficeform";
 
 interface MyPageOfficeCardProps {
     office: IOffice;
@@ -149,8 +149,12 @@ const EditForm = ({ open, setOpenEdit, id }: { open: boolean; setOpenEdit: (valu
     };
     return (
         <Modal onClose={handleClose} open={open} className="flex items-center justify-center">
-            <div className="bg-white overflow-y-scroll w-2/3 h-3/4 p-16 rounded-md shadow-lg">
-                <OfficeForm handleClose={handleClose} id={id} method={"PUT"} />
+            <div className="bg-neutral-50 max-w-6xl w-full my-16 p-16 rounded-md">
+                <h2 className="text-4xl text-primary font-bold mb-8">Redigera Annons</h2>
+                <div className="overflow-y-auto h-full">
+                    
+                    <MultiStepOfficeForm handleClose={handleClose} id={id} method={"PUT"} />
+                </div> 
             </div>
         </Modal>
     );

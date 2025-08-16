@@ -21,6 +21,11 @@ export default function PreviousLookedAt() {
     }
     const offices = await Promise.all(officeIds.map(async (item) => {
       const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/${item._id}`)
+      if(response.status === 404) {
+        localStorage.setItem(historyKey, JSON.stringify(officeIds.filter(office => office._id !== item._id)))
+        return null; // Skip if office not found
+      }
+      // Assuming the response contains an office object
       const data = await response.json()
       return data.office
     }))
@@ -45,7 +50,7 @@ export default function PreviousLookedAt() {
           {/* Grid Section */}
           <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
             {previousOffices.map((office: IOffice) => (
-              <OfficeCard
+              office && <OfficeCard
                 key={office._id} // Assuming each office has a unique ID
                 office={office} 
               />

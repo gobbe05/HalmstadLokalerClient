@@ -1,4 +1,4 @@
-import MultiStepOfficeForm from '../../reusable/forms/createofficeform/createofficeform';
+import MultiStepOfficeForm from '../../reusable/forms/createofficeform/multistepofficeform';
 
 const HyrUtLokal = () => {
     return (

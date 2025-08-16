@@ -55,33 +55,13 @@ export default function Lokal() {
 
     return (
         <div className="bg-white flex-grow" key={id}>
-            <div className="max-w-3xl mx-auto text-gray-700 xl:py-16 md:rounded-lg">  
+            <div className="max-w-3xl mx-auto text-neutral xl:py-16 md:rounded-lg">  
                 <div className={`w-full rounded bg-white`}> 
                     {/* Main */}
                     <div>
                         <div className="w-full">
                             <ImagesContainer images={data.office.images.slice(0,3)} imageLoading={imageLoading} imageError={imageError}/>
-                            {/* 
-                            <div className="flex gap-2 mt-2">
-                                {isAuthenticated && type === "buyer" && (
-                                <ContactButton broker={data.office.owner} />
-                                )}
-                                {isAuthenticated && type === "buyer" && (
-                                <LikeButton id={data.office._id} longButton={true}/>)}
-                            </div>
-                            */} 
                         </div>
-                        {/* Header Section */}
-                        {/*<div className="flex justify-between items-center">
-                            <button
-                                onClick={() => navigate(-1)}
-                                className="flex gap-1 hover:gap-2 items-center hover:px-4 py-2 rounded-full hover:bg-gray-700 hover:text-white transition-all"
-                            >
-                                <HiArrowLeft size={20} />
-                                <span className="text-sm font-medium">Gå tillbaks</span>
-                            </button>
-                        </div>*/}
-
                         {/* Office Info */}
                         <div className="flex items-center justify-between mb-4 mt-4">
                             <div>

@@ -249,7 +249,7 @@ const OfficeForm = ({id, method, handleClose}: OfficeFormProps) => {
                                 onChange={handleDocumentChange}
                             />
                         </Button>
-                        <AddImageButton currentImagePreview={currentImagePreview} addImage={addImage} handleImageChange={handleImageChange} clearCurrentImage={clearCurrentImage}/>
+                        {/*<AddImageButton handleImageChange={handleImageChange} /> */}
                     </div>
                     {documents.length + existingDocuments.length > 0 && (
                         <h3 className="mt-4">Dokument</h3>

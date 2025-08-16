@@ -2,6 +2,7 @@ import { FaArrowRight } from "react-icons/fa";
 import LocationInput from "../../../pages/hyr-ut-lokal/locationinput";
 import IOfficeFormData from "./IOfficeFormData";
 import { Link } from "react-router-dom";
+import officetypes from "../../../../utils/officeTypes";
 
 interface Step1BasicInfoProps {
     formData: IOfficeFormData;
@@ -12,17 +13,6 @@ interface Step1BasicInfoProps {
 }
 
 const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }: Step1BasicInfoProps) => {
-    const officetypes = [
-        { name: "Butiker", id: 1 },
-        { name: "Industrier & verkstäder", id: 2 },
-        { name: "Kontor", id: 3 },
-        { name: "Kontorshotell & Coworking", id: 4 },
-        { name: "Lager & logistik", id: 5 },
-        { name: "Resturanger & cafeer", id: 6 },
-        { name: "Skola, vård & omsorg", id: 7 },
-        { name: "Övrigt", id: 8 },
-    ];
-
     return (
         <div className="flex flex-col gap-6 h-full">
             <h1 className="text-2xl font-bold text-primary">Steg 1: Grundläggande Information</h1>

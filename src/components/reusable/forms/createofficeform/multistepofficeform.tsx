@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import validateForm from "../validateofficeform";
 import IOfficeFormData from "./IOfficeFormData";
 import getOffice from "../../../../utils/getOffice"; // Utility function to fetch office data
+import officetypes from "../../../../utils/officeTypes";
 const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method: "POST" | "PUT"; handleClose?: () => void }) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<IOfficeFormData>({
@@ -101,11 +102,15 @@ const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method:
                 .then((office) => {
                     if (!office) return;
 
+                    const mappedTypes = office.types
+                        .map((type: string) => officetypes.find((t) => t.name === type))
+                        .filter((type) => type !== undefined); // Filter out unmatched types
+
                     setFormData({
                         name: office.name,
                         location: office.location,
                         marker: office.position,
-                        types: office.types.map((type: string, index: number) => ({ name: type, id: index })),
+                        types: mappedTypes as { name: string; id: number }[], // Ensure correct type
                         size: office.size,
                         price: office.price,
                         description: office.description,

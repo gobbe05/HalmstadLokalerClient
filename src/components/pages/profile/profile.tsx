@@ -57,7 +57,7 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
                 <div className={`${!officesData?.offices?.length || !showOffices && "hidden"} w-full overflow-scroll max-h-[40dvh]`}>
                     <h3 className="text-lg font-semibold text-gray-800 mb-2">Offices</h3>
                     <div className="grid gap-4">
-                        {officesData && officesData.offices.length > 0 && officesData.offices.map((office) => (
+                        {officesData && officesData.offices.length > 0 && officesData.offices.map((office: any) => (
                             <OfficeCardLong office={office} key={office._id}/>
                         ))}
                     </div>

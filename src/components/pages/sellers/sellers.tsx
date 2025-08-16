@@ -29,7 +29,7 @@ export default function Sellers() {
             <div className="flex flex-col gap-8 mt-16">
                 {data && data.sellers.map((seller: ISeller) => (<SellerCard setId={setId} setOpenProfile={setOpenProfile} seller={seller} key={seller._id} />))}
             </div>
-            {id && <ProfileCard openProfile={openProfile} setOpenProfile={setOpenProfile} id={id}/>}
+            {id && <ProfileCard showOffices={false} id={id}/>}
         </div>
     );
 }

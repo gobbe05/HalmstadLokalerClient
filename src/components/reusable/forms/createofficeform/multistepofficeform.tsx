@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import validateForm from "../validateofficeform";
 import IOfficeFormData from "./IOfficeFormData";
-
-const MultiStepOfficeForm = ({ id, method }: { id?: string; method: "POST" | "PUT" }) => {
+import getOffice from "../../../../utils/getOffice"; // Utility function to fetch office data
+const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method: "POST" | "PUT"; handleClose?: () => void }) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState<IOfficeFormData>({
         name: "",
@@ -94,15 +94,41 @@ const MultiStepOfficeForm = ({ id, method }: { id?: string; method: "POST" | "PU
         }
     };
 
+    // Populate formData if method is PUT and id is provided
     useEffect(() => {
-        console.log(JSON.stringify(formData, null, 2));
-    }, [formData]);
+        if (method === "PUT" && id) {
+            getOffice(id)
+                .then((office) => {
+                    if (!office) return;
+
+                    setFormData({
+                        name: office.name,
+                        location: office.location,
+                        marker: office.position,
+                        types: office.types.map((type: string, index: number) => ({ name: type, id: index })),
+                        size: office.size,
+                        price: office.price,
+                        description: office.description,
+                        tags: office.tags,
+                        images: [],
+                        documents: [],
+                        existingDocuments: office.documents,
+                        existingImages: office.images,
+                        existingThumbnails: office.thumbnails,
+                    });
+                })
+                .catch((error) => {
+                    console.error("Failed to fetch office data:", error);
+                    toast.error("Kunde inte hämta kontorsdata.");
+                });
+        }
+    }, [id, method]);
 
     return (
         <div className="grid grid-cols-2 gap-8">
             {/* Form Section */}
             <div className="bg-white p-8 rounded-md border border-gray-200">
-                {step === 1 && <Step1BasicInfo formData={formData} setFormData={setFormData} nextStep={nextStep} />}
+                {step === 1 && <Step1BasicInfo method={method} handleClose={handleClose} formData={formData} setFormData={setFormData} nextStep={nextStep} />}
                 {step === 2 && <Step2Details formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />}
                 {step === 3 && <Step3Media formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />}
                 {step === 4 && <Step4Review formData={formData} handleSubmit={handleSubmit} prevStep={prevStep} />}

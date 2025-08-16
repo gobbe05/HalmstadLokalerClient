@@ -3,7 +3,15 @@ import LocationInput from "../../../pages/hyr-ut-lokal/locationinput";
 import IOfficeFormData from "./IOfficeFormData";
 import { Link } from "react-router-dom";
 
-const Step1BasicInfo = ({ formData, setFormData, nextStep }: {formData: IOfficeFormData, setFormData: React.Dispatch<React.SetStateAction<IOfficeFormData>>, nextStep: any}) => {
+interface Step1BasicInfoProps {
+    formData: IOfficeFormData;
+    setFormData: React.Dispatch<React.SetStateAction<IOfficeFormData>>;
+    nextStep: () => void;
+    handleClose?: () => void;
+    method: "POST" | "PUT";
+}
+
+const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }: Step1BasicInfoProps) => {
     const officetypes = [
         { name: "Butiker", id: 1 },
         { name: "Industrier & verkstäder", id: 2 },
@@ -38,6 +46,7 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }: {formData: IOfficeF
                 <label htmlFor="location" className="block text-sm font-medium text-neutral mb-1">
                     Plats
                 </label>
+                {method === "POST" ?
                 <LocationInput
                     setLocation={(location) => {
                         setFormData((formData: any) => {
@@ -49,7 +58,8 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }: {formData: IOfficeF
                             return { ...formData, marker }; // Added return statement
                         });
                     }}
-                />
+                />:
+                <input disabled className="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder={formData.location} />}
             </div>
 
             {/* Office Types */}
@@ -86,13 +96,20 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep }: {formData: IOfficeF
 
             <div className="flex justify-between items-center mt-auto">
                 {/* Cancel Button */}
-                <Link to="/">
+               {handleClose != undefined ? 
+                <button
+                    onClick={handleClose}
+                    className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-all"
+                    >
+                    Avbryt
+                </button> : 
+               <Link to="/">
                     <button
                         className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-all"
                     >
                         Avbryt
                     </button>
-                </Link>
+                </Link>} 
                 {/* Next Button */}
                 <button
                     onClick={nextStep}

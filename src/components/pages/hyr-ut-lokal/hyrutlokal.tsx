@@ -1,14 +1,12 @@
-import BackButton from '../../buttons/backbutton';
-import OfficeForm from '../../reusable/forms/officeform';
+import MultiStepOfficeForm from '../../reusable/forms/createofficeform/createofficeform';
 
 const HyrUtLokal = () => {
     return (
-        <div className="w-full md:w-2/3 lg:w-1/2 bg-white mx-auto py-16 md:py-8 md:my-16 p-8 lg:rounded-lg lg:shadow-md">
-            <div>
-                <BackButton link={"/"}/>
-                <h1 className="text-2xl font-semibold mt-2">Lägg upp en ny annons</h1> 
+        <div className="bg-neutral-50">
+            <div className="w-full max-w-6xl mx-auto md:my-16 p-8">
+                <MultiStepOfficeForm method={"POST"} />
+                {/* <OfficeForm method="POST" /> */} 
             </div>
-            <OfficeForm method="POST" />
         </div>
     );
 };

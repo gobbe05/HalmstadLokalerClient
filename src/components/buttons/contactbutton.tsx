@@ -42,7 +42,7 @@ export default function ContactButton({broker}: Props) {
     <div>
       <button
         onClick={() => setOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 rounded bg-blue-500 hover:bg-blue-600 text-white font-medium transition-all"
+        className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded bg-primary hover:bg-primary-dark text-white font-medium transition-all"
       >
         <span className="text-nowrap hidden sm:block">Skicka meddelande</span>
         <HiOutlineMail size={18} />
@@ -130,7 +130,7 @@ export default function ContactButton({broker}: Props) {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white rounded font-semibold shadow-md transition-all duration-300"
+            className="w-full py-3 bg-primary hover:bg-primary-dark text-white rounded font-semibold shadow-md transition-all duration-300"
           >
             Skicka
           </button>

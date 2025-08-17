@@ -5,6 +5,7 @@ const validateForm = (data: {
     types: Array<{name: string, id: number}>;
     description: string;
     location: string;
+    images: File[];
     marker?: { lat: number; lng: number };
 }): Record<string, string> => {
     let errors: Record<string, string> = {};
@@ -35,6 +36,9 @@ const validateForm = (data: {
     
     if (!data.marker || !data.marker.lat || !data.marker.lng) {
         errors.marker = "Markeringsposition krävs";
+    }
+    if(!data.images.length) {
+        errors.images = "Minst en bild krävs";
     }
     
     return errors;

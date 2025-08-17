@@ -41,6 +41,7 @@ const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method:
             types: formData.types,
             description: formData.description,
             location: formData.location,
+            images: formData.images,
             marker: formData.marker,
         });
 
@@ -91,7 +92,8 @@ const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method:
             toast.success(method === "POST" ? "Annons skapad!" : "Annons uppdaterad!");
             navigate("/");
         } else {
-            toast.error("Något gick fel. Försök igen.");
+            const data = await response.json();
+            toast.error("Något gick fel. Försök igen." + (data.message ? ` ${data.message}` : ""));
         }
     };
 

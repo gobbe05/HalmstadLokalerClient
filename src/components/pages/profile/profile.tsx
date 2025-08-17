@@ -37,25 +37,26 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
 
   return (
     <div>
-        <div ref={boxRef} className="overflow-hidden mt-8">
-            <div className="flex flex-col items-start">
-                <div className="flex flex-col items-center">
-                    <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-full border border-gray-300" />
-                    <h2 className="mt-2 text-2xl font-bold text-gray-800">{profileData && profileData.user.firstName + profileData.user.lastName}</h2>
-                    <p className="text-sm text-gray-500 mb-8">{profileData && "@"+profileData.user.username}</p>
-                    {isAuthenticated && type === "buyer" && (
-                        <ContactButton broker={id} />
-                    )}
+        <div ref={boxRef} className="overflow-hidden">
+            <div className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                    <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData?.user && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-md border border-gray-300" />
+                    <h2 className="mt-2 text-2xl font-bold text-neutral">{profileData?.user && (profileData.user.firstName + profileData.user.lastName)}</h2>
+                    <p className="text-sm text-gray-500">{profileData?.user && "@"+profileData.user.username}</p>
+                    
                 </div> 
 
-                <div className="flex flex-col gap-1 text-gray-700 mt-8">
-                    <p className="flex items-center gap-2"><IoMailOutline /> {profileData && profileData.user.email}</p>
-                    <p className="flex items-center gap-2"><IoCallOutline /> {profileData && profileData.user.phoneNumber}</p>
-                    <p className="flex items-center gap-2"><IoBusinessOutline /> {profileData && profileData.user.companyName}</p>
+                <div className="flex flex-col gap-1 text-neutral">
+                    <p className="flex items-center gap-2"> {profileData?.user && profileData.user.email && <><IoMailOutline /> {profileData.user.email}</>}</p>
+                    <p className="flex items-center gap-2"> {profileData?.user && profileData.user.phoneNumber && <><IoCallOutline /> {profileData.user.phoneNumber}</>}</p>
+                    <p className="flex items-center gap-2"> {profileData?.user && profileData.user.companyName && <><IoBusinessOutline /> {profileData.user.companyName}</>}</p>
                 </div>
+                {isAuthenticated && type === "buyer" && (
+                        <ContactButton broker={id} />
+                    )}
 
                 <div className={`${!officesData?.offices?.length || !showOffices && "hidden"} w-full overflow-scroll max-h-[40dvh]`}>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-2">Offices</h3>
+                    <h3 className="text-lg font-semibold text-neutral mb-2">Offices</h3>
                     <div className="grid gap-4">
                         {officesData && officesData.offices.length > 0 && officesData.offices.map((office: any) => (
                             <OfficeCardLong office={office} key={office._id}/>

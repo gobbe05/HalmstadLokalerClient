@@ -78,7 +78,7 @@ const OfficeForm = ({id, method, handleClose}: OfficeFormProps) => {
     const handleForm = async (event: FormEvent) => {
         event.preventDefault()
 
-        const validationErrors = validateForm({ name, size, price, types, description, location, marker });
+        const validationErrors = validateForm({ name, size, price, types, images, description, location, marker });
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;

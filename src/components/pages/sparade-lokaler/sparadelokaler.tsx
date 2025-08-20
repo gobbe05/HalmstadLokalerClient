@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import Loading from "../../layout/loading"
 import OfficeCardLong from "../../cards/officecardlong"
 import ISavedOffice from "../../../interfaces/ISavedOffice"
+import { FaBookmark, FaExclamationTriangle } from "react-icons/fa"
 
 const SparadeLokaler = () => {
     const {error, isPending, data} = useQuery({
@@ -10,27 +11,101 @@ const SparadeLokaler = () => {
             const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/saved`, {
                 credentials: "include"
             })
+            if (!response.ok) {
+                throw new Error('Failed to fetch saved offices')
+            }
             const data = await response.json()
             return data
         }
     })
 
+    const renderContent = () => {
+        if (error) {
+            return (
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div className="p-12 text-center">
+                        <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-red-50 text-red-500 flex items-center justify-center">
+                            <FaExclamationTriangle size={28} />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-2">Något gick fel</h3>
+                        <p className="text-gray-600 max-w-md mx-auto">
+                            Det gick inte att hämta dina sparade lokaler. Försök igen senare eller kontakta support om problemet kvarstår.
+                        </p>
+                    </div>
+                </div>
+            )
+        }
+
+        if (isPending) {
+            return (
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div className="p-12 text-center">
+                        <Loading />
+                    </div>
+                </div>
+            )
+        }
+
+        if (!data.offices.length) {
+            return (
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div className="p-12 text-center">
+                        <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-primary/5 text-primary flex items-center justify-center">
+                            <FaBookmark size={28} />
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3">Inga sparade lokaler än</h3>
+                        <p className="text-gray-600 max-w-md mx-auto mb-6">
+                            När du hittar en lokal du gillar kan du spara den här för att enkelt hitta tillbaka senare.
+                        </p>
+                        <a href="/lediga-lokaler" className="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl transition-colors">
+                            Hitta lokaler
+                        </a>
+                    </div>
+                </div>
+            )
+        }
+
+        return (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-gray-100">
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <h2 className="text-xl font-semibold text-gray-900">Dina sparade lokaler</h2>
+                            <p className="text-sm text-gray-500 mt-1">
+                                {data.offices.length} {data.offices.length === 1 ? 'lokal' : 'lokaler'} sparade
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="divide-y divide-gray-100">
+                    {data.offices.map((savedOffice: ISavedOffice) => (
+                        <div key={savedOffice._id} className="p-6">
+                            <OfficeCardLong office={savedOffice.office}/>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
     return (
-        <div className="flex flex-col gap-16 w-full md:w-4/5 mx-auto text-gray-700 bg-white p-4 sm:p-16 py-32 md:my-32 rounded-lg shadow-lg"> 
-            {!error && !isPending && !data.offices.length ? 
-            <div className="flex flex-col items-center justify-center mt-4 py-8">
-                <h3 className="text-2xl font-bold">Inga sparade lokaler</h3>
-                <p className="mt-2 text-lg text-gray-600">Spara en lokal och kom tillbaka senare.</p>
+        <div className="min-h-screen bg-gray-50">
+            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
+                <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
+                    <div className="max-w-3xl">
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                            Sparade lokaler
+                        </h1>
+                        <p className="text-lg md:text-xl text-white/90">
+                            Här hittar du alla kontorslokaler som du har sparat för att titta på senare.
+                        </p>
+                    </div>
+                </div>
             </div>
-            :
-            
-            <div>
-                <h1 className="text-2xl font-bold text-center">
-                    Dina sparade lokaler
-                </h1>
-                {error || isPending ? <Loading /> : <div className="grid gap-8 mt-16">{data.offices.map((savedOffice: ISavedOffice) => <OfficeCardLong key={savedOffice._id} office={savedOffice.office}/>)}</div>}
-            </div>}
+            <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+                {renderContent()}
             </div>
+        </div>
     )
 }
 

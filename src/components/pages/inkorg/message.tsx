@@ -33,7 +33,11 @@ export default function Message({ passedMessage, activeMessageId, setActiveMessa
        <>
             <div
                 onClick={() => setActiveMessageId(passedMessage._id)}
-                className={`flex items-center justify-between p-4 ${activeMessageId == passedMessage._id ? "bg-primary text-white" : "bg-gray-50 hover:bg-gray-100"} rounded-md transition cursor-pointer`}
+                className={`flex items-center justify-between px-6 py-4 ${
+                    activeMessageId == passedMessage._id 
+                    ? "bg-primary/5 border-l-4 border-primary" 
+                    : "hover:bg-gray-50"
+                } transition-all duration-200 cursor-pointer`}
             >
                 {/* Message Preview */}
                 <div className="w-full">
@@ -44,8 +48,10 @@ export default function Message({ passedMessage, activeMessageId, setActiveMessa
                 {showRemove &&
                     <button
                         onClick={(e) => {setOpenRemove(true); e.stopPropagation()}}
-                        className="ml-4 p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
-                    <HiOutlineTrash size={20} />
+                        className="ml-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
+                        title="Ta bort meddelande"
+                    >
+                        <HiOutlineTrash size={20} />
                     </button>
                 }
             </div>
@@ -67,9 +73,9 @@ const LatestMessage = ({id}: {id: string}) => {
     if(isPending) return <LoadingMessage />
     if(error) return <FiveHundred />
     return (
-        <div className="p-2">
-            <p className="font-semibold">{data.message.email}</p>
-            <p className="text-sm">{data.message.message}</p>
+        <div>
+            <p className="font-semibold text-gray-900">{data.message.email}</p>
+            <p className="text-sm text-gray-600 mt-1 line-clamp-1">{data.message.message}</p>
         </div>
     )
 }

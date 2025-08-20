@@ -57,93 +57,105 @@ export default function Lokal() {
     if (!data?.office) return <div>Office details not found.</div>;
 
     return (
-        <div className="bg-gray-50 w-full">
-            <div className="max-w-6xl mx-auto px-8 py-8">
-                {/* Header Section */}
-                <div className="mb-4 bg-white border border-gray-200 p-8 rounded-md">
-                    <button
-                        onClick={() => navigate(-1)}
-                        className="flex items-center gap-2 text-primary hover:text-primary-dark transition-all"
-                    >
-                        <HiArrowLeft size={20} />
-                        <span>Tillbaka</span>
-                    </button>
-                </div>
+        <div className="min-h-screen bg-gray-50">
+            {/* Main Content */}
+            <div className="max-w-6xl mx-auto px-4 pt-6">
+                {/* Back button */}
+                <button
+                    onClick={() => navigate(-1)}
+                    className="mb-8 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                >
+                    <HiArrowLeft size={20} />
+                    <span>Tillbaka till sök</span>
+                </button>
 
-                {/* Main Content */}
-                <div className="grid lg:grid-cols-3 lg:gap-4">
+                <div className="grid lg:grid-cols-3 gap-8">
                     {/* Left Column */}
-                    <div className="lg:col-span-2 bg-white border border-gray-200 p-8 rounded-md">
-                        {/* Images */}
-                        <ImagesContainer
-                            images={data.office.images.slice(0, 3)}
-                            imageLoading={imageLoading}
-                            imageError={imageError}
-                        />
-
-                        {/* Office Info */}
-                        <div className="flex items-center justify-between mb-4 mt-4">
-                            <div>
-                                <h1 className="text-2xl font-bold text-neutral">{data.office.name}</h1>
-                                <p className="text-gray-500">{data.office.location}</p>
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* Images Card */}
+                        <div className="space-y-6">
+                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                <ImagesContainer
+                                    images={data.office.images}
+                                    imageLoading={imageLoading}
+                                    imageError={imageError}
+                                />
                             </div>
-                            <div>
-                                {isAuthenticated && type === "buyer" && (
-                                    <LikeButton id={data.office._id} longButton={true} />
-                                )}
-                            </div>
-                        </div>
-
-                        {/* Size and Price */}
-                        <div className="grid sm:grid-cols-2 gap-8">
-                            <div>
-                                <h3 className="text-gray-500">Yta</h3>
-                                <p className="text-lg font-semibold">{data.office.size} m²</p>
-                            </div>
-                            <div>
-                                <h3 className="text-gray-500">Pris</h3>
-                                <p className="text-lg font-semibold">{data.office.price} kr/mån</p>
-                            </div>
-                        </div>
-                        <hr className="border-slate-300 my-8" />
-
-                        {/* Description */}
-                        <div className="text-neutral">
-                            <h3 className="text-lg font-semibold">Beskrivning</h3>
-                            <p>{data.office.description || <p className="text-gray-500">Ingen beskrivning hittades...</p>}</p>
-                        </div>
-
-                        {/* Tags */}
-                        {data.office.tags.length > 0 && (
-                            <div className="my-8">
-                                <h3 className="text-lg font-semibold text-neutral">Taggar</h3>
-                                <div className="flex gap-2 flex-wrap mt-2">
-                                    {data.office.tags.map((tag: any) => (
-                                        <span
-                                            key={tag}
-                                            className="text-sm bg-gray-200 text-gray-700 px-3 py-1 rounded-full"
-                                        >
-                                            {tag}
-                                        </span>
-                                    ))}
+                            
+                            {/* Quick Info */}
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                    <div className="text-sm font-medium text-gray-500 mb-1">Lokal</div>
+                                    <div className="text-xl font-semibold text-gray-900 mb-1">{data.office.name}</div>
+                                    <div className="text-gray-600">{data.office.location}</div>
+                                </div>
+                                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                    <div className="text-sm font-medium text-gray-500 mb-1">Storlek</div>
+                                    <div className="text-xl font-semibold text-gray-900">{data.office.size} m²</div>
+                                </div>
+                                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                    <div className="text-sm font-medium text-gray-500 mb-1">Månadshyra</div>
+                                    <div className="text-xl font-semibold text-gray-900">{data.office.price.toLocaleString()} kr</div>
                                 </div>
                             </div>
-                        )}
+                        </div>
+
+                        {/* Details Card */}
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 divide-y divide-gray-100">
+                            {/* Description Section */}
+                            <div className="p-6 md:p-8">
+                                <h2 className="text-xl font-semibold text-gray-900 mb-4">Om lokalen</h2>
+                                {data.office.description ? (
+                                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{data.office.description}</p>
+                                ) : (
+                                    <p className="text-gray-500 italic">Ingen beskrivning tillgänglig</p>
+                                )}
+                            </div>
+
+                            {/* Features Section */}
+                            {data.office.tags.length > 0 && (
+                                <div className="p-6 md:p-8">
+                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Egenskaper</h3>
+                                    <div className="flex gap-2 flex-wrap">
+                                        {data.office.tags.map((tag: string) => (
+                                            <span
+                                                key={tag}
+                                                className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary"
+                                            >
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Like Button Section */}
+                            {isAuthenticated && type === "buyer" && (
+                                <div className="p-6 md:p-8">
+                                    <LikeButton id={data.office._id} longButton={true} />
+                                </div>
+                            )}
+                        </div>{/* Contact Card */}
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                                <h2 className="text-xl font-semibold text-gray-900 mb-6">Kontakta säljare</h2>
+                                <ProfileCard showOffices={false} id={data.office.owner} />
+                            </div>
                     </div>
 
-                    {/* Right Column */}
-                    <div>
-                        {/* Shared Background for ProfileCard and OtherOffices */}
-                        <div className="grid gap-16 bg-white border border-gray-200 p-8 rounded-md">
-                            {/* Profile Card */}
-                            <ProfileCard showOffices={false} id={data.office.owner} />
-
-                            {/* Other Offices */}
-                            <OtherOffices seller={data.office.owner} />
+                    {/* Right Column - Sticky */}
+                    <div className="lg:relative">
+                        <div className="lg:sticky lg:top-4 space-y-6">
+                            {/* Other Offices Card */}
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                                <OtherOffices seller={data.office.owner} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Bottom Spacing */}
+            <div className="h-16"></div>
         </div>
     );
 }

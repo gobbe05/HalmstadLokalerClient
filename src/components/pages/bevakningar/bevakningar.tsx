@@ -73,47 +73,84 @@ export default function Bevakningar() {
 
     if (!activeSavedSearch || !isAuthenticated)
         return (
-            <div className="flex flex-col gap-16 w-full flex-grow text-neutral bg-white p-16 rounded-lg shadow-lg">
-                <div className="flex flex-col mx-auto justify-center mt-16 py-16 text-center">
-                    <h3 className="text-4xl font-bold text-primary">Du har inga bevakningar</h3>
-                    <p className="mt-2 text-lg text-neutral">Spara en sökning och kom tillbaks senare...</p>
+            <div className="min-h-screen bg-gray-50">
+                <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
+                    <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
+                        <div className="max-w-3xl">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                                Bevakningar
+                            </h1>
+                            <p className="text-lg md:text-xl text-white/90">
+                                Spara sökningar och få notifieringar när nya kontor dyker upp.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
+                    <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
+                        <div className="max-w-lg mx-auto">
+                            <h3 className="text-2xl font-bold text-gray-900 mb-3">Inga bevakningar än</h3>
+                            <p className="text-gray-600 mb-6">När du sparar en sökning kommer den att visas här. Du får notifieringar när nya kontor som matchar din sökning läggs upp.</p>
+                            <Link to="/lediga-lokaler" className="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl transition-colors">
+                                Hitta kontor att bevaka
+                            </Link>
+                        </div>
+                    </div>
                 </div>
             </div>
         );
     if (isPending || error) return <Loading />;
     return (
-        <div className="w-full flex-grow bg-gray-50 text-neutral py-16 pb-32">
-            <div className="max-w-6xl mx-auto">
-                <h1 className="text-4xl font-bold text-primary mb-1">Bevakningar</h1>
-                <p className="text-lg text-neutral">Se dina sparade bevakningar och deras resultat.</p>
-            </div>
-            <div className="max-w-6xl grid lg:grid-cols-3 gap-8 mx-auto mt-8">
-                {/* Selection for saved searches */}
-                <SavedSearches
-                    savedSearches={data.savedSearches}
-                    activeSavedSearch={activeSavedSearch}
-                    setActiveSavedSearch={setActiveSavedSearch}
-                />
-                <div className="bg-white lg:col-span-2 p-8 rounded-md border border-gray-200">
-                    <h1 className="text-lg font-semibold mb-4">Resultat för sökning "{activeSavedSearch}"</h1>
-                    <div className="flex gap-2 mb-4">
-                        <Link
-                            className="flex gap-2 py-2 px-3 items-center border border-neutral rounded text-neutral hover:bg-gray-100"
-                            to={`/lediga-lokaler?search=${activeSavedSearch}`}
-                        >
-                            <FaSearch size={16} />
-                            <span className="font-semibold">Gå till sökning</span>
-                        </Link>
-                        <button
-                            onClick={RemoveSearch}
-                            className="flex gap-2 py-2 px-3 items-center border border-neutral rounded text-neutral hover:bg-gray-100"
-                        >
-                            <FaTrashAlt size={16} />
-                            <span className="font-semibold">Ta bort</span>
-                        </button>
+        <div className="min-h-screen bg-gray-50">
+            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
+                <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
+                    <div className="max-w-3xl">
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                            Bevakningar
+                        </h1>
+                        <p className="text-lg md:text-xl text-white/90">
+                            Se dina sparade bevakningar och få notifieringar om nya kontor.
+                        </p>
                     </div>
-                    {/* Show offices from saved search if one is selected */}
-                    {activeSavedSearch && <Offices activeSavedSearch={activeSavedSearch} />}
+                </div>
+            </div>
+            <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+                <div className="grid lg:grid-cols-3 gap-6">
+                    {/* Selection for saved searches */}
+                    <SavedSearches
+                        savedSearches={data.savedSearches}
+                        activeSavedSearch={activeSavedSearch}
+                        setActiveSavedSearch={setActiveSavedSearch}
+                    />
+                    <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm overflow-hidden">
+                        <div className="p-6 border-b border-gray-100">
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <h2 className="text-xl font-semibold text-gray-900">
+                                    Matchande kontor för "{activeSavedSearch}"
+                                </h2>
+                                <div className="flex gap-3">
+                                    <Link
+                                        className="inline-flex items-center gap-2 px-4 py-2 text-primary hover:text-primary-dark hover:bg-primary/5 rounded-xl transition-colors"
+                                        to={`/lediga-lokaler?search=${activeSavedSearch}`}
+                                    >
+                                        <FaSearch size={16} />
+                                        <span>Visa alla</span>
+                                    </Link>
+                                    <button
+                                        onClick={RemoveSearch}
+                                        className="inline-flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                                        title="Ta bort bevakning"
+                                    >
+                                        <FaTrashAlt size={16} />
+                                        <span>Ta bort</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="p-6">
+                            <Offices activeSavedSearch={activeSavedSearch} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,9 +170,11 @@ const SavedSearches = ({
     setActiveSavedSearch: React.Dispatch<React.SetStateAction<string | undefined>>;
 }) => {
     return (
-        <div className="bg-white col-span-1 p-8 rounded-md border border-gray-200">
-            <h2 className="text-neutral text-lg font-semibold mb-4">Dina sparade sökningar</h2>
-            <div className="flex flex-col gap-2">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-gray-100">
+                <h2 className="text-xl font-semibold text-gray-900">Dina bevakningar</h2>
+            </div>
+            <div className="divide-y divide-gray-100">
                 {savedSearches.map((search: { _id: string; searchString: string }) => (
                     <SavedSearch
                         setActiveSavedSearch={setActiveSavedSearch}
@@ -162,11 +201,37 @@ const Offices = ({ activeSavedSearch }: { activeSavedSearch: string }) => {
         },
     });
 
-    if (isPending) return <p className="mt-8 text-lg text-neutral">Laddar annonser...</p>;
-    if (error) return <p className="mt-8 text-lg text-neutral">Ett fel uppstod när annonserna skulle hämtas.</p>;
-    if (!data.length) return <p className="mt-8 text-lg text-neutral">Inga annonser hittades för denna sökning.</p>;
+    if (isPending) {
+        return (
+            <div className="p-6">
+                <p className="text-gray-500">Laddar matchande kontor...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="p-6">
+                <div className="bg-red-50 text-red-600 p-4 rounded-xl">
+                    Ett fel uppstod när annonserna skulle hämtas.
+                </div>
+            </div>
+        );
+    }
+
+    if (!data.length) {
+        return (
+            <div className="p-6">
+                <div className="bg-gray-50 p-4 rounded-xl text-center">
+                    <p className="text-gray-600">Inga kontor matchar din sökning just nu.</p>
+                    <p className="text-sm text-gray-500 mt-1">Du kommer få en notifiering när nya kontor dyker upp.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="grid gap-4 mt-8">
+        <div className="p-6 space-y-4">
             {data.map((office: IOffice) => (
                 <OfficeCardLong office={office} key={office._id} />
             ))}

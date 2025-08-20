@@ -43,54 +43,108 @@ export default function Skickade() {
         updateActiveMessage()
     }, [activeMessageId])
 
-    if(isPending) return <div>Loading...</div>
-    if(error) return <div>Error: {error.message}</div>
-    return (
-        <>
-        <div className="flex-grow my-16 p-4 md:p-0 mx-auto md:grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
-        {/* Inbox Section */}
-        <div className="col-span-1 p-6 bg-white rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold text-gray-800">Inkorg</h1>
-            <div className="flex flex-col gap-4 mt-6 max-h-64 lg:max-h-max overflow-y-auto">
-                {data.messages && data.messages.length > 0 ? (
-                    data.messages.map((message: IMessage) => (
-                        <Message
-                            key={message._id}
-                            passedMessage={message}
-                            activeMessageId={activeMessageId}
-                            setActiveMessageId={setActiveMessageId}
-                            showRemove={false}
-                        />
-                    ))
-                ) : (
-                    <p className="text-gray-600">Här var det tomt. Kom tillbaks senare.</p>
-                )}
-            </div>
-        </div>
+    const renderContent = () => {
+        if (isPending) {
+            return (
+                <div className="flex justify-center items-center min-h-[400px]">
+                    <div className="animate-pulse flex flex-col items-center">
+                        <div className="h-8 w-32 bg-gray-200 rounded mb-4"></div>
+                        <div className="h-4 w-48 bg-gray-200 rounded"></div>
+                    </div>
+                </div>
+            )
+        }
 
-        {/* Message Details Section */}
-        <div className="mt-8 md:mt-0 col-span-2 p-6 bg-white rounded-lg shadow-md">
-            <div className="space-y-4">
-                <h1 className="text-2xl font-bold text-gray-800">Meddelande</h1>
-                <div>
-                    <h3 className="font-semibold text-lg text-gray-800">Företag</h3>
-                    <p className="text-gray-600">{activeMessage?.company || "Ingen information tillgänglig."}</p>
+        if (error) {
+            return (
+                <div className="flex flex-col items-center justify-center min-h-[400px] p-8 bg-red-50 rounded-lg border border-red-200">
+                    <svg className="w-12 h-12 text-red-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                    <h3 className="text-xl font-bold text-red-700">Något gick fel</h3>
+                    <p className="mt-2 text-red-600 text-center">{error.message || "Kunde inte hämta meddelanden. Försök igen senare."}</p>
                 </div>
-                <div>
-                    <h3 className="font-semibold text-lg text-gray-800">E-mail</h3>
-                    <p className="text-gray-600">{activeMessage?.email || "Ingen information tillgänglig."}</p>
+            )
+        }
+
+        if (!data?.messages?.length) {
+            return (
+                <div className="flex flex-col items-center justify-center min-h-[400px] p-8 bg-gray-50 rounded-lg border border-gray-200">
+                    <svg className="w-16 h-16 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                    <h3 className="text-xl font-bold text-gray-700">Inga skickade meddelanden</h3>
+                    <p className="mt-2 text-gray-600 text-center">Du har inte skickat några meddelanden än.</p>
                 </div>
-                <div>
-                    <h3 className="font-semibold text-lg text-gray-800">Telefon</h3>
-                    <p className="text-gray-600">{activeMessage?.phone || "Ingen information tillgänglig."}</p>
-                </div>
-                <div>
-                    <h3 className="font-semibold text-lg text-gray-800">Meddelande</h3>
-                    <p className="text-gray-600">{activeMessage?.message || "Ingen information tillgänglig."}</p>
+            )
+        }
+
+        return (
+            <div className="w-full max-w-6xl mx-auto px-4">
+                <div className="grid md:grid-cols-3 gap-6">
+                    {/* Messages List */}
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <h2 className="text-xl font-semibold text-gray-800 mb-4">Skickade meddelanden</h2>
+                        <div className="flex flex-col gap-3 max-h-[600px] overflow-y-auto">
+                            {data.messages.map((message: IMessage) => (
+                                <Message
+                                    key={message._id}
+                                    passedMessage={message}
+                                    activeMessageId={activeMessageId}
+                                    setActiveMessageId={setActiveMessageId}
+                                    showRemove={false}
+                                />
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Message Details */}
+                    <div className="md:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        {activeMessage ? (
+                            <div className="space-y-6">
+                                <h2 className="text-xl font-semibold text-gray-800 pb-4 border-b">Meddelandedetaljer</h2>
+                                <div className="grid gap-6">
+                                    <div>
+                                        <h3 className="text-sm font-medium text-gray-500">Företag</h3>
+                                        <p className="mt-1 text-gray-900">{activeMessage.company}</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-sm font-medium text-gray-500">E-post</h3>
+                                        <p className="mt-1 text-gray-900">{activeMessage.email}</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-sm font-medium text-gray-500">Telefon</h3>
+                                        <p className="mt-1 text-gray-900">{activeMessage.phone}</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-sm font-medium text-gray-500">Meddelande</h3>
+                                        <p className="mt-1 text-gray-900 whitespace-pre-wrap">{activeMessage.message}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full py-12">
+                                <svg className="w-12 h-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                                </svg>
+                                <p className="text-gray-500">Välj ett meddelande för att se detaljerna</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
+        )
+    }
+
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white py-12 mb-8">
+                <div className="max-w-6xl mx-auto px-4">
+                    <h1 className="text-4xl md:text-5xl font-bold">Skickade meddelanden</h1>
+                    <p className="mt-4 text-lg md:text-xl opacity-90">Se alla meddelanden du har skickat</p>
+                </div>
+            </div>
+            {renderContent()}
         </div>
-    </div>
-        </>
     )
 }

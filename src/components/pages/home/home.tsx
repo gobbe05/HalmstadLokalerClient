@@ -122,7 +122,7 @@ const HomeHero = () => {
               />
               <button 
               type="submit" 
-              className="flex items-center justify-center bg-accent hover:text-accent-dark text-white font-medium rounded-full text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all"
+              className="flex items-center justify-center bg-accent hover:text-accent-dark text-white font-medium rounded-md text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all"
             >
               <HiOutlineSearch className="inline mr-2" size={18}/>
               <span className="text-lg">Sök</span>

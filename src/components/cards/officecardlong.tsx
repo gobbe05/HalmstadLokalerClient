@@ -24,7 +24,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
   return (
     <Link
       to={`/lokal/${office._id}`}
-      className="h-[128px] relative flex w-full bg-white text-gray-700 sm:border overflow-hidden transition-all border-gray-200 hover:bg-gray-100"
+      className="rounded-md group h-[128px] relative flex w-full bg-white text-gray-700 sm:border overflow-hidden transition-all border-gray-200 hover:border-primary/20 hover:shadow-lg"
     >
         {/* Thumbnail with consistent size */}
         <div className="h-[128px] w-[64px] md:w-[128px] min-w-[64px] md:min-w-[128px] bg-gray-700 overflow-hidden">
@@ -33,7 +33,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
             <img
               src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]}
               alt={`Thumbnail of ${office.name}`}
-              className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
+              className="h-full w-full object-cover"
             />
             :
             <div className="h-full w-full flex items-center justify-center text-gray-300">
@@ -47,7 +47,7 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
         {/* Office Information */}
         <div>
           <div className="flex items-center gap-4">
-            <h1 className="text-xl underline-offset-2">
+            <h1 className="text-xl text-gray-900 group-hover:text-primary transition-colors">
               {office.name}
             </h1>
           </div>

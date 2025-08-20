@@ -37,20 +37,30 @@ export default function Inkorg() {
 
     if(isPending || error) return <Loading />
    return (
-    <div className="flex-grow pt-16 pb-32 bg-gray-50 px-8 w-full">
-        {/* Content */}
-        <div className="max-w-6xl mx-auto">
-            {/* Header Section */}
-            <div>
-                <h1 className="text-4xl font-bold text-primary mb-1">Inkorg</h1>
-                <p className="text-neutral text-lg">Se vilka köpare som har kontaktat dig...</p>
+    <div className="min-h-screen bg-gray-50">
+        {/* Hero Section */}
+        <div className="bg-gradient-to-br from-primary to-primary-dark text-white">
+            <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
+                <div className="max-w-3xl">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                        Inkorg
+                    </h1>
+                    <p className="text-lg md:text-xl text-white/90">
+                        Hantera dina meddelanden och förfrågningar från intresserade köpare.
+                    </p>
+                </div>
             </div>
-            {/* Messages and Details Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-                {/* Messages Section */}
-                <div className="col-span-1 bg-white border border-gray-200 rounded-md p-8">
-                    <h2 className="text-neutral font-semibold text-lg mb-4">Inkomna meddelanden</h2>
-                    <div className="flex flex-col gap-4">
+        </div>
+
+        {/* Content Section */}
+        <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+            <div className="grid md:grid-cols-3 gap-6">
+                {/* Messages List */}
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div className="p-6 border-b border-gray-100">
+                        <h2 className="text-xl font-semibold text-gray-900">Inkomna meddelanden</h2>
+                    </div>
+                    <div className="divide-y divide-gray-100 max-h-[600px] overflow-y-auto">
                         {data.messages && data.messages.length > 0 ? (
                             data.messages.map((message: IMessage) => (
                                 <Message
@@ -62,31 +72,46 @@ export default function Inkorg() {
                                 />
                             ))
                         ) : (
-                            <p className="text-neutral">Här var det tomt. Kom tillbaks senare.</p>
+                            <div className="p-6 text-center">
+                                <p className="text-gray-500">Inga meddelanden att visa.</p>
+                                <p className="text-sm text-gray-400">Nya meddelanden visas här när de kommer in.</p>
+                            </div>
                         )}
                     </div>
                 </div>
 
-                {/* Message Details Section */}
-                <div className="md:col-span-2 p-8 bg-white border border-gray-200 rounded-md">
-                    <div className="space-y-4 max-h-96 overflow-y-scroll">
-                        <h1 className="text-2xl font-bold text-gray-800">Meddelande</h1>
-                        <div>
-                            <h3 className="font-semibold text-lg text-gray-800">Företag</h3>
-                            <p className="text-gray-600">{activeMessage?.company || "Ingen information tillgänglig."}</p>
+                {/* Message Details */}
+                <div className="md:col-span-2">
+                    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                        <div className="p-6 border-b border-gray-100">
+                            <h2 className="text-xl font-semibold text-gray-900">Meddelandedetaljer</h2>
                         </div>
-                        <div>
-                            <h3 className="font-semibold text-lg text-gray-800">E-mail</h3>
-                            <p className="text-gray-600">{activeMessage?.email || "Ingen information tillgänglig."}</p>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-lg text-gray-800">Telefon</h3>
-                            <p className="text-gray-600">{activeMessage?.phone || "Ingen information tillgänglig."}</p>
-                        </div>
-                        <div>
-                            <h3 className="font-semibold text-lg text-gray-800">Meddelande</h3>
-                            <p className="text-gray-600">{activeMessage?.message || "Ingen information tillgänglig."}</p>
-                        </div>
+                        {activeMessage ? (
+                            <div className="p-6 space-y-6">
+                                <div className="grid md:grid-cols-2 gap-6">
+                                    <div className="bg-gray-50 rounded-xl p-4">
+                                        <h3 className="text-sm font-medium text-gray-500 mb-1">Företag</h3>
+                                        <p className="text-gray-900">{activeMessage.company || "Ej angivet"}</p>
+                                    </div>
+                                    <div className="bg-gray-50 rounded-xl p-4">
+                                        <h3 className="text-sm font-medium text-gray-500 mb-1">E-post</h3>
+                                        <p className="text-gray-900">{activeMessage.email || "Ej angivet"}</p>
+                                    </div>
+                                    <div className="bg-gray-50 rounded-xl p-4">
+                                        <h3 className="text-sm font-medium text-gray-500 mb-1">Telefon</h3>
+                                        <p className="text-gray-900">{activeMessage.phone || "Ej angivet"}</p>
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 rounded-xl p-4">
+                                    <h3 className="text-sm font-medium text-gray-500 mb-2">Meddelande</h3>
+                                    <p className="text-gray-900 whitespace-pre-wrap">{activeMessage.message || "Inget meddelande"}</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="p-6 text-center">
+                                <p className="text-gray-500">Välj ett meddelande från listan för att visa detaljer</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

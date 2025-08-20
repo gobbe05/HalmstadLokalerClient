@@ -132,80 +132,115 @@ const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method:
     }, [id, method]);
 
     return (
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid lg:grid-cols-2 gap-6">
             {/* Form Section */}
-            <div className="bg-white p-8 rounded-md border border-gray-200">
-                {step === 1 && <Step1BasicInfo method={method} handleClose={handleClose} formData={formData} setFormData={setFormData} nextStep={nextStep} />}
-                {step === 2 && <Step2Details formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />}
-                {step === 3 && <Step3Media formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />}
-                {step === 4 && <Step4Review formData={formData} handleSubmit={handleSubmit} prevStep={prevStep} />}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                {/* Progress Bar */}
+                <div className="p-6 border-b border-gray-100">
+                    <div className="flex items-center justify-between mb-2">
+                        <h2 className="text-xl font-semibold text-gray-900">
+                            {method === "POST" ? "Skapa ny annons" : "Redigera annons"}
+                        </h2>
+                        <span className="text-sm text-gray-500">Steg {step} av 4</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div 
+                            className="h-full bg-primary transition-all duration-300" 
+                            style={{ width: `${(step / 4) * 100}%` }}
+                        />
+                    </div>
+                </div>
+
+                <div className="p-6">
+                    {step === 1 && <Step1BasicInfo method={method} handleClose={handleClose} formData={formData} setFormData={setFormData} nextStep={nextStep} />}
+                    {step === 2 && <Step2Details formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />}
+                    {step === 3 && <Step3Media formData={formData} setFormData={setFormData} nextStep={nextStep} prevStep={prevStep} />}
+                    {step === 4 && <Step4Review formData={formData} handleSubmit={handleSubmit} prevStep={prevStep} />}
+                </div>
             </div>
 
             {/* Preview Section */}
-            <div className="bg-white p-8 rounded-md border border-gray-200 text-neutral">
-                <h2 className="text-xl font-semibold mb-4">Förhandsgranskning</h2>
-                <div className="max-w-3xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-gray-100">
+                    <h2 className="text-xl font-semibold text-gray-900">Förhandsgranskning</h2>
+                    <p className="text-sm text-gray-500 mt-1">Se hur din annons kommer att se ut</p>
+                </div>
+
+                <div className="p-6">
                     {/* Images */}
-                    <div className="w-full">
-                        <div>
-                            {formData.images.length > 0 ? (
-                                formData.images.slice(0, 1).map((image: File, index: number) => (
-                                    <img
-                                        key={index}
-                                        src={URL.createObjectURL(image)}
-                                        alt={`Image ${index + 1}`}
-                                        className="w-full h-32 object-cover"
-                                    />
-                                ))
-                            ) : (
-                                <div className="bg-neutral flex items-center justify-center h-32 w-full">
-                                    <MdOutlineImageNotSupported size={32} className="text-gray-300" />
-                                </div>
+                    <div className="rounded-xl overflow-hidden bg-gray-100 mb-6">
+                        {formData.images.length > 0 ? (
+                            <img
+                                src={URL.createObjectURL(formData.images[0])}
+                                alt="Huvudbild"
+                                className="w-full h-48 object-cover"
+                            />
+                        ) : (
+                            <div className="w-full h-48 flex flex-col items-center justify-center bg-gray-50 text-gray-400">
+                                <MdOutlineImageNotSupported size={32} />
+                                <p className="text-sm mt-2">Ingen bild uppladdad än</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Office Info */}
+                    <div className="mb-6">
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            {formData.name || "Namn på lokal"}
+                        </h1>
+                        <div className="flex items-center gap-2 text-gray-500">
+                            <span>{formData.location || "Plats ej angiven"}</span>
+                            {formData.types.length > 0 && (
+                                <>
+                                    <span>•</span>
+                                    <span>{formData.types.map(t => t.name).join(", ")}</span>
+                                </>
                             )}
                         </div>
                     </div>
 
-                    {/* Office Info */}
-                    <div className="flex items-center justify-between mb-4 mt-4">
-                        <div>
-                            <h1 className="text-2xl font-semibold">{formData.name || "Inget namn angivet"}</h1>
-                            <p className="text-gray-500">{formData.location || "Ingen plats angiven"}</p>
-                        </div>
-                    </div>
-
                     {/* Size and Price */}
-                    <div className="grid sm:grid-cols-2 gap-8">
-                        <div>
-                            <h3 className="text-gray-500">Yta</h3>
-                            <p className="text-lg font-semibold">{formData.size > 0 ? `${formData.size} m²` : "Yta ej angivet"}</p>
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                        <div className="p-4 bg-gray-50 rounded-xl">
+                            <p className="text-sm text-gray-500 mb-1">Yta</p>
+                            <p className="text-lg font-semibold text-gray-900">
+                                {formData.size > 0 ? `${formData.size} m²` : "—"}
+                            </p>
                         </div>
-                        <div>
-                            <h3 className="text-gray-500">Pris</h3>
-                            <p className="text-lg font-semibold">{formData.price > 0 ? `${formData.price} kr/mån` : "Pris ej angivet"}</p>
+                        <div className="p-4 bg-gray-50 rounded-xl">
+                            <p className="text-sm text-gray-500 mb-1">Pris</p>
+                            <p className="text-lg font-semibold text-gray-900">
+                                {formData.price > 0 ? `${formData.price.toLocaleString()} kr/mån` : "—"}
+                            </p>
                         </div>
                     </div>
-                    <hr className="border-slate-300 my-8" />
 
                     {/* Description */}
-                    <div>
-                        <h3 className="text-lg font-semibold">Beskrivning</h3>
-                        <p className="text-neutral">{formData.description || "Ingen beskrivning angiven"}</p>
-                    </div>
+                    {formData.description && (
+                        <div className="mb-6">
+                            <h3 className="text-sm font-medium text-gray-900 mb-2">Beskrivning</h3>
+                            <p className="text-gray-600 whitespace-pre-wrap">
+                                {formData.description}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Tags */}
-                    <div className="my-8">
-                        <h3 className="text-lg font-semibold">Taggar</h3>
-                        <div className="flex gap-2 flex-wrap mt-2">
-                            {formData.tags.length > 0 ? formData.tags.map((tag: string, index: number) => (
-                                <span
-                                    key={index}
-                                    className="text-sm bg-gray-200 text-neutral px-3 py-1 rounded-full"
-                                >
-                                    {tag}
-                                </span>
-                            )) : <span className="text-neutral">Inga taggar angivna</span>}
+                    {formData.tags.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-medium text-gray-900 mb-2">Taggar</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {formData.tags.map((tag: string, index: number) => (
+                                    <span
+                                        key={index}
+                                        className="px-3 py-1 bg-gray-100 text-gray-600 text-sm rounded-full"
+                                    >
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

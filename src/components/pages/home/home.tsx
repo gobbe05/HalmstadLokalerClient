@@ -11,22 +11,33 @@ import { HiOutlineSearch } from "react-icons/hi";
 
 const Home: React.FC = () => {
   return (
-    <>
-      <div className="w-full flex flex-col">
-        <HomeHero />
-       <div>
-          <TextSection />
-        </div>
-        <div className="w-full bg-white">
-          <PreviousLookedAt />
-        </div> 
-        <div className="bg-primary text-white py-32">
-          <BoxesSection />   
-        </div>
-        <ListToday />
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <HomeHero />
+
+      {/* About Section */}
+      <TextSection />
+      
+      {/* Features Section */}
+      <div className="bg-gradient-to-br from-primary to-primary-dark text-white">
+        <BoxesSection />
       </div>
-    </>
-  )
+
+      {/* Recent Views */}
+      <div className="bg-white">
+        <div className="max-w-7xl mx-auto px-4 py-16">
+          <PreviousLookedAt />
+        </div>
+      </div>
+
+      {/* Latest Listings */}
+      <div className="bg-gray-50">
+        <div>
+          <ListToday />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const HomeHero = () => {
@@ -56,79 +67,103 @@ const HomeHero = () => {
 
   return (
     <div 
-      className="flex justify-center items-center gap-16 bg-gray-400 bg-blend-multiply bg-cover bg-center py-32 rounded"
-      style={{
-        backgroundImage: "url('https://www.halmstad.se/images/18.11d2c7de185c4e35fb5f995/1715169490732/Stadsvy-med-biblioteket-dronarvy.webp')",
-      }}
+      className="relative flex items-center min-h-[500px] overflow-hidden"
     >
-      <div className="flex flex-col items-start bg-primary md:p-16 p-8 rounded-md shadow-lg max-w-5xl w-full md:m-0 m-4">
-        <h1 className="text-4xl font-bold text-white">
-          Hitta en lokal i Halmstad som passar dig
-        </h1>
-        <p className="mt-1 text-white">
-          Vi hjälper dig på vägen
-        </p>
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 w-full h-full"
+        style={{
+          backgroundImage: "linear-gradient(to bottom right, rgba(14, 116, 144, 0.90), rgba(14, 116, 144, 0.80)), url('https://www.halmstad.se/images/18.11d2c7de185c4e35fb5f995/1715169490732/Stadsvy-med-biblioteket-dronarvy.webp')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      />
 
-        <form className="w-full mt-8" onSubmit={handleSubmit}>
-          <label htmlFor="default-search" className="sr-only">
-            Search
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <svg 
-                className="w-5 h-5 text-gray-500" 
-                aria-hidden="true" 
-                xmlns="http://www.w3.org/2000/svg" 
-                fill="none" 
-                viewBox="0 0 20 20"
-              >
-                <path 
-                  stroke="currentColor" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth="2" 
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+      {/* Content */}
+      <div className="relative w-full max-w-7xl mx-auto px-4 py-16 md:py-24">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+            Hitta din perfekta <br />arbetsplats i Halmstad
+          </h1>
+          <p className="text-lg md:text-xl text-white mb-12">
+            Vi hjälper dig att hitta det perfekta kontoret, från enskilda arbetsplatser till hela lokaler
+          </p>
+
+          <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 md:p-8 shadow-lg">
+            <div className="space-y-4">
+              {/* Search Input */}
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                  <HiOutlineSearch className="w-5 h-5 text-gray-400" />
+                </div>
+                <input 
+                  type="search" 
+                  onChange={(event) => {setSearch(event.target.value)}}
+                  className="w-full pl-12 pr-4 py-4 text-base text-gray-900 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" 
+                  placeholder="Sök efter kontor, område eller typ..." 
+                  required 
                 />
-              </svg>
-            </div>
-            <input 
-              type="search" 
-              id="default-search"
-              onChange={(event) => {setSearch(event.target.value)}}
-              className="w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-secondary focus:border-secondary outline-none" 
-              placeholder="Sök efter arbetsplatser..." 
-              required 
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4 mt-4">
-              <Multiselect className="bg-gray-50 border-gray-300 text-gray-500 text-sm rounded-lg startpage-multiselect" 
-                options={officetypes}
-                selectedValues={types}
-                placeholder={placeholder}
-                onSelect={(_, type) => setTypes(prev => [...prev, type])} 
-                onRemove={(_, type) => setTypes(prev => prev.filter(x => x.id != type.id))} 
-                displayValue={"name"}
-                showCheckbox={true}
-                
+              </div>
 
-                style={
-                  {inputField: {
-                    padding: "1rem",
-                    marginTop: "0",
-                  },
-                  searchBox: {
-                    padding: "0rem 0.5rem",
-                  }}}
-              />
-              <button 
-              type="submit" 
-              className="flex items-center justify-center bg-accent hover:text-accent-dark text-white font-medium rounded-md text-sm px-4 py-2 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-all"
-            >
-              <HiOutlineSearch className="inline mr-2" size={18}/>
-              <span className="text-lg">Sök</span>
-            </button>
-          </div>
-        </form>
+              {/* Filters Row */}
+              <div className="flex flex-col md:flex-row gap-4">
+                <div className="flex-1">
+                  <Multiselect 
+                    className="bg-gray-50 border-gray-200 text-gray-900 text-base rounded-xl search-multiselect" 
+                    options={officetypes}
+                    selectedValues={types}
+                    placeholder={placeholder}
+                    onSelect={(_, type) => setTypes(prev => [...prev, type])} 
+                    onRemove={(_, type) => setTypes(prev => prev.filter(x => x.id != type.id))} 
+                    displayValue="name"
+                    showCheckbox={true}
+                    style={{
+                      chips: {
+                        backgroundColor: '#f3f4f6',
+                        color: '#111827',
+                      },
+                      inputField: {
+                        padding: '1rem',
+                        color: '#111827',
+                      },
+                      searchBox: {
+                        padding: '0 0.5rem',
+                        border: 'none',
+                        minHeight: '3.5rem',
+                        background: '#f9fafb',
+                      },
+                      optionContainer: {
+                        backgroundColor: 'white',
+                        border: '1px solid #e5e7eb',
+                        zIndex: 50,
+                      },
+                      option: {
+                        backgroundColor: 'white',
+                        color: '#111827',
+                      },
+                      groupHeading: {
+                        color: '#111827',
+                      },
+                      notFound: {
+                        color: '#111827',
+                      },
+                      placeholder: {
+                        color: '#6b7280',
+                      },
+                    }}
+                  />
+                </div>
+                <button 
+                  type="submit" 
+                  className="flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-medium rounded-xl px-8 py-4 transition-all"
+                >
+                  <span className="text-lg">Sök</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   )

@@ -1,16 +1,36 @@
 // BoxesSection Component
+import { HiOutlineBuildingOffice2, HiOutlineClock, HiOutlineSparkles } from "react-icons/hi2";
+
 export default function BoxesSection() {
     return (
-        <div className="flex justify-center items-center w-full">
-            <div className="max-w-5xl">
-                <div>
-                    <h1 className="text-4xl font-bold">Din plats i Halmstads arbetsliv</h1>
-                    <h3 className="font-semibold text-xl">Upptäck, hyr eller hyr ut kontorsutrymmen – enkelt, lokalt och flexibelt.</h3>
+        <div className="w-full py-24 md:py-32">
+            <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Din plats i Halmstads arbetsliv</h2>
+                    <p className="text-lg md:text-xl text-white/80">
+                        Upptäck, hyr eller hyr ut kontorsutrymmen – enkelt, lokalt och flexibelt.
+                    </p>
                 </div>
-                <div className="grid grid-cols-3 gap-16 mt-32">
-                    <Item cta={"Lägg upp din annons idag!"} header={"Annonsera din lokal"} text={"Har du en ledig yta? Anslut dig till företag och yrkesverksamma i Halmstad som letar efter sin nästa arbetsplats. Det är enkelt, snabbt och når rätt målgrupp."}/>
-                    <Item cta={"Utforska flexibla alternativ!"} header={"Flexibla alternativ för alla"} text={"Hitta kontor som passar dina behov. Behöver du en plats för en dag, en månad eller långsiktigt? Vår marknadsplats erbjuder flexibla lösningar som passar din verksamhet."}/>
-                    <Item cta={"Läs mer om oss!"} header={"Varför välja oss?"} text={"Vi är Halmstads dedikerade plattform för uthyrning av kontorsutrymmen. Njut av transparent prissättning, lokala annonser och en gemenskapsdriven metod för att hitta och dela arbetsplatser."}/>
+                
+                <div className="grid md:grid-cols-3 gap-8 md:gap-12">
+                    <Item 
+                        icon={<HiOutlineBuildingOffice2 size={32} />}
+                        cta="Lägg upp din annons idag!"
+                        header="Annonsera din lokal"
+                        text="Har du en ledig yta? Anslut dig till företag och yrkesverksamma i Halmstad som letar efter sin nästa arbetsplats. Det är enkelt, snabbt och når rätt målgrupp."
+                    />
+                    <Item 
+                        icon={<HiOutlineClock size={32} />}
+                        cta="Utforska flexibla alternativ!"
+                        header="Flexibla alternativ för alla"
+                        text="Hitta kontor som passar dina behov. Behöver du en plats för en dag, en månad eller långsiktigt? Vår marknadsplats erbjuder flexibla lösningar som passar din verksamhet."
+                    />
+                    <Item 
+                        icon={<HiOutlineSparkles size={32} />}
+                        cta="Läs mer om oss!"
+                        header="Varför välja oss?"
+                        text="Vi är Halmstads dedikerade plattform för uthyrning av kontorsutrymmen. Njut av transparent prissättning, lokala annonser och en gemenskapsdriven metod för att hitta och dela arbetsplatser."
+                    />
                 </div>                
             </div>
         </div>
@@ -19,18 +39,21 @@ export default function BoxesSection() {
 
 // Item Component
 type ItemProps = {
+    icon: React.ReactNode;
     header: string;
     text: string;
     cta: string;
 }
 
-const Item = ({header, text, cta}: ItemProps) => {
+const Item = ({icon, header, text, cta}: ItemProps) => {
     return (
-        <div className="text-white">
-            <h1 className="font-semibold text-2xl text-white">{header}</h1>
-            <p className="mt-2 white">{text}</p>
-            <button className="mt-8 text-white bg-accent rounded-full px-5 py-2 hover:text-accent-dark  transition-all">
-                {cta}
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 md:p-8 hover:bg-white/10 transition-all group">
+            <div className="text-accent mb-6">{icon}</div>
+            <h3 className="text-xl md:text-2xl font-semibold text-white mb-4">{header}</h3>
+            <p className="text-white/80 mb-8 leading-relaxed">{text}</p>
+            <button className="inline-flex items-center gap-2 text-white bg-white/10 hover:bg-white/20 rounded-xl px-6 py-3 transition-all">
+                <span>{cta}</span>
+                <span className="group-hover:translate-x-1 transition-transform">→</span>
             </button>
         </div>
     )

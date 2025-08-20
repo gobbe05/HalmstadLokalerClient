@@ -39,18 +39,20 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
     <div>
         <div ref={boxRef} className="overflow-hidden">
             <div className="flex flex-col gap-4">
-                <div className="flex flex-col">
+                <div className="flex gap-4">
                     <img src={`https://api.dicebear.com/5.x/initials/svg?seed=${profileData?.user && profileData.user.username}`} alt="Profile" className="w-24 h-24 rounded-md border border-gray-300" />
-                    <h2 className="mt-2 text-2xl font-bold text-neutral">{profileData?.user && (profileData.user.firstName + profileData.user.lastName)}</h2>
-                    <p className="text-sm text-gray-500">{profileData?.user && "@"+profileData.user.username}</p>
-                    
+                    <div>
+                        <h2 className="text-2xl font-bold text-neutral">{profileData?.user && (profileData.user.firstName + profileData.user.lastName)}</h2>
+                        <p className="text-sm text-gray-500">{profileData?.user && "@"+profileData.user.username}</p>
+                    </div> 
+                    <div className="flex flex-col gap-1 text-neutral ml-auto">
+                        <p className="flex items-center gap-2"> {profileData?.user && profileData.user.email && <><IoMailOutline /> {profileData.user.email}</>}</p>
+                        <p className="flex items-center gap-2"> {profileData?.user && profileData.user.phoneNumber && <><IoCallOutline /> {profileData.user.phoneNumber}</>}</p>
+                        <p className="flex items-center gap-2"> {profileData?.user && profileData.user.companyName && <><IoBusinessOutline /> {profileData.user.companyName}</>}</p>
+                    </div>    
                 </div> 
 
-                <div className="flex flex-col gap-1 text-neutral">
-                    <p className="flex items-center gap-2"> {profileData?.user && profileData.user.email && <><IoMailOutline /> {profileData.user.email}</>}</p>
-                    <p className="flex items-center gap-2"> {profileData?.user && profileData.user.phoneNumber && <><IoCallOutline /> {profileData.user.phoneNumber}</>}</p>
-                    <p className="flex items-center gap-2"> {profileData?.user && profileData.user.companyName && <><IoBusinessOutline /> {profileData.user.companyName}</>}</p>
-                </div>
+                
                 {isAuthenticated && type === "buyer" && (
                         <ContactButton broker={id} />
                     )}

@@ -37,35 +37,58 @@ export default function PreviousLookedAt() {
   }, [])
 
   return (
-      <div className="max-w-5xl mx-auto py-16 pb-64">
-        <div className="flex flex-col">
-          {/* Section Heading */}
-          <h1 className="text-4xl font-bold text-primary">
-            {noPreviouosOffices ? "Populära lokaler i Halmstad" : "Senast tittade på lokaler"} 
-          </h1>
-          <p className="font-semibold mt-1 text-neutral">
-            {noPreviouosOffices ? "Här är några av de mest populära lokalerna i Halmstad" : "Här kommer de senaste lokaler du tittat på..."} 
-          </p>
-
-          {/* Grid Section */}
-          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-12 w-full">
-            {previousOffices.map((office: IOffice) => (
-              office && <OfficeCard
-                key={office._id} // Assuming each office has a unique ID
-                office={office} 
-              />
-            ))}
+    <div className="max-w-7xl mx-auto">
+      <div className="flex flex-col">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-bold text-primary mb-2">
+              {noPreviouosOffices ? "Populära lokaler i Halmstad" : "Senast visade lokaler"} 
+            </h2>
+            <p className="text-neutral/80">
+              {noPreviouosOffices 
+                ? "De mest eftertraktade lokalerna just nu" 
+                : "Fortsätt utforska lokaler du varit intresserad av"} 
+            </p>
           </div>
-
-          {/* CTA Button */}
+          
           <Link 
             to="/lediga-lokaler" 
-            className="mt-12 mr-auto px-6 py-3 rounded-md border bg-primary text-white hover:bg-primary-dark hover:text-white transition-all duration-300"
+            className="mt-4 md:mt-0 inline-flex items-center text-primary hover:text-primary-dark transition-colors group"
+          >
+            <span>Visa alla lediga lokaler</span>
+            <svg 
+              className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
+        </div>
+
+        {/* Grid Section */}
+        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {previousOffices.map((office: IOffice) => (
+            office && (
+              <div key={office._id} className="transform transition-all duration-300 hover:-translate-y-1">
+                <OfficeCard office={office} />
+              </div>
+            )
+          ))}
+        </div>
+
+        {/* Mobile CTA */}
+        <div className="mt-8 text-center md:hidden">
+          <Link 
+            to="/lediga-lokaler" 
+            className="inline-flex items-center justify-center w-full px-6 py-3 rounded-xl bg-primary text-white hover:bg-primary-dark transition-all"
           >
             Visa alla lediga lokaler
           </Link>
         </div>
       </div>
-
-      )
+    </div>
+  )
 }

@@ -94,63 +94,132 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
-        <div className="bg-white">
-            <div className="flex flex-col w-full xl:w-2/3 mx-auto text-neutral xl:p-16 sm:p-8 xl:mb-32">
-                {/* Heading */}
-                <h1 className="text-4xl mt-8 sm:mb-8 xl:my-0 font-bold text-primary">Hitta en lokal som passar dig</h1>
-                <p className="font-semibold mt-1">Sök bland lokaler i Halmstad...</p>
-                {/* Search Form */}
+        <div className="min-h-screen bg-gray-50">
+            {/* Header */}
+            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white py-12">
+                <div className="max-w-6xl mx-auto px-4">
+                    <h1 className="text-4xl md:text-5xl font-bold">Hitta en lokal som passar dig</h1>
+                    <p className="mt-4 text-lg md:text-xl opacity-90">Sök bland lokaler i Halmstad</p>
+                </div>
+            </div>
+            <div className="max-w-6xl mx-auto px-4 -mt-8">
                 <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
-                <div className="grid xl:grid-cols-4 gap-4 mt-8">
-                    {/* Results */}
-                    <div className="xl:col-span-3">
-                        <div className="grid sm:gap-4">
-                            {/* Save Search */}
-                            <div className={`flex items-center justify-between ${!submittedSearch && "hidden"}`}>
-                                <SaveSearchButton submittedSearch={submittedSearch} />
-                            </div>
+            </div>
 
-                            {/* No Results */}
-                            {!data.length && (
-                                <div className="text-center text-neutral py-16">
-                                    <h1 className="text-2xl font-semibold">Här var det tomt...</h1>
-                                    <p className="text-lg">Testa med att utöka din sökning</p>
-                                </div>
-                            )}
-
-                            {/* Results List */}
-                            {data.map((office: IOffice) => (
-                                <OfficeCardLong office={office} key={office._id} />
-                            ))}
-
-                            {/* Pagination */}
-                            {!!data.length && (
-                                <Pagination
-                                    count={pageCount}
-                                    page={page}
-                                    onChange={(_, page) => { setPage(page) }}
-                                    className="mx-auto xl:mx-0 mt-8"
-                                    shape="rounded"
-                                />
-                            )}
+            <div className="max-w-6xl mx-auto px-4 py-8">
+                {/* Save Search Bar */}
+                {submittedSearch && (
+                    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                            <Filter className="text-gray-500" />
+                            <span className="text-gray-600">Aktiv sökning: <span className="font-medium text-gray-900">{submittedSearch}</span></span>
                         </div>
+                        <SaveSearchButton submittedSearch={submittedSearch} />
                     </div>
-                    {/* Filters for mobile screens */}
-                    <Accordion style={{borderRadius:10, boxShadow: "none", backgroundColor: "rgb(255 255 255)", borderWidth: 1}} className="mx-4 sm:mx-0 xl:hidden">
+                )}
+
+                <div className="grid xl:grid-cols-4 gap-6">
+                    {/* Filters for mobile */}
+                    <Accordion 
+                        className="xl:hidden bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
+                        style={{ boxShadow: 'none' }}
+                    >
                         <AccordionSummary
                             expandIcon={<ArrowDownwardIcon />}
                             aria-controls="panel1-content"
                             id="panel1-header"
+                            className="border-b"
                         >
-                            <h3>Filtrera</h3>
+                            <div className="flex items-center space-x-2">
+                                <Filter className="text-gray-500" />
+                                <span className="font-medium">Filtrera sökning</span>
+                            </div>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+                            <Filters 
+                                setPriceMin={setPriceMin} 
+                                setPriceMax={setPriceMax} 
+                                setSizeMin={setSizeMin} 
+                                setSizeMax={setSizeMax} 
+                                setTypes={setTypes} 
+                                types={types} 
+                            />
                         </AccordionDetails>
                     </Accordion>
-                    {/* Filters for big screens */}
-                    <div className="hidden xl:block">
-                        <Filters setPriceMin={setPriceMin} setPriceMax={setPriceMax} setSizeMin={setSizeMin} setSizeMax={setSizeMax} setTypes={setTypes} types={types} />
+
+                    {/* Filters for desktop */}
+                    <div className="hidden xl:block sticky top-4 h-fit">
+                        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                            <div className="flex items-center space-x-2 mb-6">
+                                <Filter className="text-gray-500" />
+                                <h2 className="font-medium">Filtrera sökning</h2>
+                            </div>
+                            <Filters 
+                                setPriceMin={setPriceMin} 
+                                setPriceMax={setPriceMax} 
+                                setSizeMin={setSizeMin} 
+                                setSizeMax={setSizeMax} 
+                                setTypes={setTypes} 
+                                types={types} 
+                            />
+                        </div>
+                    </div>
+
+                    {/* Results Section */}
+                    <div className="xl:col-span-3">
+                        {/* Loading State */}
+                        {isPending && (
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                                <div className="animate-pulse space-y-4">
+                                    <div className="h-4 bg-gray-200 rounded w-1/4"></div>
+                                    <div className="space-y-3">
+                                        <div className="h-3 bg-gray-200 rounded"></div>
+                                        <div className="h-3 bg-gray-200 rounded w-5/6"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Error State */}
+                        {error && (
+                            <div className="bg-red-50 rounded-lg border border-red-200 p-8 text-center">
+                                <h3 className="text-red-800 font-semibold text-lg">Något gick fel</h3>
+                                <p className="text-red-600 mt-2">Det gick inte att hämta lokalerna. Försök igen senare.</p>
+                            </div>
+                        )}
+
+                        {/* No Results */}
+                        {!isPending && !error && !data.length && (
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
+                                <h3 className="text-2xl font-semibold text-gray-800">Inga resultat hittades</h3>
+                                <p className="text-gray-600 mt-2">Prova att ändra dina sökkriterier för att se fler resultat</p>
+                            </div>
+                        )}
+
+                        {/* Results List */}
+                        {!isPending && !error && data.length > 0 && (
+                            <div className="space-y-4">
+                                {data.map((office: IOffice) => (
+                                    <div key={office._id} className="transition-all duration-200">
+                                        <OfficeCardLong office={office} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+
+                        {/* Pagination */}
+                        {data.length > 0 && (
+                            <div className="flex justify-center xl:justify-start mt-8">
+                                <Pagination
+                                    count={pageCount}
+                                    page={page}
+                                    onChange={(_, page) => { setPage(page) }}
+                                    shape="rounded"
+                                    variant="outlined"
+                                    color="primary"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>
@@ -167,60 +236,70 @@ interface FiltersProps {
 }
 const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, types}: FiltersProps) => {
     return (
-        <div className="col-span-1">
-            <div>
-                <div className="grid grid-cols-1 gap-4">
-                    {/* Price Filter */}
-                    <div className="p-4 bg-gray-50 border">
-                        <label htmlFor="size" className="block text-sm font-medium text-neutral">Pris (kr/månad)</label>
-                        <div className="mt-3 flex">
-                            <input
-                                onChange={(event) => { setPriceMin(+event.target.value) }} 
-                                type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-neutral border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
-                                placeholder="Min"
-                            />
-                            <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
-                            <input 
-                                onChange={(event) => { setPriceMax(+event.target.value) }}
-                                type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-neutral border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
-                                placeholder="Max"
-                            />
-                        </div>
+        <div className="space-y-6">
+            {/* Price Filter */}
+            <div className="space-y-4">
+                <div className="border-b pb-2">
+                    <label className="text-sm font-medium text-gray-700">Pris (kr/månad)</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <div className="flex-1">
+                        <input
+                            onChange={(event) => { setPriceMin(+event.target.value) }} 
+                            type="number"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                            placeholder="Från"
+                        />
                     </div>
-
-                    {/* Size Filter */}
-                    <div className="p-4 bg-gray-50 border">
-                        <label htmlFor="size" className="block text-sm font-medium text-gray-700">Storlek (m²)</label>
-                        <div className="mt-3 flex">
-                            <input
-                                onChange={(event) => { setSizeMin(+event.target.value) }} 
-                                type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-l-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
-                                placeholder="Min"
-                            />
-                            <span className="mx-2 text-xl text-gray-500 font-semibold">-</span>
-                            <input 
-                                onChange={(event) => { setSizeMax(+event.target.value) }}
-                                type="number"
-                                className="w-1/2 px-4 py-2 text-sm text-gray-900 border border-gray-300 rounded-r-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none"
-                                placeholder="Max"
-                            />
-                        </div>
-                    </div>
-
-                    {/* Type Filter */}
-                    <div className="p-4 bg-gray-50 border">
-                        <label htmlFor="location" className="block text-sm font-medium text-gray-700">Typ</label>
-                        <div className="flex flex-col gap-2 mt-4">
-                            {officeTypes.map((type) => (
-                                <CategoryButton setTypes={setTypes} types={types} type={type.name} key={type.id} />
-                            ))}
-                        </div>
+                    <span className="text-gray-400">-</span>
+                    <div className="flex-1">
+                        <input 
+                            onChange={(event) => { setPriceMax(+event.target.value) }}
+                            type="number"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                            placeholder="Till"
+                        />
                     </div>
                 </div>
-            </div> 
+            </div>
+
+            {/* Size Filter */}
+            <div className="space-y-4">
+                <div className="border-b pb-2">
+                    <label className="text-sm font-medium text-gray-700">Storlek (m²)</label>
+                </div>
+                <div className="flex items-center space-x-2">
+                    <div className="flex-1">
+                        <input
+                            onChange={(event) => { setSizeMin(+event.target.value) }} 
+                            type="number"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                            placeholder="Från"
+                        />
+                    </div>
+                    <span className="text-gray-400">-</span>
+                    <div className="flex-1">
+                        <input 
+                            onChange={(event) => { setSizeMax(+event.target.value) }}
+                            type="number"
+                            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
+                            placeholder="Till"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Type Filter */}
+            <div className="space-y-4">
+                <div className="border-b pb-2">
+                    <label className="text-sm font-medium text-gray-700">Lokaltyp</label>
+                </div>
+                <div className="grid grid-cols-1 gap-2">
+                    {officeTypes.map((type) => (
+                        <CategoryButton setTypes={setTypes} types={types} type={type.name} key={type.id} />
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }
@@ -232,46 +311,31 @@ interface SearchBarProps {
 }
 const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
     return (
-        <>
-            <form className="p-4 sm:p-0 w-full mt-8" onSubmit={(e) => {e.preventDefault(); handleSearch(e);}}>
-                <label htmlFor="default-search" className="sr-only">Search</label>
-                <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                        <svg 
-                            className="w-5 h-5 text-primary" 
-                            aria-hidden="true" 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            fill="none" 
-                            viewBox="0 0 20 20"
-                        >
-                            <path 
-                                stroke="currentColor" 
-                                strokeLinecap="round" 
-                                strokeLinejoin="round" 
-                                strokeWidth="2" 
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                            />
-                        </svg>
-                    </div>
+        <form 
+            onSubmit={(e) => {e.preventDefault(); handleSearch(e);}}
+            className="bg-white rounded-lg shadow-lg"
+        >
+            <div className="flex">
+                <div className="flex-1 flex items-center pl-4">
+                    <HiOutlineSearch className="w-5 h-5 text-gray-400 mr-2" />
                     <input 
                         type="search" 
                         id="default-search" 
                         value={search || ""}
-                        className="block w-full p-4 pl-12 text-sm text-neutral border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary outline-none shadow-sm" 
+                        className="w-full p-4 text-gray-900 bg-transparent border-0 focus:ring-0 outline-none" 
                         placeholder="Sök efter arbetsplatser..."
                         onChange={(e) => setSearch(e.target.value)}
                         required 
                     />
-                    <button 
-                        onClick={(e) => handleSearch(e)} 
-                        type="button" 
-                        className="absolute right-2.5 bottom-2.5 bg-primary hover:bg-primary-dark text-white font-medium rounded-md text-sm px-4 py-2 shadow-md transition-all"
-                    >
-                        <HiOutlineSearch size={20} />
-                    </button>
                 </div>
-            </form> 
-        </>
+                <button 
+                    type="submit" 
+                    className="bg-primary hover:bg-primary-dark text-white font-medium px-8 py-4 transition-colors rounded-r-lg"
+                >
+                    Sök
+                </button>
+            </div>
+        </form>
     )
 }
 

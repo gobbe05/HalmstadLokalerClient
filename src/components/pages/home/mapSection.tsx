@@ -18,7 +18,7 @@ const mapSection = ({width, height}: {width: number, height: number}) => {
         fetchPins()
     }, []) 
     return (
-        <div className="text-gray-700">
+        <div className="text-neutral">
             <div style={{height, width}}>
                 <Map defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
                     <Markers points={points} />

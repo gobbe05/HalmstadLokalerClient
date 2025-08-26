@@ -1,6 +1,9 @@
+
 import MapSection from "./mapSection";
+import { useTranslation } from "react-i18next";
 
 export default function TextSection() {
+    const { t } = useTranslation();
     return (
         <div className="bg-gradient-to-b from-white to-gray-50 py-24 md:py-32">
           <div className="max-w-7xl mx-auto px-4">
@@ -8,12 +11,11 @@ export default function TextSection() {
               {/* Text Section */}
               <div className="flex flex-col items-start lg:w-1/2">
                 <h2 className="text-3xl md:text-4xl font-bold text-neutral mb-6">
-                  Hitta och lista kontorsutrymmen lokalt i Halmstad
+                  {t('textsection.title')}
                 </h2>
                 <p className="text-lg text-gray-600 leading-relaxed mb-8">
-                  Halmstad Lokaler är plattformen för att hitta och hyra kontorsutrymmen i Halmstad med omnejd. Här finns allt från coworking-miljöer till privata kontor och fullt utrustade lokaler – nära centrum, kusten och goda transportförbindelser.
+                  {t('textsection.description')}
                 </p>
-                
                 {/* Feature List */}
                 <div className="grid grid-cols-2 gap-6">
                   <div className="flex items-start gap-3">
@@ -21,8 +23,8 @@ export default function TextSection() {
                       <div className="w-2 h-2 rounded-full bg-primary"></div>
                     </div>
                     <div>
-                      <h3 className="font-medium text-neutral">Centralt läge</h3>
-                      <p className="text-sm text-gray-600">Nära allt du behöver</p>
+                      <h3 className="font-medium text-neutral">{t('textsection.feature1Title')}</h3>
+                      <p className="text-sm text-gray-600">{t('textsection.feature1Desc')}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -30,8 +32,8 @@ export default function TextSection() {
                       <div className="w-2 h-2 rounded-full bg-primary"></div>
                     </div>
                     <div>
-                      <h3 className="font-medium text-neutral">Flexibla avtal</h3>
-                      <p className="text-sm text-gray-600">Anpassat efter dina behov</p>
+                      <h3 className="font-medium text-neutral">{t('textsection.feature2Title')}</h3>
+                      <p className="text-sm text-gray-600">{t('textsection.feature2Desc')}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -39,8 +41,8 @@ export default function TextSection() {
                       <div className="w-2 h-2 rounded-full bg-primary"></div>
                     </div>
                     <div>
-                      <h3 className="font-medium text-neutral">Bra kommunikationer</h3>
-                      <p className="text-sm text-gray-600">Enkelt att ta sig hit</p>
+                      <h3 className="font-medium text-neutral">{t('textsection.feature3Title')}</h3>
+                      <p className="text-sm text-gray-600">{t('textsection.feature3Desc')}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -48,8 +50,8 @@ export default function TextSection() {
                       <div className="w-2 h-2 rounded-full bg-primary"></div>
                     </div>
                     <div>
-                      <h3 className="font-medium text-neutral">Moderna lokaler</h3>
-                      <p className="text-sm text-gray-600">Fullt utrustade</p>
+                      <h3 className="font-medium text-neutral">{t('textsection.feature4Title')}</h3>
+                      <p className="text-sm text-gray-600">{t('textsection.feature4Desc')}</p>
                     </div>
                   </div>
                 </div>
@@ -66,8 +68,5 @@ export default function TextSection() {
             </div>
           </div>
         </div>
-
-
-
     )
 }

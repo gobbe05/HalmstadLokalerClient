@@ -1,4 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
 import ProfileCard from "../profile/profile";
 import { useState } from "react";
 
@@ -9,6 +10,7 @@ interface ISeller {
 }
 
 export default function Sellers() {
+    const { t } = useTranslation();
     const [openProfile, setOpenProfile] = useState<boolean>(false)
     const [id, setId] = useState<string | null>(null)
     const {error, isPending, data} = useQuery({
@@ -24,12 +26,12 @@ export default function Sellers() {
     return (
         <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 bg-white xl:p-16 sm:p-8 xl:mt-16 xl:mb-32 xl:rounded-lg shadow-lg">
             <h1 className="text-2xl font-bold text-center">
-                Säljare
+                {t('sellers.header', 'Säljare')}
             </h1>
             <div className="flex flex-col gap-8 mt-16">
                 {data && data.sellers.map((seller: ISeller) => (<SellerCard setId={setId} setOpenProfile={setOpenProfile} seller={seller} key={seller._id} />))}
             </div>
-            {id && <ProfileCard showOffices={false} id={id}/>}
+            {id && <ProfileCard showOffices={false} id={id}/>} 
         </div>
     );
 }

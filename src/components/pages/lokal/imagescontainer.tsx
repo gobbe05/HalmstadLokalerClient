@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FaChevronLeft, FaChevronRight, FaTimes } from "react-icons/fa";
 import { MdOutlineImageNotSupported } from "react-icons/md";
 
@@ -13,6 +14,7 @@ export default function ImagesContainer({ images }: ImagesContainerProps) {
     const [showModal, setShowModal] = useState(false);
     const [modalIndex, setModalIndex] = useState(0);
     const [imageError, setImageError] = useState(false);
+    const { t } = useTranslation();
 
     const handlePrev = () => {
         setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
@@ -59,7 +61,7 @@ export default function ImagesContainer({ images }: ImagesContainerProps) {
                         <div className="h-full w-full flex items-center justify-center bg-gray-100">
                             <div className="text-center">
                                 <MdOutlineImageNotSupported size={40} className="mx-auto mb-2 text-gray-400" />
-                                <p className="text-sm text-gray-500">Kunde inte ladda bilden</p>
+                                <p className="text-sm text-gray-500">{t('imagescontainer.couldNotLoad')}</p>
                             </div>
                         </div>
                     ) : (
@@ -120,7 +122,7 @@ export default function ImagesContainer({ images }: ImagesContainerProps) {
                             <div className="h-[80vh] w-full flex items-center justify-center">
                                 <div className="text-center">
                                     <MdOutlineImageNotSupported size={48} className="mx-auto mb-3 text-gray-400" />
-                                    <p className="text-gray-400">Kunde inte ladda bilden</p>
+                                    <p className="text-gray-400">{t('imagescontainer.couldNotLoad')}</p>
                                 </div>
                             </div>
                         ) : (

@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react"
-import { HiBellAlert, HiOutlineBellAlert } from "react-icons/hi2"
-import { useAuth } from "../../../context/Auth/AuthContext"
+import { useEffect, useState } from "react";
+import { HiBellAlert, HiOutlineBellAlert } from "react-icons/hi2";
+import { useAuth } from "../../../context/Auth/AuthContext";
+import { useTranslation } from "react-i18next";
 
 export const SaveSearchButton = ({submittedSearch}: {submittedSearch: string | undefined}) => {
     const [triggerRefetch, setTriggerRefetch] = useState<boolean>(false)
     const {isAuthenticated} = useAuth()
+    const { t } = useTranslation();
     const toggleSearchButton = async () => {
         await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/savedsearch/toggle`, {
             method: "POST",
@@ -20,7 +22,7 @@ export const SaveSearchButton = ({submittedSearch}: {submittedSearch: string | u
     return (
         <button onClick={toggleSearchButton} className="flex items-center gap-2 border px-4 py-2 rounded-lg border-gray-700 text-gray-700">
             <Bell submittedSearch={submittedSearch} triggerRefetch={triggerRefetch}/>
-            <p className="font-semibold">Bevaka sökning</p>
+            <p className="font-semibold">{t('savesearchbutton.watchSearch')}</p>
         </button>
     )
 }

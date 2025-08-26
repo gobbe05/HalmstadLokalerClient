@@ -7,6 +7,7 @@ import { toast } from "react-toastify"
 import IMessage from "../../../interfaces/IMessage"
 import { useEffect, useState } from "react"
 import RemoveDialog from "../../reusable/dialogs/removedialog"
+import { useTranslation } from "react-i18next"
 
 type Props = {
     passedMessage: IMessage;
@@ -17,15 +18,15 @@ type Props = {
 
 export default function Message({ passedMessage, activeMessageId, setActiveMessageId, showRemove }: Props) {
     const [openRemove, setOpenRemove] = useState<boolean>(false)
-
+    const { t } = useTranslation();
     const queryClient = useQueryClient();
     const handleRemove = async () => {
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/message/${passedMessage._id}`, {
             method: "DELETE",
             credentials: "include",
         });
-        if (response.status == 200) toast.success("Tog bort konversation");
-        if (response.status == 500) toast.error("Någonting gick fel...");
+        if (response.status == 200) toast.success(t('message.removed'));
+        if (response.status == 500) toast.error(t('message.error'));
         queryClient.invalidateQueries({ queryKey: ["messages"] });
     };
 
@@ -49,13 +50,13 @@ export default function Message({ passedMessage, activeMessageId, setActiveMessa
                     <button
                         onClick={(e) => {setOpenRemove(true); e.stopPropagation()}}
                         className="ml-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all duration-200"
-                        title="Ta bort meddelande"
+                        title={t('message.delete')}
                     >
                         <HiOutlineTrash size={20} />
                     </button>
                 }
             </div>
-            <RemoveDialog open={openRemove} setOpen={setOpenRemove} handleRemove={handleRemove} dialogText={"Är du säker på att du vill ta bort detta meddelandet?"}/>
+            <RemoveDialog open={openRemove} setOpen={setOpenRemove} handleRemove={handleRemove} dialogText={t('message.confirmDelete')}/>
         </> 
     );
 }

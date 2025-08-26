@@ -8,15 +8,16 @@ import { Accordion, AccordionDetails, AccordionSummary, Pagination } from "@mui/
 import officeTypes from "../../../utils/officeTypes"
 import CategoryButton from "./categorybutton"
 import { useLocation } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Filter } from "@mui/icons-material"
 import { HiOutlineSearch } from "react-icons/hi"
 
 
 const LedigaLokaler = () => {
+    const { t } = useTranslation();
     const limit = 10
 
-    const queryParams = new URLSearchParams(window.location.search);
     const [search, setSearch] = useState<string | undefined>(undefined)
     const [submittedSearch, setSubmittedSearch] = useState<string>("")
     const [priceMin, setPriceMin] = useState<number | undefined>()
@@ -98,8 +99,8 @@ const LedigaLokaler = () => {
             {/* Header */}
             <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white py-12">
                 <div className="max-w-6xl mx-auto px-4">
-                    <h1 className="text-4xl md:text-5xl font-bold">Hitta en lokal som passar dig</h1>
-                    <p className="mt-4 text-lg md:text-xl opacity-90">Sök bland lokaler i Halmstad</p>
+                    <h1 className="text-4xl md:text-5xl font-bold">{t('ledigalokaler.header')}</h1>
+                    <p className="mt-4 text-lg md:text-xl opacity-90">{t('ledigalokaler.subheader')}</p>
                 </div>
             </div>
             <div className="max-w-6xl mx-auto px-4 -mt-8">
@@ -112,7 +113,7 @@ const LedigaLokaler = () => {
                     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                             <Filter className="text-gray-500" />
-                            <span className="text-gray-600">Aktiv sökning: <span className="font-medium text-gray-900">{submittedSearch}</span></span>
+                            <span className="text-gray-600">{t('ledigalokaler.activeSearch')}: <span className="font-medium text-gray-900">{submittedSearch}</span></span>
                         </div>
                         <SaveSearchButton submittedSearch={submittedSearch} />
                     </div>
@@ -132,7 +133,7 @@ const LedigaLokaler = () => {
                         >
                             <div className="flex items-center space-x-2">
                                 <Filter className="text-gray-500" />
-                                <span className="font-medium">Filtrera sökning</span>
+                                <span className="font-medium">{t('ledigalokaler.filterSearch')}</span>
                             </div>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -152,7 +153,7 @@ const LedigaLokaler = () => {
                         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                             <div className="flex items-center space-x-2 mb-6">
                                 <Filter className="text-gray-500" />
-                                <h2 className="font-medium">Filtrera sökning</h2>
+                                <h2 className="font-medium">{t('ledigalokaler.filterSearch')}</h2>
                             </div>
                             <Filters 
                                 setPriceMin={setPriceMin} 
@@ -183,16 +184,16 @@ const LedigaLokaler = () => {
                         {/* Error State */}
                         {error && (
                             <div className="bg-red-50 rounded-lg border border-red-200 p-8 text-center">
-                                <h3 className="text-red-800 font-semibold text-lg">Något gick fel</h3>
-                                <p className="text-red-600 mt-2">Det gick inte att hämta lokalerna. Försök igen senare.</p>
+                                <h3 className="text-red-800 font-semibold text-lg">{t('ledigalokaler.errorTitle')}</h3>
+                                <p className="text-red-600 mt-2">{t('ledigalokaler.errorText')}</p>
                             </div>
                         )}
 
                         {/* No Results */}
                         {!isPending && !error && !data.length && (
                             <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-                                <h3 className="text-2xl font-semibold text-gray-800">Inga resultat hittades</h3>
-                                <p className="text-gray-600 mt-2">Prova att ändra dina sökkriterier för att se fler resultat</p>
+                                <h3 className="text-2xl font-semibold text-gray-800">{t('ledigalokaler.noResultsTitle')}</h3>
+                                <p className="text-gray-600 mt-2">{t('ledigalokaler.noResultsText')}</p>
                             </div>
                         )}
 
@@ -235,12 +236,14 @@ interface FiltersProps {
     types: Array<string>
 }
 const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, types}: FiltersProps) => {
+    const { t } = useTranslation();
+
     return (
         <div className="space-y-6">
             {/* Price Filter */}
             <div className="space-y-4">
                 <div className="border-b pb-2">
-                    <label className="text-sm font-medium text-gray-700">Pris (kr/månad)</label>
+                    <label className="text-sm font-medium text-gray-700">{t('ledigalokaler.priceLabel')}</label>
                 </div>
                 <div className="flex items-center space-x-2">
                     <div className="flex-1">
@@ -248,7 +251,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                             onChange={(event) => { setPriceMin(+event.target.value) }} 
                             type="number"
                             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
-                            placeholder="Från"
+                            placeholder={t('ledigalokaler.priceFrom')}
                         />
                     </div>
                     <span className="text-gray-400">-</span>
@@ -257,7 +260,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                             onChange={(event) => { setPriceMax(+event.target.value) }}
                             type="number"
                             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
-                            placeholder="Till"
+                            placeholder={t('ledigalokaler.priceTo')}
                         />
                     </div>
                 </div>
@@ -266,7 +269,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
             {/* Size Filter */}
             <div className="space-y-4">
                 <div className="border-b pb-2">
-                    <label className="text-sm font-medium text-gray-700">Storlek (m²)</label>
+                    <label className="text-sm font-medium text-gray-700">{t('ledigalokaler.sizeLabel')}</label>
                 </div>
                 <div className="flex items-center space-x-2">
                     <div className="flex-1">
@@ -274,7 +277,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                             onChange={(event) => { setSizeMin(+event.target.value) }} 
                             type="number"
                             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
-                            placeholder="Från"
+                            placeholder={t('ledigalokaler.sizeFrom')}
                         />
                     </div>
                     <span className="text-gray-400">-</span>
@@ -283,7 +286,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
                             onChange={(event) => { setSizeMax(+event.target.value) }}
                             type="number"
                             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors outline-none"
-                            placeholder="Till"
+                            placeholder={t('ledigalokaler.sizeTo')}
                         />
                     </div>
                 </div>
@@ -292,7 +295,7 @@ const Filters = ({setPriceMin, setPriceMax, setSizeMin, setSizeMax, setTypes, ty
             {/* Type Filter */}
             <div className="space-y-4">
                 <div className="border-b pb-2">
-                    <label className="text-sm font-medium text-gray-700">Lokaltyp</label>
+                    <label className="text-sm font-medium text-gray-700">{t('ledigalokaler.typeLabel')}</label>
                 </div>
                 <div className="grid grid-cols-1 gap-2">
                     {officeTypes.map((type) => (
@@ -310,6 +313,7 @@ interface SearchBarProps {
     setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
 }
 const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
+    const { t } = useTranslation();
     return (
         <form 
             onSubmit={(e) => {e.preventDefault(); handleSearch(e);}}
@@ -323,7 +327,7 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
                         id="default-search" 
                         value={search || ""}
                         className="w-full p-4 text-gray-900 bg-transparent border-0 focus:ring-0 outline-none" 
-                        placeholder="Sök efter arbetsplatser..."
+                        placeholder={t('ledigalokaler.searchPlaceholder')}
                         onChange={(e) => setSearch(e.target.value)}
                         required 
                     />
@@ -332,7 +336,7 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
                     type="submit" 
                     className="bg-primary hover:bg-primary-dark text-white font-medium px-8 py-4 transition-colors rounded-r-lg"
                 >
-                    Sök
+                    {t('ledigalokaler.searchButton')}
                 </button>
             </div>
         </form>

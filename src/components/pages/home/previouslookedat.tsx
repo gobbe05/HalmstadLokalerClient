@@ -2,8 +2,10 @@ import { Link } from "react-router-dom"
 import IOffice from "../../../interfaces/IOffice"
 import OfficeCard from "../../cards/officecard"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 export default function PreviousLookedAt() {
+  const { t } = useTranslation();
   const [previousOffices, setPreviousOffices] = useState<IOffice[]>([])
   const [noPreviouosOffices, setNoPreviousOffices] = useState<boolean>(false)
 
@@ -43,12 +45,12 @@ export default function PreviousLookedAt() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8">
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-primary mb-2">
-              {noPreviouosOffices ? "Populära lokaler i Halmstad" : "Senast visade lokaler"} 
+              {noPreviouosOffices ? t('previouslookedat.popularTitle') : t('previouslookedat.recentTitle')}
             </h2>
             <p className="text-neutral/80">
-              {noPreviouosOffices 
-                ? "De mest eftertraktade lokalerna just nu" 
-                : "Fortsätt utforska lokaler du varit intresserad av"} 
+              {noPreviouosOffices
+                ? t('previouslookedat.popularSubtitle')
+                : t('previouslookedat.recentSubtitle')}
             </p>
           </div>
           
@@ -56,7 +58,7 @@ export default function PreviousLookedAt() {
             to="/lediga-lokaler" 
             className="mt-4 md:mt-0 inline-flex items-center text-primary hover:text-primary-dark transition-colors group"
           >
-            <span>Visa alla lediga lokaler</span>
+            <span>{t('previouslookedat.showAll')}</span>
             <svg 
               className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" 
               fill="none" 
@@ -85,7 +87,7 @@ export default function PreviousLookedAt() {
             to="/lediga-lokaler" 
             className="inline-flex items-center justify-center w-full px-6 py-3 rounded-xl bg-primary text-white hover:bg-primary-dark transition-all"
           >
-            Visa alla lediga lokaler
+            {t('previouslookedat.showAll')}
           </Link>
         </div>
       </div>

@@ -5,8 +5,10 @@ import IOffice from "../../../interfaces/IOffice"
 import MyPageOfficeCard from "../../cards/mypageofficecard"
 import ShowAllButton from "../../buttons/showallbutton"
 import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next";
 
 export default function Listings() {
+    const { t } = useTranslation();
     const {isPending,error,data} = useQuery({
         queryKey: ['my-offices'],
         queryFn: () => {
@@ -20,10 +22,10 @@ export default function Listings() {
     if(error) return <FiveHundred />    
     return (
         <div className="flex flex-col col-span-2 gap-4 bg-white text-neutral border border-gray-200 rounded-md p-8">
-            <h1 className="text-2xl font-semibold mb-4">Dina annonser</h1>
+            <h1 className="text-2xl font-semibold mb-4">{t('listings.title')}</h1>
             {data.offices.map((office: IOffice) => <MyPageOfficeCard office={office} />)}
             <div className="flex mt-4">
-                <Link className="bg-primary hover:bg-primary-dark text-white flex items-center px-6 py-3 rounded-md" to="/min-sida/alla-kontor">Visa alla dina annonser</Link>
+                <Link className="bg-primary hover:bg-primary-dark text-white flex items-center px-6 py-3 rounded-md" to="/min-sida/alla-kontor">{t('listings.showAll')}</Link>
             </div>
         </div>
     )

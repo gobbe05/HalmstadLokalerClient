@@ -1,5 +1,6 @@
 // src/components/home.tsx
 import React, { FormEvent, useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import BoxesSection from "./boxessection";
 import TextSection from "./textsection";
 import ListToday from "./listtoday";
@@ -10,6 +11,7 @@ import officetypes from "../../../utils/officeTypes";
 import { HiOutlineSearch } from "react-icons/hi";
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -41,9 +43,10 @@ const Home: React.FC = () => {
 };
 
 const HomeHero = () => {
+  const { t } = useTranslation();
   const [search, setSearch] = useState<string>("")
   const [types, setTypes] = useState<{name: string, id: number}[]>([])
-  const [placeholder, setPlaceholder] = useState<string>("Välj kontorstyp")
+  const [placeholder, setPlaceholder] = useState<string>(t('home.selectType', 'Välj kontorstyp'))
   const navigate = useNavigate()
 
   const handleSubmit = (event: FormEvent) => {
@@ -58,12 +61,12 @@ const HomeHero = () => {
 
   useEffect(() => {
     if (types.length == 1)
-      setPlaceholder("1 vald")
+      setPlaceholder(t('home.oneSelected', '1 vald'))
     else if (types.length > 1)
-      setPlaceholder(`${types.length} valda`)
+      setPlaceholder(t('home.manySelected', { count: types.length, defaultValue: '{{count}} valda' }))
     else
-      setPlaceholder("Välj kontorstyp")
-  }, [types])
+      setPlaceholder(t('home.selectType', 'Välj kontorstyp'))
+  }, [types, t])
 
   return (
     <div 
@@ -84,10 +87,10 @@ const HomeHero = () => {
       <div className="relative w-full max-w-7xl mx-auto px-4 py-16 md:py-24">
         <div className="max-w-3xl">
           <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
-            Hitta din perfekta <br />arbetsplats i Halmstad
+            {t('home.heroTitle', 'Hitta din perfekta')} <br />{t('home.heroSubtitle', 'arbetsplats i Halmstad')}
           </h1>
           <p className="text-lg md:text-xl text-white mb-12">
-            Vi hjälper dig att hitta det perfekta kontoret, från enskilda arbetsplatser till hela lokaler
+            {t('home.heroText', 'Vi hjälper dig att hitta det perfekta kontoret, från enskilda arbetsplatser till hela lokaler')}
           </p>
 
           <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 md:p-8 shadow-lg">
@@ -101,7 +104,7 @@ const HomeHero = () => {
                   type="search" 
                   onChange={(event) => {setSearch(event.target.value)}}
                   className="w-full pl-12 pr-4 py-4 text-base text-gray-900 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" 
-                  placeholder="Sök efter kontor, område eller typ..." 
+                  placeholder={t('home.searchPlaceholder', 'Sök efter kontor, område eller typ...')} 
                   required 
                 />
               </div>
@@ -158,7 +161,7 @@ const HomeHero = () => {
                   type="submit" 
                   className="flex items-center justify-center bg-primary hover:bg-primary-dark text-white font-medium rounded-xl px-8 py-4 transition-all"
                 >
-                  <span className="text-lg">Sök</span>
+                  <span className="text-lg">{t('home.searchButton', 'Sök')}</span>
                 </button>
               </div>
             </div>

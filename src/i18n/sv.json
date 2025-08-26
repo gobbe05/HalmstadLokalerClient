@@ -1,0 +1,198 @@
+{
+  "minsida": {
+    "denied": "Åtkomst nekad",
+    "loginRequired": "Du måste vara inloggad för att se din sida.",
+    "title": "Min sida",
+    "subtitle": "Hantera dina annonser, se statistik och uppdatera din profil på ett ställe."
+  },
+  "allakontor": {
+    "title": "Alla kontor",
+    "subtitle": "Hantera alla dina annonserade lokaler..."
+  },
+  "lokal": {
+    "error": "Ett fel uppstod",
+    "notFound": "Lokaldetaljer hittades inte.",
+    "backToSearch": "Tillbaka till sök",
+    "office": "Lokal",
+    "size": "Storlek",
+    "price": "Månadshyra",
+    "about": "Om lokalen",
+    "noDescription": "Ingen beskrivning tillgänglig",
+    "features": "Egenskaper",
+    "contactSeller": "Kontakta säljare",
+    "otherOffices": "Andra lokaler från säljaren",
+    "noOtherOffices": "Inga andra lokaler hittades från samma säljare."
+  },
+  "boxes": {
+    "title": "Din plats i Halmstads arbetsliv",
+    "subtitle": "Upptäck, hyr eller hyr ut kontorsutrymmen – enkelt, lokalt och flexibelt.",
+    "cta1": "Lägg upp din annons idag!",
+    "header1": "Annonsera din lokal",
+    "text1": "Har du en ledig yta? Anslut dig till företag och yrkesverksamma i Halmstad som letar efter sin nästa arbetsplats. Det är enkelt, snabbt och når rätt målgrupp.",
+    "cta2": "Utforska flexibla alternativ!",
+    "header2": "Flexibla alternativ för alla",
+    "text2": "Hitta kontor som passar dina behov. Behöver du en plats för en dag, en månad eller långsiktigt? Vår marknadsplats erbjuder flexibla lösningar som passar din verksamhet.",
+    "cta3": "Läs mer om oss!",
+    "header3": "Varför välja oss?",
+    "text3": "Vi är Halmstads dedikerade plattform för uthyrning av kontorsutrymmen. Njut av transparent prissättning, lokala annonser och en gemenskapsdriven metod för att hitta och dela arbetsplatser."
+  },
+  "home": {
+    "heroTitle": "Hitta din perfekta",
+    "heroSubtitle": "arbetsplats i Halmstad",
+    "heroText": "Vi hjälper dig att hitta det perfekta kontoret, från enskilda arbetsplatser till hela lokaler",
+    "searchPlaceholder": "Sök efter kontor, område eller typ...",
+    "searchButton": "Sök",
+    "selectType": "Välj kontorstyp",
+    "oneSelected": "1 vald",
+    "manySelected": "{{count}} valda"
+  },
+  "sellers": {
+    "header": "Säljare"
+  },
+  "inbox": {
+    "header": "Inkorg",
+    "headerText": "Hantera dina meddelanden och förfrågningar från intresserade köpare.",
+    "incoming": "Inkomna meddelanden",
+    "none": "Inga meddelanden att visa.",
+    "noneSub": "Nya meddelanden visas här när de kommer in.",
+    "details": "Meddelandedetaljer",
+    "company": "Företag",
+    "email": "E-post",
+    "phone": "Telefon",
+    "notProvided": "Ej angivet",
+    "message": "Meddelande",
+    "noMessage": "Inget meddelande",
+    "select": "Välj ett meddelande från listan för att visa detaljer"
+  },
+  "saved": {
+    "errorTitle": "Något gick fel",
+    "errorText": "Det gick inte att hämta dina sparade lokaler. Försök igen senare eller kontakta support om problemet kvarstår.",
+    "noneTitle": "Inga sparade lokaler än",
+    "noneText": "När du hittar en lokal du gillar kan du spara den här för att enkelt hitta tillbaka senare.",
+    "findOffices": "Hitta lokaler",
+    "title": "Dina sparade lokaler",
+    "office": "lokal",
+    "offices": "lokaler",
+    "saved": "sparade",
+    "header": "Sparade lokaler",
+    "headerText": "Här hittar du alla kontorslokaler som du har sparat för att titta på senare."
+  },
+  "login": {
+    "title": "Logga in",
+    "usernameOrEmail": "Användarnamn / E-post",
+    "usernamePlaceholder": "Användarnamn...",
+    "password": "Lösenord",
+    "passwordPlaceholder": "Lösenord...",
+    "loginButton": "Logga in",
+    "noAccount": "Har du inget konto?",
+    "createNew": "Skapa ett nytt!"
+  },
+  "register": {
+    "email": "Email",
+    "emailPlaceholder": "Email...",
+    "username": "Användarnamn",
+    "usernamePlaceholder": "Användarnamn...",
+    "password": "Lösenord",
+    "passwordPlaceholder": "Lösenord...",
+    "confirmPassword": "Bekräfta Lösenord",
+    "confirmPasswordPlaceholder": "Bekräfta lösenord...",
+    "buyer": "Köpare",
+    "seller": "Säljare"
+  },
+  "profile": {
+    "title": "Profil",
+    "greeting": "Hej, {{name}}!",
+    "error": "Det gick inte att ladda profilen",
+    "showEmail": "Visa e-postadress",
+    "showPhone": "Visa telefonnummer",
+    "sendMessage": "Skicka meddelande",
+    "activeListings": "Aktiva annonser",
+    "showLess": "Visa mindre",
+    "showAll": "Visa alla"
+  },
+  "listtoday": {
+    "owner": "Fastighetsägare",
+    "title": "Annonsera din lokal",
+    "today": "idag",
+    "description1": "Kom igång direkt och nå potentiella hyresgäster på bara några minuter.",
+    "description2": "Skapa ett konto idag för att enkelt lägga upp din lokal och göra den synlig för företag som söker kontorsutrymme i Halmstad.",
+    "activeSeekers": "Aktiva sökande",
+    "avgResponse": "Genomsnittlig svarstid",
+    "readMore": "Läs mer",
+    "imageAlt": "Modern kontorslokal"
+  }
+  ,
+  "previouslookedat": {
+    "popularTitle": "Populära lokaler i Halmstad",
+    "recentTitle": "Senast visade lokaler",
+    "popularSubtitle": "De mest eftertraktade lokalerna just nu",
+    "recentSubtitle": "Fortsätt utforska lokaler du varit intresserad av",
+    "showAll": "Visa alla lediga lokaler"
+  }
+  ,
+  "textsection": {
+    "title": "Hitta och lista kontorsutrymmen lokalt i Halmstad",
+    "description": "Halmstad Lokaler är plattformen för att hitta och hyra kontorsutrymmen i Halmstad med omnejd. Här finns allt från coworking-miljöer till privata kontor och fullt utrustade lokaler – nära centrum, kusten och goda transportförbindelser.",
+    "feature1Title": "Centralt läge",
+    "feature1Desc": "Nära allt du behöver",
+    "feature2Title": "Flexibla avtal",
+    "feature2Desc": "Anpassat efter dina behov",
+    "feature3Title": "Bra kommunikationer",
+    "feature3Desc": "Enkelt att ta sig hit",
+    "feature4Title": "Moderna lokaler",
+    "feature4Desc": "Fullt utrustade"
+  }
+  ,
+  "categorybutton": {
+    "Kontor": "Kontor",
+    "Kontorshotell & Coworking": "Kontorshotell & Coworking",
+    "Lager & logistik": "Lager & logistik",
+    "Butiker": "Butiker",
+    "Industrier & verkstäder": "Industrier & verkstäder",
+    "Övrigt": "Övrigt"
+  }
+  ,
+  "message": {
+    "removed": "Tog bort konversation",
+    "error": "Någonting gick fel...",
+    "delete": "Ta bort meddelande",
+    "confirmDelete": "Är du säker på att du vill ta bort detta meddelandet?"
+  }
+  ,
+  "ledigalokaler": {
+    "header": "Hitta en lokal som passar dig",
+    "subheader": "Sök bland lokaler i Halmstad",
+    "activeSearch": "Aktiv sökning",
+    "filterSearch": "Filtrera sökning",
+    "errorTitle": "Något gick fel",
+    "errorText": "Det gick inte att hämta lokalerna. Försök igen senare.",
+    "noResultsTitle": "Inga resultat hittades",
+    "noResultsText": "Prova att ändra dina sökkriterier för att se fler resultat",
+    "priceLabel": "Pris (kr/månad)",
+    "priceFrom": "Från",
+    "priceTo": "Till",
+    "sizeLabel": "Storlek (m²)",
+    "sizeFrom": "Från",
+    "sizeTo": "Till",
+    "typeLabel": "Lokaltyp",
+    "searchPlaceholder": "Sök efter arbetsplatser...",
+    "searchButton": "Sök"
+  }
+  ,
+  "savesearchbutton": {
+    "watchSearch": "Bevaka sökning"
+  },
+  "contactform": {
+    "header": "Skicka ett meddelande",
+    "companyName": "Företagsnamn",
+    "email": "E-post",
+    "phone": "Telefon",
+    "message": "Meddelande",
+    "send": "Skicka",
+    "success": "Meddelandet har skickats!",
+    "error": "Det gick inte att skicka meddelandet"
+  },
+  "imagescontainer": {
+    "couldNotLoad": "Kunde inte ladda bilden"
+  }
+}

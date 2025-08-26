@@ -2,19 +2,21 @@ import { useAuth } from "../../../context/Auth/AuthContext";
 import Listings from "./listings";
 import MyProfile from "./profile";
 import Statistics from "./statistics";
+import { useTranslation } from "react-i18next";
 
 export default function MinSida() {
-   const {authId} = useAuth()
-   if(!authId) {
+    const { t } = useTranslation();
+    const {authId} = useAuth()
+    if(!authId) {
         return (
             <div className="min-h-[60vh] flex items-center justify-center bg-gray-50">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-neutral mb-2">Åtkomst nekad</h2>
-                    <p className="text-neutral/80">Du måste vara inloggad för att se din sida.</p>
+                    <h2 className="text-2xl font-bold text-neutral mb-2">{t('minsida.denied')}</h2>
+                    <p className="text-neutral/80">{t('minsida.loginRequired')}</p>
                 </div>
             </div>
         )
-   }
+    }
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
@@ -22,10 +24,10 @@ export default function MinSida() {
                 <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
                     <div className="max-w-3xl">
                         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                            Min sida
+                            {t('minsida.title')}
                         </h1>
                         <p className="text-lg md:text-xl text-white/90">
-                            Hantera dina annonser, se statistik och uppdatera din profil på ett ställe.
+                            {t('minsida.subtitle')}
                         </p>
                     </div>
                 </div>

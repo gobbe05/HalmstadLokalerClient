@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import { FaTrashAlt } from "react-icons/fa";
 
 interface AddImageButtonProps {
@@ -14,6 +15,7 @@ export default function AddImageButton({
     handleRemoveImage,
     setImages,
 }: AddImageButtonProps) {
+    const { t } = useTranslation();
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         const files = Array.from(event.dataTransfer.files).filter((file) => file.type.startsWith("image/"));
@@ -27,12 +29,12 @@ export default function AddImageButton({
                 onDragOver={(e) => e.preventDefault()}
                 onDrop={handleDrop}
             >
-                <p className="text-gray-500">Dra och släpp bilder här eller klicka för att ladda upp</p>
+                <p className="text-gray-500">{t('officeform.dragDropOrClick', 'Dra och släpp bilder här eller klicka för att ladda upp')}</p>
                 <label
                     htmlFor="image-upload"
                     className="cursor-pointer px-4 py-2 bg-accent text-white rounded-lg shadow hover:bg-accent-dark transition mt-2"
                 >
-                    Välj bilder
+                    {t('officeform.selectImages', 'Välj bilder')}
                 </label>
                 <input
                     id="image-upload"
@@ -48,7 +50,7 @@ export default function AddImageButton({
                     <div key={index} className="relative w-24 h-24 bg-gray-200 rounded-md overflow-hidden">
                         <img
                             src={URL.createObjectURL(image)}
-                            alt={`Image ${index + 1}`}
+                            alt={t('officeform.imageAlt', { index: index + 1, defaultValue: `Bild ${index + 1}` })}
                             className="w-full h-full object-cover rounded-lg shadow"
                         />
                         <button

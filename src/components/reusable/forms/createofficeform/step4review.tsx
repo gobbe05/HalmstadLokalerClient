@@ -1,50 +1,52 @@
 import { Button } from "@mui/material";
 import { FaArrowLeft, FaCheck } from "react-icons/fa";
+import { useTranslation } from 'react-i18next';
 
 const Step4Review = ({ formData, handleSubmit, prevStep }: any) => {
+    const { t } = useTranslation();
     return (
         <div className="space-y-6">
-            <h1 className="text-2xl font-bold text-primary">Steg 4: Granska och Skicka</h1>
+            <h1 className="text-2xl font-bold text-primary">{t('officeform.step4Title', 'Steg 4: Granska och Skicka')}</h1>
 
             {/* Basic Information */}
             <div className="bg-gray-100 p-4 rounded-lg">
-                <h2 className="text-lg font-semibold text-neutral mb-2">Grundläggande Information</h2>
+                <h2 className="text-lg font-semibold text-neutral mb-2">{t('officeform.basicInfo', 'Grundläggande Information')}</h2>
                 <p className="text-sm text-neutral">
-                    <strong>Namn:</strong> {formData.name}
+                    <strong>{t('officeform.name', 'Namn')}:</strong> {formData.name}
                 </p>
                 <p className="text-sm text-neutral">
-                    <strong>Plats:</strong> {formData.location}
+                    <strong>{t('officeform.location', 'Plats')}:</strong> {formData.location}
                 </p>
                 <p className="text-sm text-neutral">
-                    <strong>Typer:</strong> {formData.types.map((type: any) => type.name).join(", ")}
+                    <strong>{t('officeform.type', 'Typer')}:</strong> {formData.types.map((type: any) => t(`categorybutton.${type.name}`, type.name)).join(", ")}
                 </p>
             </div>
 
             {/* Details */}
             <div className="bg-gray-100 p-4 rounded-lg">
-                <h2 className="text-lg font-semibold text-neutral mb-2">Detaljer</h2>
+                <h2 className="text-lg font-semibold text-neutral mb-2">{t('officeform.details', 'Detaljer')}</h2>
                 <p className="text-sm text-neutral">
-                    <strong>Storlek:</strong> {formData.size} kvm
+                    <strong>{t('officeform.area', 'Storlek')}:</strong> {formData.size} {t('officeform.sqm', 'kvm')}
                 </p>
                 <p className="text-sm text-neutral">
-                    <strong>Pris:</strong> {formData.price} kr/mån
+                    <strong>{t('officeform.price', 'Pris')}:</strong> {formData.price} {t('officeform.pricePerMonth', 'kr/mån')}
                 </p>
                 <p className="text-sm text-neutral">
-                    <strong>Beskrivning:</strong> {formData.description}
+                    <strong>{t('officeform.description', 'Beskrivning')}:</strong> {formData.description}
                 </p>
                 <p className="text-sm text-neutral">
-                    <strong>Taggar:</strong> {formData.tags.join(", ")}
+                    <strong>{t('officeform.tags', 'Taggar')}:</strong> {formData.tags.join(", ")}
                 </p>
             </div>
 
             {/* Media */}
             <div className="bg-gray-100 p-4 rounded-lg">
-                <h2 className="text-lg font-semibold text-neutral mb-2">Media</h2>
+                <h2 className="text-lg font-semibold text-neutral mb-2">{t('officeform.media', 'Media')}</h2>
                 <p className="text-sm text-neutral">
-                    <strong>Dokument:</strong> {formData.documents.map((doc: File) => doc.name).join(", ")}
+                    <strong>{t('officeform.documents', 'Dokument')}:</strong> {formData.documents.map((doc: File) => doc.name).join(", ")}
                 </p>
                 <p className="text-sm text-neutral">
-                    <strong>Bilder:</strong> {formData.images.map((img: File) => img.name).join(", ")}
+                    <strong>{t('officeform.images', 'Bilder')}:</strong> {formData.images.map((img: File) => img.name).join(", ")}
                 </p>
             </div>
 
@@ -55,13 +57,13 @@ const Step4Review = ({ formData, handleSubmit, prevStep }: any) => {
                     className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-dark transition-all"
                 >
                     <FaArrowLeft />
-                    <span>Backa</span>
+                    <span>{t('officeform.back', 'Backa')}</span>
                 </button>
                 <button
                     onClick={handleSubmit}
                     className="flex items-center gap-2 bg-success text-white px-6 py-3 rounded-md hover:bg-success-dark transition-all"
                 >
-                    <span>Skicka</span>
+                    <span>{t('officeform.send', 'Skicka')}</span>
                     <FaCheck />
                 </button>
             </div>

@@ -3,6 +3,7 @@ import LocationInput from "../../../pages/hyr-ut-lokal/locationinput";
 import IOfficeFormData from "./IOfficeFormData";
 import { Link } from "react-router-dom";
 import officetypes from "../../../../utils/officeTypes";
+import { useTranslation } from 'react-i18next';
 
 interface Step1BasicInfoProps {
     formData: IOfficeFormData;
@@ -13,13 +14,14 @@ interface Step1BasicInfoProps {
 }
 
 const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }: Step1BasicInfoProps) => {
+    const { t } = useTranslation();
     return (
         <div className="flex flex-col gap-6 h-full">
-            <h1 className="text-2xl font-bold text-primary">Steg 1: Grundläggande Information</h1>
+            <h1 className="text-2xl font-bold text-primary">{t('officeform.step1Title', 'Steg 1: Grundläggande Information')}</h1>
             {/* Name Input */}
             <div>
                 <label htmlFor="name" className="block text-sm font-medium text-neutral mb-1">
-                    Namn
+                    {t('officeform.name', 'Namn')}
                 </label>
                 <input
                     id="name"
@@ -27,25 +29,25 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Ange namn på lokalen"
+                    placeholder={t('officeform.namePlaceholder', 'Ange namn på lokalen')}
                 />
             </div>
 
             {/* Location Input */}
             <div>
                 <label htmlFor="location" className="block text-sm font-medium text-neutral mb-1">
-                    Plats
+                    {t('officeform.location', 'Plats')}
                 </label>
                 {method === "POST" ?
                 <LocationInput
                     setLocation={(location) => {
                         setFormData((formData: any) => {
-                            return { ...formData, location }; // Added return statement
+                            return { ...formData, location };
                         });
                     }}
                     setMarker={(marker) => {
                         setFormData((formData: any) => {
-                            return { ...formData, marker }; // Added return statement
+                            return { ...formData, marker };
                         });
                     }}
                 />:
@@ -55,7 +57,7 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }
             {/* Office Types */}
             <div>
                 <label htmlFor="types" className="block text-sm font-medium text-neutral mb-1">
-                    Typ av lokal
+                    {t('officeform.type', 'Typ av lokal')}
                 </label>
                 <div className="flex flex-wrap gap-2">
                     {officetypes.map((type) => (
@@ -78,7 +80,7 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }
                                     : "bg-gray-200 text-neutral hover:bg-gray-300"
                             }`}
                         >
-                            {type.name}
+                            {t(`categorybutton.${type.name}`, type.name)}
                         </button>
                     ))}
                 </div>
@@ -91,13 +93,13 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }
                     onClick={handleClose}
                     className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-all"
                     >
-                    Avbryt
+                    {t('officeform.cancel', 'Avbryt')}
                 </button> : 
                <Link to="/">
                     <button
                         className="bg-red-500 text-white px-6 py-3 rounded-md hover:bg-red-600 transition-all"
                     >
-                        Avbryt
+                        {t('officeform.cancel', 'Avbryt')}
                     </button>
                 </Link>} 
                 {/* Next Button */}
@@ -105,7 +107,7 @@ const Step1BasicInfo = ({ formData, setFormData, nextStep, handleClose, method }
                     onClick={nextStep}
                     className="ml-auto flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-dark transition-all"
                 >
-                    <span>Nästa</span> <FaArrowRight />
+                    <span>{t('officeform.next', 'Nästa')}</span> <FaArrowRight />
                 </button>
             </div>
         </div>

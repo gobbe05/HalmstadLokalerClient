@@ -1,7 +1,9 @@
 import { FaArrowLeft, FaArrowRight, FaFileUpload, FaTrashAlt } from "react-icons/fa";
 import AddImageButton from "../AddImageButton";
+import { useTranslation } from 'react-i18next';
 
 const Step3Media = ({ formData, setFormData, nextStep, prevStep }: any) => {
+    const { t } = useTranslation();
     const handleDocumentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
@@ -35,12 +37,12 @@ const Step3Media = ({ formData, setFormData, nextStep, prevStep }: any) => {
 
     return (
         <div className="flex flex-col gap-6 h-full">
-            <h1 className="text-2xl font-bold text-primary">Steg 3: Media</h1>
+            <h1 className="text-2xl font-bold text-primary">{t('officeform.step3Title', 'Steg 3: Media')}</h1>
 
             {/* Document Upload */}
             <div>
                 <label htmlFor="documents" className="block text-sm font-medium text-neutral mb-1">
-                    Ladda upp dokument
+                    {t('officeform.uploadDocuments', 'Ladda upp dokument')}
                 </label>
                 <div className="flex items-center gap-4">
                     <label
@@ -48,7 +50,7 @@ const Step3Media = ({ formData, setFormData, nextStep, prevStep }: any) => {
                         className="flex items-center cursor-pointer bg-accent text-white px-6 py-3 rounded-md hover:bg-accent-dark transition-all"
                     >
                         <FaFileUpload className="mr-2" />
-                        Välj dokument
+                        {t('officeform.selectDocument', 'Välj dokument')}
                         <input
                             id="document-upload"
                             type="file"
@@ -79,7 +81,7 @@ const Step3Media = ({ formData, setFormData, nextStep, prevStep }: any) => {
             {/* Image Upload */}
             <div>
                 <label htmlFor="images" className="block text-sm font-medium text-neutral mb-1">
-                    Ladda upp bilder
+                    {t('officeform.uploadImages', 'Ladda upp bilder')}
                 </label>
                 <AddImageButton
                     handleImageChange={handleImageChange}
@@ -96,13 +98,13 @@ const Step3Media = ({ formData, setFormData, nextStep, prevStep }: any) => {
                     className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-dark transition-all"
                 >
                     <FaArrowLeft />
-                    <span>Backa</span>
+                    <span>{t('officeform.back', 'Backa')}</span>
                 </button>
                 <button
                     onClick={nextStep}
                     className="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-dark transition-all"
                 >
-                    <span>Nästa</span>
+                    <span>{t('officeform.next', 'Nästa')}</span>
                     <FaArrowRight />
                 </button>
             </div>

@@ -31,9 +31,13 @@ const Step4Review = ({ formData, handleSubmit, prevStep }: any) => {
                 <p className="text-sm text-neutral">
                     <strong>{t('officeform.price', 'Pris')}:</strong> {formData.price} {t('officeform.pricePerMonth', 'kr/mån')}
                 </p>
-                <p className="text-sm text-neutral">
-                    <strong>{t('officeform.description', 'Beskrivning')}:</strong> {formData.description}
-                </p>
+                <div className="text-sm text-neutral">
+                    <strong>{t('officeform.description', 'Beskrivning')}:</strong>
+                    <div
+                        className="mt-1"
+                        dangerouslySetInnerHTML={{ __html: formData.description }}
+                    />
+                </div>
                 <p className="text-sm text-neutral">
                     <strong>{t('officeform.tags', 'Taggar')}:</strong> {formData.tags.join(", ")}
                 </p>

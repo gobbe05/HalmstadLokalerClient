@@ -1,6 +1,8 @@
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { TagsInput } from "react-tag-input-component";
 import { useTranslation } from 'react-i18next';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const Step2Details = ({ formData, setFormData, nextStep, prevStep }: any) => {
     const { t } = useTranslation();
@@ -38,18 +40,25 @@ const Step2Details = ({ formData, setFormData, nextStep, prevStep }: any) => {
                 />
             </div>
 
-            {/* Description Input */}
+            {/* Description Input (Rich Text Editor) */}
             <div>
                 <label htmlFor="description" className="block text-sm font-medium text-neutral mb-1">
                     {t('officeform.description', 'Beskrivning')}
                 </label>
-                <textarea
+                <ReactQuill
                     id="description"
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    rows={4}
+                    onChange={(value) => setFormData({ ...formData, description: value })}
+                    className="bg-white"
                     placeholder={t('officeform.descriptionPlaceholder', 'Beskriv lokalen')}
+                    modules={{
+                        toolbar: [
+                            ['bold', 'italic', 'underline', 'strike'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['link'],
+                            ['clean']
+                        ]
+                    }}
                 />
             </div>
 

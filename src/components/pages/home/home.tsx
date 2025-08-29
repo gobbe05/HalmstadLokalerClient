@@ -105,7 +105,6 @@ const HomeHero = () => {
                   onChange={(event) => {setSearch(event.target.value)}}
                   className="w-full pl-12 pr-4 py-4 text-base text-gray-900 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none" 
                   placeholder={t('home.searchPlaceholder', 'Sök efter kontor, område eller typ...')} 
-                  required 
                 />
               </div>
 

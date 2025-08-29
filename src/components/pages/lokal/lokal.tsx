@@ -7,6 +7,7 @@ import IOffice from "../../../interfaces/IOffice";
 import OfficeCard from "../../cards/officecard";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import DOMPurify from 'dompurify';
 // ...existing code...
 import { HiArrowLeft } from "react-icons/hi2";
 import ImagesContainer from "./imagescontainer";
@@ -109,7 +110,10 @@ export default function Lokal() {
                             <div className="p-6 md:p-8">
                                 <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('lokal.about')}</h2>
                                 {data.office.description ? (
-                                    <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{data.office.description}</p>
+                                    <div
+                                        className="text-gray-700 leading-relaxed prose prose-sm max-w-none"
+                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.office.description) }}
+                                    />
                                 ) : (
                                     <p className="text-gray-500 italic">{t('lokal.noDescription')}</p>
                                 )}

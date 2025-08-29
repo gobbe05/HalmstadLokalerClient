@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import DOMPurify from 'dompurify';
 import Step1BasicInfo from "./step1basicinfo";
 import Step2Details from "./step2details";
 import Step3Media from "./step3media";
@@ -221,9 +222,10 @@ const MultiStepOfficeForm = ({ id, method, handleClose }: { id?: string; method:
                     {formData.description && (
                         <div className="mb-6">
                             <h3 className="text-sm font-medium text-gray-900 mb-2">{t('officeform.description', 'Beskrivning')}</h3>
-                            <p className="text-gray-600 whitespace-pre-wrap">
-                                {formData.description}
-                            </p>
+                            <div
+                                className="text-gray-600 prose prose-sm max-w-none"
+                                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(formData.description) }}
+                            />
                         </div>
                     )}
 

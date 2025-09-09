@@ -27,6 +27,7 @@ import AdminRoute from "./routes/AdminRoute";
 import Skickade from "./components/pages/skickade/skickade";
 import Sellers from "./components/pages/sellers/sellers";
 import Profile from "./components/pages/profile/profile";
+import AboutHalmstadLokaler from "./components/pages/about-halmstadlokaler/about";
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
@@ -70,9 +71,10 @@ const App: React.FC = () => {
                     <Route path="/inkorg" element={<ProtectedRoute />}>
                       <Route index element={<Inkorg />}/>
                     </Route>
-                    <Route path="/skickade" element={<ProtectedRoute />}>
+                    <Route path="/skickade" element={<ProtectedRoute />}> 
                       <Route index element={<Skickade />}/>
                     </Route>
+                    <Route path="/om-oss" element={<AboutHalmstadLokaler />} />
                   </Route>
                 </Routes>
               </ScrollWrapper> 

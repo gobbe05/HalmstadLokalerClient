@@ -1,4 +1,17 @@
 {
+  "about": {
+    "title": "Om HalmstadLokaler",
+    "intro": "Vi är en digital mötesplats för företag, fastighetsägare och entreprenörer i Halmstad. Vår vision är att göra det enkelt och tryggt att hitta, hyra och hyra ut lokaler i hela kommunen.",
+    "missionTitle": "Vår Mission",
+    "mission": "Vi förenklar lokalmarknaden och skapar möjligheter för företag.",
+    "valuesTitle": "Våra Värderingar",
+    "values": "Transparens, trygghet och enkelhet i allt vi gör.",
+    "platformTitle": "Vår Plattform",
+    "platform": "En modern plattform som gör det enkelt att hitta och hyra lokaler i Halmstad.",
+    "contactTitle": "Vill du veta mer?",
+    "contactText": "Tveka inte att kontakta oss om du har frågor, vill samarbeta eller bara är nyfiken på vad vi gör!",
+    "contactButton": "Kontakta oss"
+  },
   "minsida": {
     "denied": "Du har inte tillgång hit",
     "loginRequired": "Logga in för att fortsätta.",

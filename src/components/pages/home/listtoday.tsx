@@ -38,8 +38,8 @@ export default function ListToday() {
                 {t('listtoday.description1')}<br />
                 {t('listtoday.description2')}
               </p>
-              {/* Stats */}
-              <div className="grid grid-cols-2 gap-8 mt-12 p-6 rounded-2xl bg-white/80 backdrop-blur shadow-sm border border-gray-100">
+              {/* Stats HIDDEN */}
+              <div className="hidden grid-cols-2 gap-8 mt-12 p-6 rounded-2xl bg-white/80 backdrop-blur shadow-sm border border-gray-100">
                 <div>
                   <p className="text-3xl font-bold text-primary">100+</p>
                   <p className="text-sm text-gray-600 mt-1">{t('listtoday.activeSeekers')}</p>
@@ -50,9 +50,10 @@ export default function ListToday() {
                 </div>
               </div>
               {/* CTA Button */}
-              <div className="mt-12 flex items-center gap-4">
+              <div className="mt-8 flex items-center gap-4">
                 <NewOfficeButton link="/hyr-ut-lokal" />
-                <a href="/hur-funkar-det" className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors">
+                {/* Hidden */}
+                <a href="/hur-funkar-det" className="hidden items-center gap-2 text-primary hover:text-primary/80 font-medium transition-colors">
                   {t('listtoday.readMore')}
                   <BsArrowRight className="w-4 h-4" />
                 </a>

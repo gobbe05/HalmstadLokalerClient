@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query"
+import { Helmet } from 'react-helmet-async';
 import { toast } from "react-toastify"
 
 interface IUser {
@@ -19,21 +20,27 @@ export default function Accept() {
     if(isPending) return <div>Loading...</div>
     if(error) return <div>Error: {error.message}</div>
     return (
-        <div className="bg-white p-8">
-            {data.users.map((user: IUser) => (<UserToAccept key={user._id} user={user} />))}
-            <div className="flex flex-col gap-2">
-                {data.acceptedUsers.map((user: IUser) => {
-                    return (
-                        <div className="bg-green-200 p-4 rounded-lg shadow-md mb-4">
-                            <h3 className="font-semibold text-lg">{user.username}</h3>
-                            <p>{user.type}</p>
-                            <p>{user.email}</p>
-                            <p>Date: {user.acceptDate?.toString()}</p>
-                        </div>
-                    )
-                })}
-            </div> 
-        </div>
+        <>
+          <Helmet>
+            <title>Admin – Godkänn användare | HalmstadLokaler</title>
+            <meta name="description" content="Godkänn nya användare och hantera konton på HalmstadLokaler. Adminpanel för användarhantering." />
+          </Helmet>
+          <div className="bg-white p-8">
+              {data.users.map((user: IUser) => (<UserToAccept key={user._id} user={user} />))}
+              <div className="flex flex-col gap-2">
+                  {data.acceptedUsers.map((user: IUser) => {
+                      return (
+                          <div className="bg-green-200 p-4 rounded-lg shadow-md mb-4">
+                              <h3 className="font-semibold text-lg">{user.username}</h3>
+                              <p>{user.type}</p>
+                              <p>{user.email}</p>
+                              <p>Date: {user.acceptDate?.toString()}</p>
+                          </div>
+                      )
+                  })}
+              </div> 
+          </div>
+        </>
     )
 }
 

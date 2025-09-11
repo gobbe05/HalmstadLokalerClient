@@ -8,6 +8,7 @@ import { FaSearch, FaTrashAlt } from "react-icons/fa"
 import Loading from "../../layout/loading"
 import { useAuth } from "../../../context/Auth/AuthContext"
 import { useSavedSearch } from "../../../context/savedSearchContext"
+import { Helmet } from "react-helmet-async"
 
 /**
  * This component works by first fetching the saved searches from the server. If there are no saved searches, a message is displayed to the user.
@@ -16,6 +17,8 @@ import { useSavedSearch } from "../../../context/savedSearchContext"
  * @returns Component for displaying saved searches and the results of the active saved search.
  */
 export default function Bevakningar() {
+    const pageTitle = "Bevakningar | HalmstadLokaler";
+    const pageDescription = "Spara sökningar och få notifieringar när nya kontor dyker upp.";
     const { activeSavedSearch, setActiveSavedSearch } = useSavedSearch();
     const queryClient = useQueryClient();
     const { isAuthenticated } = useAuth();
@@ -73,6 +76,53 @@ export default function Bevakningar() {
 
     if (!activeSavedSearch || !isAuthenticated)
         return (
+            <>
+                <Helmet>
+                    <title>{pageTitle}</title>
+                    <meta name="description" content={pageDescription} />
+                    <meta property="og:title" content={pageTitle} />
+                    <meta property="og:description" content={pageDescription} />
+                    <meta property="og:type" content="website" />
+                    <meta property="og:url" content="https://halmstadlokaler.se/bevakningar" />
+                </Helmet>
+                <div className="min-h-screen bg-gray-50">
+                    <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
+                        <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
+                            <div className="max-w-3xl">
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                                    Bevakningar
+                                </h1>
+                                <p className="text-lg md:text-xl text-white/90">
+                                    Spara sökningar och få notifieringar när nya kontor dyker upp.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
+                        <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
+                            <div className="max-w-lg mx-auto">
+                                <h3 className="text-2xl font-bold text-gray-900 mb-3">Inga bevakningar än</h3>
+                                <p className="text-gray-600 mb-6">När du sparar en sökning kommer den att visas här. Du får notifieringar när nya kontor som matchar din sökning läggs upp.</p>
+                                <Link to="/lediga-lokaler" className="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl transition-colors">
+                                    Hitta kontor att bevaka
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    if (isPending || error) return <Loading />;
+    return (
+        <>
+            <Helmet>
+                <title>{pageTitle}</title>
+                <meta name="description" content={pageDescription} />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={pageDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://halmstadlokaler.se/bevakningar" />
+            </Helmet>
             <div className="min-h-screen bg-gray-50">
                 <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
                     <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
@@ -81,79 +131,52 @@ export default function Bevakningar() {
                                 Bevakningar
                             </h1>
                             <p className="text-lg md:text-xl text-white/90">
-                                Spara sökningar och få notifieringar när nya kontor dyker upp.
+                                Se dina sparade bevakningar och få notifieringar om nya kontor.
                             </p>
                         </div>
                     </div>
                 </div>
-                <div className="max-w-7xl mx-auto px-4 -mt-8 relative z-10">
-                    <div className="bg-white rounded-2xl shadow-sm p-12 text-center">
-                        <div className="max-w-lg mx-auto">
-                            <h3 className="text-2xl font-bold text-gray-900 mb-3">Inga bevakningar än</h3>
-                            <p className="text-gray-600 mb-6">När du sparar en sökning kommer den att visas här. Du får notifieringar när nya kontor som matchar din sökning läggs upp.</p>
-                            <Link to="/lediga-lokaler" className="inline-flex items-center px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl transition-colors">
-                                Hitta kontor att bevaka
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    if (isPending || error) return <Loading />;
-    return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
-                <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
-                    <div className="max-w-3xl">
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                            Bevakningar
-                        </h1>
-                        <p className="text-lg md:text-xl text-white/90">
-                            Se dina sparade bevakningar och få notifieringar om nya kontor.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
-                <div className="grid lg:grid-cols-3 gap-6">
-                    {/* Selection for saved searches */}
-                    <SavedSearches
-                        savedSearches={data.savedSearches}
-                        activeSavedSearch={activeSavedSearch}
-                        setActiveSavedSearch={setActiveSavedSearch}
-                    />
-                    <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm overflow-hidden">
-                        <div className="p-6 border-b border-gray-100">
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                <h2 className="text-xl font-semibold text-gray-900">
-                                    Matchande kontor för "{activeSavedSearch}"
-                                </h2>
-                                <div className="flex gap-3">
-                                    <Link
-                                        className="inline-flex items-center gap-2 px-4 py-2 text-primary hover:text-primary-dark hover:bg-primary/5 rounded-xl transition-colors"
-                                        to={`/lediga-lokaler?search=${activeSavedSearch}`}
-                                    >
-                                        <FaSearch size={16} />
-                                        <span>Visa alla</span>
-                                    </Link>
-                                    <button
-                                        onClick={RemoveSearch}
-                                        className="inline-flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
-                                        title="Ta bort bevakning"
-                                    >
-                                        <FaTrashAlt size={16} />
-                                        <span>Ta bort</span>
-                                    </button>
+                <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+                    <div className="grid lg:grid-cols-3 gap-6">
+                        {/* Selection for saved searches */}
+                        <SavedSearches
+                            savedSearches={data.savedSearches}
+                            activeSavedSearch={activeSavedSearch}
+                            setActiveSavedSearch={setActiveSavedSearch}
+                        />
+                        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm overflow-hidden">
+                            <div className="p-6 border-b border-gray-100">
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <h2 className="text-xl font-semibold text-gray-900">
+                                        Matchande kontor för "{activeSavedSearch}"
+                                    </h2>
+                                    <div className="flex gap-3">
+                                        <Link
+                                            className="inline-flex items-center gap-2 px-4 py-2 text-primary hover:text-primary-dark hover:bg-primary/5 rounded-xl transition-colors"
+                                            to={`/lediga-lokaler?search=${activeSavedSearch}`}
+                                        >
+                                            <FaSearch size={16} />
+                                            <span>Visa alla</span>
+                                        </Link>
+                                        <button
+                                            onClick={RemoveSearch}
+                                            className="inline-flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
+                                            title="Ta bort bevakning"
+                                        >
+                                            <FaTrashAlt size={16} />
+                                            <span>Ta bort</span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="p-6">
-                            <Offices activeSavedSearch={activeSavedSearch} />
+                            <div className="p-6">
+                                <Offices activeSavedSearch={activeSavedSearch} />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

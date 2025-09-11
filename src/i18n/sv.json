@@ -1,4 +1,8 @@
 {
+  "listings": {
+    "title": "Mina annonser",
+    "showAll": "Visa alla annonser"
+  },
   "about": {
     "title": "Om HalmstadLokaler",
     "intro": "Vi är en digital mötesplats för företag, fastighetsägare och entreprenörer i Halmstad. Vår vision är att göra det enkelt och tryggt att hitta, hyra och hyra ut lokaler i hela kommunen.",

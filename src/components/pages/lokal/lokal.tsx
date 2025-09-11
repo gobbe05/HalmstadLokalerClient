@@ -6,6 +6,7 @@ import { useAuth } from "../../../context/Auth/AuthContext";
 import IOffice from "../../../interfaces/IOffice";
 import OfficeCard from "../../cards/officecard";
 import { useEffect, useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from "react-i18next";
 import DOMPurify from 'dompurify';
 // ...existing code...
@@ -60,110 +61,119 @@ export default function Lokal() {
     if (error) return <div>{t('lokal.error')}: {error.message}</div>;
     if (!data?.office) return <div>{t('lokal.notFound')}</div>;
 
+    const officeTitle = data.office?.name ? `${data.office.name} – HalmstadLokaler` : 'Lokal – HalmstadLokaler';
+    const officeDesc = data.office?.description ? data.office.description.replace(/<[^>]+>/g, '').slice(0, 160) : 'Information om lokal i Halmstad.';
+
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Main Content */}
-            <div className="max-w-6xl mx-auto px-4 pt-6">
-                {/* Back button */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="mb-8 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                    <HiArrowLeft size={20} />
-                    <span>{t('lokal.backToSearch')}</span>
-                </button>
+        <>
+          <Helmet>
+            <title>{officeTitle}</title>
+            <meta name="description" content={officeDesc} />
+          </Helmet>
+          <div className="min-h-screen bg-gray-50">
+              {/* Main Content */}
+              <div className="max-w-6xl mx-auto px-4 pt-6">
+                  {/* Back button */}
+                  <button
+                      onClick={() => navigate(-1)}
+                      className="mb-8 flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
+                  >
+                      <HiArrowLeft size={20} />
+                      <span>{t('lokal.backToSearch')}</span>
+                  </button>
 
-                <div className="grid lg:grid-cols-3 gap-8">
-                    {/* Left Column */}
-                    <div className="lg:col-span-2 space-y-8">
-                        {/* Images Card */}
-                        <div className="space-y-6">
-                            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                                <ImagesContainer
-                                    images={data.office.images}
-                                    imageLoading={imageLoading}
-                                    imageError={imageError}
-                                />
-                            </div>
-                            
-                            {/* Quick Info */}
-                            <div className="grid sm:grid-cols-2 gap-4">
-                                <div className="col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-                                    <div className="text-sm font-medium text-gray-500 mb-1">{t('lokal.office')}</div>
-                                    <div className="text-xl font-semibold text-gray-900 mb-1">{data.office.name}</div>
-                                    <div className="text-gray-600">{data.office.location}</div>
-                                </div>
-                                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-                                    <div className="text-sm font-medium text-gray-500 mb-1">{t('lokal.size')}</div>
-                                    <div className="text-xl font-semibold text-gray-900">{data.office.size} m²</div>
-                                </div>
-                                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-                                    <div className="text-sm font-medium text-gray-500 mb-1">{t('lokal.price')}</div>
-                                    <div className="text-xl font-semibold text-gray-900">{data.office.price.toLocaleString()} kr</div>
-                                </div>
-                            </div>
-                        </div>
+                  <div className="grid lg:grid-cols-3 gap-8">
+                      {/* Left Column */}
+                      <div className="lg:col-span-2 space-y-8">
+                          {/* Images Card */}
+                          <div className="space-y-6">
+                              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                                  <ImagesContainer
+                                      images={data.office.images}
+                                      imageLoading={imageLoading}
+                                      imageError={imageError}
+                                  />
+                              </div>
+                              
+                              {/* Quick Info */}
+                              <div className="grid sm:grid-cols-2 gap-4">
+                                  <div className="col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                      <div className="text-sm font-medium text-gray-500 mb-1">{t('lokal.office')}</div>
+                                      <div className="text-xl font-semibold text-gray-900 mb-1">{data.office.name}</div>
+                                      <div className="text-gray-600">{data.office.location}</div>
+                                  </div>
+                                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                      <div className="text-sm font-medium text-gray-500 mb-1">{t('lokal.size')}</div>
+                                      <div className="text-xl font-semibold text-gray-900">{data.office.size} m²</div>
+                                  </div>
+                                  <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+                                      <div className="text-sm font-medium text-gray-500 mb-1">{t('lokal.price')}</div>
+                                      <div className="text-xl font-semibold text-gray-900">{data.office.price.toLocaleString()} kr</div>
+                                  </div>
+                              </div>
+                          </div>
 
-                        {/* Details Card */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 divide-y divide-gray-100">
-                            {/* Description Section */}
-                            <div className="p-6 md:p-8">
-                                <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('lokal.about')}</h2>
-                                {data.office.description ? (
-                                    <div
-                                        className="text-gray-700 leading-relaxed prose prose-sm max-w-none"
-                                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.office.description) }}
-                                    />
-                                ) : (
-                                    <p className="text-gray-500 italic">{t('lokal.noDescription')}</p>
-                                )}
-                            </div>
+                          {/* Details Card */}
+                          <div className="bg-white rounded-xl shadow-sm border border-gray-200 divide-y divide-gray-100">
+                              {/* Description Section */}
+                              <div className="p-6 md:p-8">
+                                  <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('lokal.about')}</h2>
+                                  {data.office.description ? (
+                                      <div
+                                          className="text-gray-700 leading-relaxed prose prose-sm max-w-none"
+                                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.office.description) }}
+                                      />
+                                  ) : (
+                                      <p className="text-gray-500 italic">{t('lokal.noDescription')}</p>
+                                  )}
+                              </div>
 
-                            {/* Features Section */}
-                            {data.office.tags.length > 0 && (
-                                <div className="p-6 md:p-8">
-                                    <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('lokal.features')}</h3>
-                                    <div className="flex gap-2 flex-wrap">
-                                        {data.office.tags.map((tag: string) => (
-                                            <span
-                                                key={tag}
-                                                className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary"
-                                            >
-                                                {tag}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                              {/* Features Section */}
+                              {data.office.tags.length > 0 && (
+                                  <div className="p-6 md:p-8">
+                                      <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('lokal.features')}</h3>
+                                      <div className="flex gap-2 flex-wrap">
+                                          {data.office.tags.map((tag: string) => (
+                                              <span
+                                                  key={tag}
+                                                  className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary"
+                                              >
+                                                  {tag}
+                                              </span>
+                                          ))}
+                                      </div>
+                                  </div>
+                              )}
 
-                            {/* Like Button Section */}
-                            {isAuthenticated && type === "buyer" && (
-                                <div className="p-6 md:p-8">
-                                    <LikeButton id={data.office._id} longButton={true} />
-                                </div>
-                            )}
-                        </div>{/* Contact Card */}
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-                                <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('lokal.contactSeller')}</h2>
-                                <ProfileCard showOffices={false} id={data.office.owner} />
-                            </div>
-                    </div>
+                              {/* Like Button Section */}
+                              {isAuthenticated && type === "buyer" && (
+                                  <div className="p-6 md:p-8">
+                                      <LikeButton id={data.office._id} longButton={true} />
+                                  </div>
+                              )}
+                          </div>{/* Contact Card */}
+                              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                                  <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('lokal.contactSeller')}</h2>
+                                  <ProfileCard showOffices={false} id={data.office.owner} />
+                              </div>
+                      </div>
 
-                    {/* Right Column - Sticky */}
-                    <div className="lg:relative">
-                        <div className="lg:sticky lg:top-4 space-y-6">
-                            {/* Other Offices Card */}
-                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                                <OtherOffices seller={data.office.owner} />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                      {/* Right Column - Sticky */}
+                      <div className="lg:relative">
+                          <div className="lg:sticky lg:top-4 space-y-6">
+                              {/* Other Offices Card */}
+                              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                                  <OtherOffices seller={data.office.owner} />
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
 
-            {/* Bottom Spacing */}
-            <div className="h-16"></div>
-        </div>
+              {/* Bottom Spacing */}
+              <div className="h-16"></div>
+          </div>
+        </>
     );
 }
 

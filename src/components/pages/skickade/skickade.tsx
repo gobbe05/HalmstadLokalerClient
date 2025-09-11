@@ -1,5 +1,6 @@
 
 import { useQuery } from "@tanstack/react-query"
+import { Helmet } from "react-helmet-async"
 import { useAuth } from "../../../context/Auth/AuthContext"
 import IMessage from "../../../interfaces/IMessage"
 import { useEffect, useState } from "react"
@@ -10,6 +11,8 @@ export default function Skickade() {
     const [activeMessageId, setActiveMessageId] = useState<string | null>(null)
     const [activeMessage, setActiveMessage] = useState<IMessage | null>(null)
     const { t } = useTranslation();
+    const pageTitle = t('skickade.header', 'Skickade meddelanden') + " | HalmstadLokaler";
+    const pageDescription = t('skickade.headerText', 'Se alla meddelanden du har skickat');
 
     const {authId} = useAuth()
     const {data, error, isPending} = useQuery({
@@ -140,14 +143,24 @@ export default function Skickade() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white py-12 mb-8">
-                <div className="max-w-6xl mx-auto px-4">
-                    <h1 className="text-4xl md:text-5xl font-bold">{t('skickade.header', 'Skickade meddelanden')}</h1>
-                    <p className="mt-4 text-lg md:text-xl opacity-90">{t('skickade.headerText', 'Se alla meddelanden du har skickat')}</p>
+        <>
+            <Helmet>
+                <title>{pageTitle}</title>
+                <meta name="description" content={pageDescription} />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={pageDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://halmstadlokaler.se/skickade" />
+            </Helmet>
+            <div className="min-h-screen bg-gray-50">
+                <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white py-12 mb-8">
+                    <div className="max-w-6xl mx-auto px-4">
+                        <h1 className="text-4xl md:text-5xl font-bold">{t('skickade.header', 'Skickade meddelanden')}</h1>
+                        <p className="mt-4 text-lg md:text-xl opacity-90">{t('skickade.headerText', 'Se alla meddelanden du har skickat')}</p>
+                    </div>
                 </div>
+                {renderContent()}
             </div>
-            {renderContent()}
-        </div>
+        </>
     )
 }

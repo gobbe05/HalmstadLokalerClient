@@ -1,4 +1,5 @@
 import {useQuery} from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 import { useTranslation } from 'react-i18next';
 import ProfileCard from "../profile/profile";
 import { useState } from "react";
@@ -11,6 +12,8 @@ interface ISeller {
 
 export default function Sellers() {
     const { t } = useTranslation();
+    const pageTitle = t('sellers.header', 'Säljare') + " | HalmstadLokaler";
+    const pageDescription = t('sellers.description', 'Här hittar du alla säljare som är aktiva på HalmstadLokaler.');
     const [openProfile, setOpenProfile] = useState<boolean>(false)
     const [id, setId] = useState<string | null>(null)
     const {error, isPending, data} = useQuery({
@@ -23,16 +26,27 @@ export default function Sellers() {
             return data
         }
     })
+
     return (
-        <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 bg-white xl:p-16 sm:p-8 xl:mt-16 xl:mb-32 xl:rounded-lg shadow-lg">
-            <h1 className="text-2xl font-bold text-center">
-                {t('sellers.header', 'Säljare')}
-            </h1>
-            <div className="flex flex-col gap-8 mt-16">
-                {data && data.sellers.map((seller: ISeller) => (<SellerCard setId={setId} setOpenProfile={setOpenProfile} seller={seller} key={seller._id} />))}
+        <>
+            <Helmet>
+                <title>{pageTitle}</title>
+                <meta name="description" content={pageDescription} />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={pageDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://halmstadlokaler.se/sellers" />
+            </Helmet>
+            <div className="flex flex-col w-full xl:w-2/3 mx-auto text-gray-700 bg-white xl:p-16 sm:p-8 xl:mt-16 xl:mb-32 xl:rounded-lg shadow-lg">
+                <h1 className="text-2xl font-bold text-center">
+                    {t('sellers.header', 'Säljare')}
+                </h1>
+                <div className="flex flex-col gap-8 mt-16">
+                    {data && data.sellers.map((seller: ISeller) => (<SellerCard setId={setId} setOpenProfile={setOpenProfile} seller={seller} key={seller._id} />))}
+                </div>
+                {id && typeof id === 'string' && <ProfileCard showOffices={false} id={id}/>} 
             </div>
-            {id && <ProfileCard showOffices={false} id={id}/>} 
-        </div>
+        </>
     );
 }
 

@@ -1,10 +1,22 @@
 import { useTranslation } from 'react-i18next';
 import { FaBuilding, FaHandshake, FaLaptop } from 'react-icons/fa';
+import { Helmet } from "react-helmet-async";
 
 export default function AboutHalmstadLokaler() {
 	const { t } = useTranslation();
+	const pageTitle = t('about.title', 'Om HalmstadLokaler') + " | HalmstadLokaler";
+	const pageDescription = t('about.intro', 'Vi är en digital mötesplats för företag, fastighetsägare och entreprenörer i Halmstad. Vår vision är att göra det enkelt och tryggt att hitta, hyra och hyra ut lokaler i hela kommunen.');
 	return (
-		<div className="min-h-screen bg-gray-50">
+		<>
+			<Helmet>
+				<title>{pageTitle}</title>
+				<meta name="description" content={pageDescription} />
+				<meta property="og:title" content={pageTitle} />
+				<meta property="og:description" content={pageDescription} />
+				<meta property="og:type" content="website" />
+				<meta property="og:url" content="https://halmstadlokaler.se/om-oss" />
+			</Helmet>
+			<div className="min-h-screen bg-gray-50">
 			<div className="max-w-4xl mx-auto px-4 py-16">
 				<h1 className="text-4xl font-bold text-primary text-center mb-6">
 					{t('about.title', 'Om HalmstadLokaler')}
@@ -39,6 +51,7 @@ export default function AboutHalmstadLokaler() {
 					</a>
 				</div>
 			</div>
-		</div>
+			</div>
+		</>
 	);
 }

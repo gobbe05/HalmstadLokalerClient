@@ -12,12 +12,14 @@ import { useTranslation } from "react-i18next"
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Filter } from "@mui/icons-material"
 import { HiOutlineSearch } from "react-icons/hi"
+import { Helmet } from "react-helmet-async"
 
 
 const LedigaLokaler = () => {
     const { t } = useTranslation();
     const limit = 10
-
+    const pageTitle = t('ledigalokaler.header') + " | HalmstadLokaler";
+    const pageDescription = t('ledigalokaler.subheader');
     const [search, setSearch] = useState<string | undefined>(undefined)
     const [submittedSearch, setSubmittedSearch] = useState<string>("")
     const [priceMin, setPriceMin] = useState<number | undefined>()
@@ -95,6 +97,15 @@ const LedigaLokaler = () => {
 
     if(error || isPending) return <Loading />
     return (
+        <>
+        <Helmet>
+            <title>{pageTitle}</title>
+            <meta name="description" content={pageDescription} />
+            <meta property="og:title" content={pageTitle} />
+            <meta property="og:description" content={pageDescription} />
+            <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://halmstadlokaler.se/lediga-lokaler" />
+        </Helmet>
         <div className="min-h-screen bg-gray-50">
             {/* Header */}
             <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white py-12">
@@ -225,6 +236,7 @@ const LedigaLokaler = () => {
                 </div>
             </div>
         </div>
+        </>
     )
 }
 interface FiltersProps {

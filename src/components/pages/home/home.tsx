@@ -1,5 +1,6 @@
 // src/components/home.tsx
 import React, { FormEvent, useEffect, useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import BoxesSection from "./boxessection";
 import TextSection from "./textsection";
@@ -13,32 +14,38 @@ import { HiOutlineSearch } from "react-icons/hi";
 const Home: React.FC = () => {
   const { t } = useTranslation();
   return (
-  <div className="w-full min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <HomeHero />
+    <>
+      <Helmet>
+        <title>HalmstadLokaler – Hitta din lokal i Halmstad</title>
+        <meta name="description" content="Sök och hitta lediga lokaler, kontor och butiker i Halmstad. Enkel och trygg marknadsplats för företag och fastighetsägare." />
+      </Helmet>
+      <div className="w-full min-h-screen bg-gray-50">
+        {/* Hero Section */}
+        <HomeHero />
 
-      {/* About Section */}
-      <TextSection />
-      
-      {/* Features Section */}
-      <div className="bg-gradient-to-br from-primary to-primary-dark text-white">
-        <BoxesSection />
-      </div>
+        {/* About Section */}
+        <TextSection />
+        
+        {/* Features Section */}
+        <div className="bg-gradient-to-br from-primary to-primary-dark text-white">
+          <BoxesSection />
+        </div>
 
-      {/* Recent Views */}
-      <div className="bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-16">
-          <PreviousLookedAt />
+        {/* Recent Views */}
+        <div className="bg-white">
+          <div className="max-w-7xl mx-auto px-4 py-16">
+            <PreviousLookedAt />
+          </div>
+        </div>
+
+        {/* Latest Listings */}
+        <div className="bg-gray-50">
+          <div>
+            <ListToday />
+          </div>
         </div>
       </div>
-
-      {/* Latest Listings */}
-      <div className="bg-gray-50">
-        <div>
-          <ListToday />
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
 

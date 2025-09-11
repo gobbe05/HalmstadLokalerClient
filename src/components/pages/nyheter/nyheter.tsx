@@ -1,4 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import IArticle from '../../../interfaces/IArticle';
 import CreateArticleModal from './CreateArticleModal';
 import { useState } from 'react';
@@ -28,18 +29,22 @@ export default function Nyheter() {
 
     return (
         <>
-        <div className="bg-white p-16 mx-auto w-1/2 my-16">
-            {isAdmin && <button onClick={() => setShow(true)} className="bg-green-300 text-gray-600 font-semibold rounded py-2 px-4">Skapa ny</button>}
+          <Helmet>
+            <title>Nyheter – HalmstadLokaler</title>
+            <meta name="description" content="Senaste nyheterna om lokaler, kontor och fastigheter i Halmstad. Håll dig uppdaterad med HalmstadLokaler." />
+          </Helmet>
+          <div className="bg-white p-16 mx-auto w-1/2 my-16">
+              {isAdmin && <button onClick={() => setShow(true)} className="bg-green-300 text-gray-600 font-semibold rounded py-2 px-4">Skapa ny</button>}
 
-            <h1 className="text-center text-2xl font-bold text-gray-700">Nyheter</h1>
-            <div className="grid grid-cols-1 gap-4 mt-8">
-                {news?.map((article, index) => (
-                    <NewsCard key={index} isAdmin={isAdmin} article={article} />
-                ))}
-            </div>
-            {news && news.length == 0 && <h1 className="text-center text-xl font-semibold text-gray-700">Tyvärr, det finns inga nyheter för dig att visa</h1>}
-        </div>
-        <CreateArticleModal show={show} handleClose={() => {setShow(false)}} />
+              <h1 className="text-center text-2xl font-bold text-gray-700">Nyheter</h1>
+              <div className="grid grid-cols-1 gap-4 mt-8">
+                  {news?.map((article, index) => (
+                      <NewsCard key={index} isAdmin={isAdmin} article={article} />
+                  ))}
+              </div>
+              {news && news.length == 0 && <h1 className="text-center text-xl font-semibold text-gray-700">Tyvärr, det finns inga nyheter för dig att visa</h1>}
+          </div>
+          <CreateArticleModal show={show} handleClose={() => {setShow(false)}} />
         </>
     );
 }

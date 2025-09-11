@@ -1,5 +1,6 @@
 // src/components/login.tsx
 import React, { useState } from "react";
+import { Helmet } from 'react-helmet-async';
 import { useAuth } from "../../../context/Auth/AuthContext";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import Logo from "../../layout/logo";
@@ -106,69 +107,74 @@ const Register: React.FC = () => {
     return <Navigate to="/"></Navigate>
   }
   return (
-    <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-      <div className="flex flex-col lg:flex-row items-stretch h-full  w-full  bg-white shadow-lg rounded-lg overflow-scroll">
-      
-      <div className="hidden md:block lg:w-1/2 h-48 lg:h-full bg-cover bg-center" style={{ backgroundImage: "url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')" }}>
-        <div className="bg-black opacity-40 w-full h-full"></div>
-      </div>
-
-      <div className="max-h-screen lg:w-1/2 p-8 lg:p-16 overflow-scroll">
-        <div className="mb-6 flex gap-2">
-          {stage === 2 &&
-          <div className="flex">
-            <button onClick={() => setStage(1)} className="flex gap-2 items-center px-4 py-2 rounded-full text-neutral hover:bg-neutral hover:text-white transition-all"><HiArrowLeft size={16} /> <span className="text-sm">Backa</span></button>
-          </div>} 
-          <div className="flex">
-            <Link to={"/"} className="flex gap-2 items-center px-4 py-2 rounded-full text-neutral hover:bg-neutral hover:text-white transition-all"><span className="text-sm">Hem</span><HiHome size={16} /></Link>
-          </div> 
+    <>
+      <Helmet>
+        <title>Registrera – HalmstadLokaler</title>
+        <meta name="description" content="Skapa ett konto på HalmstadLokaler för att lägga upp och hantera lokaler, meddelanden och bevakningar." />
+      </Helmet>
+      <div className="w-full h-screen flex items-center justify-center bg-gray-100">
+        <div className="flex flex-col lg:flex-row items-stretch h-full  w-full  bg-white shadow-lg rounded-lg overflow-scroll">
+        
+        <div className="hidden md:block lg:w-1/2 h-48 lg:h-full bg-cover bg-center" style={{ backgroundImage: "url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')" }}>
+          <div className="bg-black opacity-40 w-full h-full"></div>
         </div>
-        <Logo />
-        <h2 className="text-xl font-semibold text-neutral mt-6">Registrera ett nytt konto</h2>
-        <p className="text-sm">Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
 
-        <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-8">
-        {stage === 1 && 
-        <FirstRegisterStage 
-          setEmail={setEmail} 
-          errors={errors} 
-          setUsername={setUsername} 
-          setConfirmPassword={setConfirmPassword} 
-          setPassword={setPassword} 
-          accountType={accountType} 
-          setAccountType={setAccountType}
-        />}  
-        
-        {stage === 2 &&
-        <SecondRegisterStage 
-          setFirstName={setFirstName} 
-          setLastName={setLastName} 
-          setPhoneNumber={setPhoneNumber}
-          setCompanyName={setCompanyName} 
-          setOrgNr={setOrgNr} 
-          setInvoiceAddress={setInvoiceAddress} 
-          errors={errors} 
-        />}
-        
-        <button
-          type="submit"
-          className="p-3 bg-primary hover:bg-primary-dark hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
-        >
-          Registrera dig
-        </button>
-        </form>
+        <div className="max-h-screen lg:w-1/2 p-8 lg:p-16 overflow-scroll">
+          <div className="mb-6 flex gap-2">
+            {stage === 2 &&
+            <div className="flex">
+              <button onClick={() => setStage(1)} className="flex gap-2 items-center px-4 py-2 rounded-full text-neutral hover:bg-neutral hover:text-white transition-all"><HiArrowLeft size={16} /> <span className="text-sm">Backa</span></button>
+            </div>} 
+            <div className="flex">
+              <Link to={"/"} className="flex gap-2 items-center px-4 py-2 rounded-full text-neutral hover:bg-neutral hover:text-white transition-all"><span className="text-sm">Hem</span><HiHome size={16} /></Link>
+            </div> 
+          </div>
+          <Logo />
+          <h2 className="text-xl font-semibold text-neutral mt-6">Registrera ett nytt konto</h2>
+          <p className="text-sm">Efter att ditt konto har godkänts kommer du att få en bekräftelse via e-post.</p>
+
+          <form onSubmit={handleRegister} className="flex flex-col gap-6 mt-8">
+          {stage === 1 && 
+          <FirstRegisterStage 
+            setEmail={setEmail} 
+            errors={errors} 
+            setUsername={setUsername} 
+            setConfirmPassword={setConfirmPassword} 
+            setPassword={setPassword} 
+            accountType={accountType} 
+            setAccountType={setAccountType}
+          />}  
+          
+          {stage === 2 &&
+          <SecondRegisterStage 
+            setFirstName={setFirstName} 
+            setLastName={setLastName} 
+            setPhoneNumber={setPhoneNumber}
+            setCompanyName={setCompanyName} 
+            setOrgNr={setOrgNr} 
+            setInvoiceAddress={setInvoiceAddress} 
+            errors={errors} 
+          />}
+          
+          <button
+            type="submit"
+            className="p-3 bg-primary hover:bg-primary-dark hover:shadow-lg rounded-lg text-white font-semibold transition-all duration-300"
+          >
+            Registrera dig
+          </button>
+          </form>
  
 
-        <p className="mt-4 text-center text-neutral">
-          Har du redan ett konto?{' '}
-          <Link className="text-accent underline underline-offset-2" to="/login">
-            Logga in!
-          </Link>
-        </p>
+          <p className="mt-4 text-center text-neutral">
+            Har du redan ett konto?{' '}
+            <Link className="text-accent underline underline-offset-2" to="/login">
+              Logga in!
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
-
+    </>
   ) 
 };
 

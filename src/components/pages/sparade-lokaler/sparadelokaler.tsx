@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
+import { Helmet } from "react-helmet-async"
 import { useTranslation } from 'react-i18next';
 import Loading from "../../layout/loading"
 import OfficeCardLong from "../../cards/officecardlong"
@@ -7,6 +8,8 @@ import { FaBookmark, FaExclamationTriangle } from "react-icons/fa"
 
 const SparadeLokaler = () => {
     const { t } = useTranslation();
+    const pageTitle = t('saved.header', 'Sparade lokaler') + " | HalmstadLokaler";
+    const pageDescription = t('saved.headerText', 'Här hittar du alla kontorslokaler som du har sparat för att titta på senare.');
     const {error, isPending, data} = useQuery({
         queryKey: ["saved-offices"],
         queryFn: async () => {
@@ -91,23 +94,33 @@ const SparadeLokaler = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
-                <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
-                    <div className="max-w-3xl">
-                        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                            {t('saved.header', 'Sparade lokaler')}
-                        </h1>
-                        <p className="text-lg md:text-xl text-white/90">
-                            {t('saved.headerText', 'Här hittar du alla kontorslokaler som du har sparat för att titta på senare.')}
-                        </p>
+        <>
+            <Helmet>
+                <title>{pageTitle}</title>
+                <meta name="description" content={pageDescription} />
+                <meta property="og:title" content={pageTitle} />
+                <meta property="og:description" content={pageDescription} />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content="https://halmstadlokaler.se/sparade-lokaler" />
+            </Helmet>
+            <div className="min-h-screen bg-gray-50">
+                <div className="w-full bg-gradient-to-br from-primary to-primary-dark text-white">
+                    <div className="max-w-7xl mx-auto px-4 py-16 md:py-20">
+                        <div className="max-w-3xl">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+                                {t('saved.header', 'Sparade lokaler')}
+                            </h1>
+                            <p className="text-lg md:text-xl text-white/90">
+                                {t('saved.headerText', 'Här hittar du alla kontorslokaler som du har sparat för att titta på senare.')}
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
+                    {renderContent()}
+                </div>
             </div>
-            <div className="max-w-7xl mx-auto px-4 -mt-8 pb-16 relative z-10">
-                {renderContent()}
-            </div>
-        </div>
+        </>
     )
 }
 

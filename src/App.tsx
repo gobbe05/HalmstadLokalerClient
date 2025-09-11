@@ -27,61 +27,64 @@ import AdminRoute from "./routes/AdminRoute";
 import Skickade from "./components/pages/skickade/skickade";
 import Sellers from "./components/pages/sellers/sellers";
 import AboutHalmstadLokaler from "./components/pages/about-halmstadlokaler/about";
+import { HelmetProvider } from 'react-helmet-async';
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API} libraries={["places"]}>
-          <SavedSearchProvider>
-            <Router>
-              <ScrollWrapper>
-                <ToastContainer position="top-left" theme="colored" transition={Bounce}/>
-                <Routes>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/" element={<Layout />}>
-                    <Route index element={<Home />} />
-                    <Route path="/nyheter/" element={<Nyheter />} />
-                    <Route path="/lokal/:id" element={<Lokal />} />
-                    <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}>
-                      <Route index element={<HyrUtLokal />} />
+    <HelmetProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API} libraries={["places"]}>
+            <SavedSearchProvider>
+              <Router>
+                <ScrollWrapper>
+                  <ToastContainer position="top-left" theme="colored" transition={Bounce}/>
+                  <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/" element={<Layout />}> 
+                      <Route index element={<Home />} />
+                      <Route path="/nyheter/" element={<Nyheter />} />
+                      <Route path="/lokal/:id" element={<Lokal />} />
+                      <Route path="/hyr-ut-lokal" element={<ProtectedRoute />}> 
+                        <Route index element={<HyrUtLokal />} />
+                      </Route>
+                      <Route path="/accept" element={<AdminRoute />}> 
+                        <Route index element={<Accept />} />
+                      </Route>
+                      <Route path="/lediga-lokaler"> 
+                        <Route index element={<LedigaLokaler />} />
+                      </Route>
+                      <Route path="/sparade-lokaler" element={<ProtectedRoute />}> 
+                        <Route index element={<SparadeLokaler />}/>
+                      </Route>
+                      <Route path="/sellers" element={<ProtectedRoute />}> 
+                        <Route index element={<Sellers />}/>
+                      </Route>
+                      <Route path="/min-sida" element={<ProtectedRoute />}> 
+                        <Route index element={<MinSida />}/>
+                        <Route path="/min-sida/alla-kontor" element={<AllaKontor />}/>
+                      </Route>
+                      <Route path="/bevakningar"> 
+                        <Route index element={<Bevakningar />}/>
+                      </Route>
+                      <Route path="/inkorg" element={<ProtectedRoute />}> 
+                        <Route index element={<Inkorg />}/>
+                      </Route>
+                      <Route path="/skickade" element={<ProtectedRoute />}>  
+                        <Route index element={<Skickade />}/>
+                      </Route>
+                      <Route path="/om-oss" element={<AboutHalmstadLokaler />} />
                     </Route>
-                    <Route path="/accept" element={<AdminRoute />}>
-                      <Route index element={<Accept />} />
-                    </Route>
-                    <Route path="/lediga-lokaler">
-                      <Route index element={<LedigaLokaler />} />
-                    </Route>
-                    <Route path="/sparade-lokaler" element={<ProtectedRoute />}>
-                      <Route index element={<SparadeLokaler />}/>
-                    </Route>
-                    <Route path="/sellers" element={<ProtectedRoute />}>
-                      <Route index element={<Sellers />}/>
-                    </Route>
-                    <Route path="/min-sida" element={<ProtectedRoute />}>
-                      <Route index element={<MinSida />}/>
-                      <Route path="/min-sida/alla-kontor" element={<AllaKontor />}/>
-                    </Route>
-                    <Route path="/bevakningar">
-                      <Route index element={<Bevakningar />}/>
-                    </Route>
-                    <Route path="/inkorg" element={<ProtectedRoute />}>
-                      <Route index element={<Inkorg />}/>
-                    </Route>
-                    <Route path="/skickade" element={<ProtectedRoute />}> 
-                      <Route index element={<Skickade />}/>
-                    </Route>
-                    <Route path="/om-oss" element={<AboutHalmstadLokaler />} />
-                  </Route>
-                </Routes>
-              </ScrollWrapper> 
-            </Router>
-          </SavedSearchProvider> 
-        </APIProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+                  </Routes>
+                </ScrollWrapper> 
+              </Router>
+            </SavedSearchProvider> 
+          </APIProvider>
+        </QueryClientProvider>
+      </AuthProvider>
+    </HelmetProvider>
   );
 };
 

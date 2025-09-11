@@ -26,7 +26,6 @@ import Accept from "./components/pages/accept/accept";
 import AdminRoute from "./routes/AdminRoute";
 import Skickade from "./components/pages/skickade/skickade";
 import Sellers from "./components/pages/sellers/sellers";
-import Profile from "./components/pages/profile/profile";
 import AboutHalmstadLokaler from "./components/pages/about-halmstadlokaler/about";
 const queryClient = new QueryClient()
 

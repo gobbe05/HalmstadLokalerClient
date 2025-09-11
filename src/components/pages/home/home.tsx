@@ -13,7 +13,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 const Home: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <div className="min-h-screen bg-gray-50">
+  <div className="w-full min-h-screen bg-gray-50">
       {/* Hero Section */}
       <HomeHero />
 
@@ -70,7 +70,7 @@ const HomeHero = () => {
 
   return (
     <div 
-      className="relative flex items-center min-h-[500px] overflow-hidden"
+      className="relative flex items-center min-h-[300px] sm:min-h-[500px] overflow-hidden"
     >
       {/* Background Image with Overlay */}
       <div 
@@ -84,8 +84,8 @@ const HomeHero = () => {
       />
 
       {/* Content */}
-      <div className="relative w-full max-w-7xl mx-auto px-4 py-16 md:py-24">
-        <div className="max-w-3xl">
+      <div className="relative w-full max-w-7xl mx-auto px-2 py-8 md:py-16">
+        <div className="w-full max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
             {t('home.heroTitle', 'Hitta din perfekta')} <br />{t('home.heroSubtitle', 'arbetsplats i Halmstad')}
           </h1>

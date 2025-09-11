@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import Links from "./links";
 import Logo from "./logo";
 import { IoClose, IoMenu } from "react-icons/io5";
-import LogoSmall from "./logosmall";
 
 export default function Header() {
     const [open, setOpen] = useState(false);

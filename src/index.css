@@ -31,7 +31,7 @@ body {
   @apply bg-slate-200;
 }
 #root {
-  @apply min-h-dvh grid;
+  @apply min-h-dvh grid max-w-full;
 }
 
 .rti--container {

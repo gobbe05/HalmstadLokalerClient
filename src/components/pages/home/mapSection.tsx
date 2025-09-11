@@ -19,7 +19,7 @@ const mapSection = ({width, height}: {width: number, height: number}) => {
     }, []) 
     return (
         <div className="text-neutral">
-            <div style={{height, width}}>
+            <div style={{height, width}} className="hidden lg:block">
                 <Map defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
                     <Markers points={points} />
                 </Map>

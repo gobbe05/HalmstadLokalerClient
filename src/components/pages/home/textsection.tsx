@@ -58,7 +58,7 @@ export default function TextSection() {
               </div>
 
               {/* Map Section */}
-              <div className="lg:w-1/2">
+              <div className="max-w-[100dvw] p-4 lg:w-1/2">
                 <div className="rounded-2xl shadow-lg overflow-hidden">
                   <div>
                     <MapSection width={600} height={500} />

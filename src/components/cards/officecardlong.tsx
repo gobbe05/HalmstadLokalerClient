@@ -24,23 +24,23 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
   return (
     <Link
       to={`/lokal/${office._id}`}
-      className="rounded-md group h-[128px] relative flex w-full bg-white text-gray-700 sm:border overflow-hidden transition-all border-gray-200 hover:border-primary/20 hover:shadow-lg"
+      className="rounded-md group w-full bg-white text-gray-700 sm:border overflow-hidden transition-all border-gray-200 hover:border-primary/20 hover:shadow-lg flex flex-col sm:flex-row h-auto sm:h-[128px]"
     >
-        {/* Thumbnail with consistent size */}
-        <div className="h-[128px] w-[64px] md:w-[128px] min-w-[64px] md:min-w-[128px] bg-gray-700 overflow-hidden">
-          {
-            office.thumbnails[0] ?
-            <img
-              src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]}
-              alt={`Thumbnail of ${office.name}`}
-              className="h-full w-full object-cover"
-            />
-            :
-            <div className="h-full w-full flex items-center justify-center text-gray-300">
-              <MdOutlineImageNotSupported size={32} />
-            </div>
-          } 
-        </div>
+      {/* Thumbnail - responsive */}
+      <div className="w-full h-[160px] sm:h-[128px] sm:w-[128px] min-w-0 sm:min-w-[128px] bg-gray-700 overflow-hidden">
+        {
+          office.thumbnails[0] ?
+          <img
+            src={import.meta.env.VITE_BUCKET_ADDRESS + office.thumbnails[0]}
+            alt={`Thumbnail of ${office.name}`}
+            className="h-full w-full object-cover"
+          />
+          :
+          <div className="h-full w-full flex items-center justify-center text-gray-300">
+            <MdOutlineImageNotSupported size={32} />
+          </div>
+        }
+      </div>
 
       {/* Office Details */}
       <div className="flex flex-col justify-between flex-grow p-4">
@@ -55,10 +55,10 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
           <div className="flex items-center gap-4">
             <p className="font-semibold mt-2">{office.size} m²</p>
             <p className="font-semibold mt-2">{office.price} kr/mån</p>
-          </div>          
-          {/* Like Button */} 
-         {type != "seller" && <LikeButton id={office._id}/>} 
-        </div> 
+          </div>
+          {/* Like Button */}
+          {type != "seller" && <LikeButton id={office._id}/>} 
+        </div>
       </div>
     </Link>
   );

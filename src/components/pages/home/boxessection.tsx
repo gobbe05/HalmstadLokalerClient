@@ -8,12 +8,14 @@ export default function BoxesSection() {
     return (
         <div className="w-full py-24 md:py-32">
             <div className="max-w-7xl mx-auto px-4">
+                {/*
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('boxes.title', 'Din plats i Halmstads arbetsliv')}</h2>
                     <p className="text-lg md:text-xl text-white/80">
                         {t('boxes.subtitle', 'Upptäck, hyr eller hyr ut kontorsutrymmen – enkelt, lokalt och flexibelt.')}
                     </p>
                 </div>
+                */}
                 <div className="grid md:grid-cols-3 gap-8 md:gap-12">
                     <Item 
                         icon={<HiOutlineBuildingOffice2 size={32} />}

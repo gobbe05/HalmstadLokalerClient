@@ -42,7 +42,7 @@ const Login: React.FC = () => {
 
             <h2 className="text-2xl font-semibold text-neutral mt-8">{t('login.title', 'Logga in')}</h2>
 
-            <div className="flex flex-col gap-6 mt-6 overflow-scroll">
+            <div className="flex flex-col gap-6 mt-6 overflow-auto">
               <div className="w-full">
                 <p className="font-semibold text-neutral">{t('login.usernameOrEmail', 'Användarnamn / E-post')}</p>
                 <input

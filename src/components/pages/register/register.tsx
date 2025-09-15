@@ -113,13 +113,13 @@ const Register: React.FC = () => {
         <meta name="description" content="Skapa ett konto på HalmstadLokaler för att lägga upp och hantera lokaler, meddelanden och bevakningar." />
       </Helmet>
       <div className="w-full h-screen flex items-center justify-center bg-gray-100">
-        <div className="flex flex-col lg:flex-row items-stretch h-full  w-full  bg-white shadow-lg rounded-lg overflow-scroll">
+        <div className="flex flex-col lg:flex-row items-stretch h-full  w-full  bg-white shadow-lg rounded-lg overflow-auto">
         
         <div className="hidden md:block lg:w-1/2 h-48 lg:h-full bg-cover bg-center" style={{ backgroundImage: "url('https://images.prismic.io/visithalland2/f4cd3cc9-8848-4399-a0c5-5ade146dad27_Halmstad_Halland_AlexanderHall_small.jpeg?ixlib=gatsbyFP&auto=compress%2Cformat&fit=max')" }}>
           <div className="bg-black opacity-40 w-full h-full"></div>
         </div>
 
-        <div className="max-h-screen lg:w-1/2 p-8 lg:p-16 overflow-scroll">
+        <div className="max-h-screen lg:w-1/2 p-8 lg:p-16 overflow-auto">
           <div className="mb-6 flex gap-2">
             {stage === 2 &&
             <div className="flex">

@@ -77,7 +77,7 @@ const HomeHero = () => {
 
   return (
     <div 
-      className="relative flex items-center min-h-[300px] sm:min-h-[500px] overflow-hidden"
+      className="relative flex items-center min-h-[300px] sm:min-h-[500px]"
     >
       {/* Background Image with Overlay */}
       <div 

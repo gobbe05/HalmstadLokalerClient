@@ -52,10 +52,10 @@ const LikeButton = ({id, longButton} : {id: string, longButton?: boolean}) => {
         </button>
     )
     return (
-        <div className="absolute bottom-2 left-2 hidden md:flex justify-end ">
+        <div className="absolute bottom-2 left-2 flex justify-end z-10">
             <button
                 onClick={ToggleLike}
-                className="bg-white flex items-center justify-center border border-gray-400 p-2 rounded-full hover:bg-gray-100 transition-all"
+                className="bg-white flex items-center justify-center border border-gray-400 p-2 rounded-full hover:bg-gray-100 transition-all shadow"
             >
                 {data.saved ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
             </button>

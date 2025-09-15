@@ -26,8 +26,14 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
       to={`/lokal/${office._id}`}
       className="rounded-md group w-full bg-white text-gray-700 sm:border overflow-hidden transition-all border-gray-200 hover:border-primary/20 hover:shadow-lg flex flex-col sm:flex-row h-auto sm:h-[128px]"
     >
-      {/* Thumbnail - responsive */}
-      <div className="w-full h-[160px] sm:h-[128px] sm:w-[128px] min-w-0 sm:min-w-[128px] bg-gray-700 overflow-hidden">
+      {/* Thumbnail - responsive, LikeButton overlay */}
+      <div className="relative w-full h-[160px] sm:h-[128px] sm:w-[128px] min-w-0 sm:min-w-[128px] bg-gray-700 overflow-hidden">
+        {/* Like Button overlayed on image */}
+        {type != "seller" && (
+          <div className="absolute bottom-1 left-1 z-10">
+            <LikeButton id={office._id} />
+          </div>
+        )}
         {
           office.thumbnails[0] ?
           <img
@@ -56,8 +62,6 @@ export default function OfficeCardLong({ office }: { office: IOffice }) {
             <p className="font-semibold mt-2">{office.size} m²</p>
             <p className="font-semibold mt-2">{office.price} kr/mån</p>
           </div>
-          {/* Like Button */}
-          {type != "seller" && <LikeButton id={office._id}/>} 
         </div>
       </div>
     </Link>

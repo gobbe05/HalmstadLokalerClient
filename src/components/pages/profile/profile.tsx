@@ -88,39 +88,28 @@ const ProfileCard = ({showOffices, id}: {showOffices: boolean, id: string}) => {
 
                         {/* Contact Actions */}
                         <div className="flex items-center gap-3">
-                            {isAuthenticated ? (
-                                <>
-                                    {user.email && (
-                                        <button 
-                                            onClick={() => setContactModal('email')}
-                                            className="p-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-full transition-colors"
-                            title={t('profile.showEmail', 'Visa e-postadress')}
-                                        >
-                                            <IoMailOutline className="w-5 h-5" />
-                                        </button>
-                                    )}
-                                    {user.phoneNumber && (
-                                        <button 
-                                            onClick={() => setContactModal('phone')}
-                                            className="p-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-full transition-colors"
-                            title={t('profile.showPhone', 'Visa telefonnummer')}
-                                        >
-                                            <IoCallOutline className="w-5 h-5" />
-                                        </button>
-                                    )}
-                                    {type === "buyer" && (
-                                        <ContactButton broker={id} />
-                                    )}
-                                </>
-                            ) : (
-                                <button
-                                    onClick={() => window.location.href = '/login'}
-                                    className="flex items-center justify-center gap-2 px-4 py-2 rounded-lg bg-primary hover:bg-primary/90 text-white font-medium transition-all"
+                            {user.email && (
+                                <button 
+                                    onClick={() => setContactModal('email')}
+                                    className="p-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-full transition-colors"
+                                    title={t('profile.showEmail', 'Visa e-postadress')}
                                 >
-                        <span>{t('profile.sendMessage', 'Skicka meddelande')}</span>
                                     <IoMailOutline className="w-5 h-5" />
                                 </button>
                             )}
+                            {user.phoneNumber && (
+                                <button 
+                                    onClick={() => setContactModal('phone')}
+                                    className="p-2 text-gray-600 hover:text-primary hover:bg-primary/5 rounded-full transition-colors"
+                                    title={t('profile.showPhone', 'Visa telefonnummer')}
+                                >
+                                    <IoCallOutline className="w-5 h-5" />
+                                </button>
+                            )}
+                            {type != "seller" && (
+                                <ContactButton broker={id} />
+                            )}
+                            
                         </div>
                     </div>
                 </div>

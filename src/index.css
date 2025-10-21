@@ -47,3 +47,44 @@ body {
 .startpage-multiselect .chip {
   display: none !important; /* Hides the selected value chips */
 }
+
+/* Hide native browser search clear icons so our custom clear button is the only one visible */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-clear-button {
+  display: none;
+  -webkit-appearance: none;
+}
+
+input[type="search"]::-ms-clear,
+input[type="search"]::-ms-expand {
+  display: none;
+}
+
+input[type="search"]::-moz-search-clear {
+  display: none;
+}
+
+/* More specific rules for our search input class to cover browser variants */
+.search-input::-webkit-search-decoration,
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-clear-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
+.search-input::-ms-clear,
+.search-input::-ms-expand {
+  display: none !important;
+}
+
+.search-input::-moz-search-clear {
+  display: none !important;
+}
+
+/* Defensive: remove any background images that some browsers use for the clear icon */
+.search-input {
+  background-image: none !important;
+  -webkit-appearance: textfield !important;
+  appearance: textfield !important;
+}

@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next"
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { Filter } from "@mui/icons-material"
 import { HiOutlineSearch } from "react-icons/hi"
+import { AiOutlineClose } from 'react-icons/ai'
 import { Helmet } from "react-helmet-async"
 
 
@@ -72,8 +73,23 @@ const LedigaLokaler = () => {
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
         setSubmittedSearch(search || ""); // Store last submitted search term
+        setPage(1);
         queryClient.invalidateQueries({ queryKey: ["offices"] });
     };
+
+    const clearSearch = () => {
+        setSearch("");
+        setSubmittedSearch("");
+        setPriceMin(undefined);
+        setPriceMax(undefined);
+        setSizeMin(undefined);
+        setSizeMax(undefined);
+        setTypes([]);
+        setType(undefined);
+        setPage(1);
+        setSearchString("?");
+        queryClient.invalidateQueries({ queryKey: ["offices"] });
+    }
 
     const updatePageCount = async () => {
         const response = await fetch(`${import.meta.env.VITE_SERVER_ADDRESS}/api/office/count?${searchString}`)
@@ -115,7 +131,7 @@ const LedigaLokaler = () => {
                 </div>
             </div>
             <div className="max-w-6xl mx-auto px-4 -mt-8">
-                <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} />
+                <SearchBar handleSearch={handleSearch} setSearch={setSearch} search={search} clearSearch={clearSearch} />
             </div>
 
             <div className="max-w-6xl mx-auto px-4 py-8">
@@ -323,8 +339,9 @@ interface SearchBarProps {
     handleSearch: (e: React.FormEvent) => void
     search: string | undefined
     setSearch: React.Dispatch<React.SetStateAction<string | undefined>>
+    clearSearch: () => void
 }
-const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
+const SearchBar = ({handleSearch, search, setSearch, clearSearch}: SearchBarProps) => {
     const { t } = useTranslation();
     return (
         <form 
@@ -332,24 +349,35 @@ const SearchBar = ({handleSearch, search, setSearch}: SearchBarProps) => {
             className="bg-white rounded-lg shadow-lg"
         >
             <div className="flex">
-                <div className="flex-1 flex items-center pl-4">
+                <div className="flex-1 flex items-center pl-4 relative">
                     <HiOutlineSearch className="w-5 h-5 text-gray-400 mr-2" />
                     <input 
-                        type="search" 
+                        type="text" 
                         id="default-search" 
                         value={search || ""}
-                        className="w-full p-4 text-gray-900 bg-transparent border-0 focus:ring-0 outline-none" 
+                        className="search-input w-full pr-12 p-4 text-gray-900 bg-transparent border-0 focus:ring-0 outline-none" 
                         placeholder={t('ledigalokaler.searchPlaceholder')}
                         onChange={(e) => setSearch(e.target.value)}
-                        required 
                     />
+                    {search && (
+                        <button
+                            type="button"
+                            aria-label="Clear search"
+                            onClick={() => { setSearch(""); clearSearch(); }}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 bg-white border border-gray-200 w-8 h-8 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-50 transition"
+                        >
+                            <AiOutlineClose className="w-4 h-4" />
+                        </button>
+                    )}
                 </div>
-                <button 
-                    type="submit" 
-                    className="bg-primary hover:bg-primary-dark text-white font-medium px-8 py-4 transition-colors rounded-r-lg"
-                >
-                    {t('ledigalokaler.searchButton')}
-                </button>
+                <div className="flex">
+                    <button 
+                        type="submit" 
+                        className="bg-primary hover:bg-primary-dark text-white font-medium px-6 py-4 transition-colors rounded-r-lg"
+                    >
+                        {t('ledigalokaler.searchButton')}
+                    </button>
+                </div>
             </div>
         </form>
     )

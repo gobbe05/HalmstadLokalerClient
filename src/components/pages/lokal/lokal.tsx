@@ -15,6 +15,7 @@ import ImagesContainer from "./imagescontainer";
 import ProfileCard from "../profile/profile";
 import LikeButton from "../../buttons/likebutton";
 import OfficeCardLong from "../../cards/officecardlong";
+import MapSection from "../home/mapSection";
 
 export default function Lokal() {
     const { t } = useTranslation();
@@ -151,11 +152,16 @@ export default function Lokal() {
                                       <LikeButton id={data.office._id} longButton={true} />
                                   </div>
                               )}
-                          </div>{/* Contact Card */}
-                              <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
-                                  <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('lokal.contactSeller')}</h2>
-                                  <ProfileCard showOffices={false} id={data.office.owner} />
-                              </div>
+                            </div>
+                            {/* Map Section */}
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                              <MapSection width={"100%"} height={400} onePoint={data.office.position} />
+                            </div>
+                            {/* Contact Card */}
+                            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                                <h2 className="text-xl font-semibold text-gray-900 mb-6">{t('lokal.contactSeller')}</h2>
+                                <ProfileCard showOffices={false} id={data.office.owner} />
+                            </div>
                       </div>
 
                       {/* Right Column - Sticky */}

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import getPins from '../../../utils/getPins';
 import Markers, { Point } from '../../map/markers';
 
-const mapSection = ({width, height}: {width: number, height: number}) => {
+const MapSection = ({width, height, onePoint}: {width: number | string, height: number, onePoint?: Point}) => {
     const position = {lat: 56.6744, lng: 12.8578 };
     const [points, setPoints] = useState<Array<Point>>([])
 
@@ -15,12 +15,16 @@ const mapSection = ({width, height}: {width: number, height: number}) => {
     }
 
     useEffect(() => {
-        fetchPins()
+        if (onePoint) {
+            setPoints([onePoint])
+        } else {
+            fetchPins()
+        }
     }, []) 
     return (
         <div className="text-neutral">
             <div style={{height, width}} className="hidden lg:block">
-                <Map defaultZoom={13} defaultCenter={position} mapId={"a78e92d174ef543b "}>
+                <Map defaultZoom={13} defaultCenter={onePoint || position} mapId={"a78e92d174ef543b "}>
                     <Markers points={points} />
                 </Map>
             </div>
@@ -28,4 +32,4 @@ const mapSection = ({width, height}: {width: number, height: number}) => {
     )
 }
 
-export default mapSection
+export default MapSection

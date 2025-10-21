@@ -7,7 +7,7 @@ export default function Footer() {
                 <div>
                     <h3 className="text-xl font-semibold">HalmstadLokaler</h3>
                     <Link to="/om-oss"><p className="text-sm text-white mt-2 hover:text-accent cursor-pointer transition-all">Om HalmstadLokaler</p></Link>
-                    <p className="text-sm hover:text-accent cursor-pointer transition-all">Kontakta oss</p>
+                    <a href="mailto:halmstadlunch@gmail.com" className="text-sm text-white hover:text-accent cursor-pointer transition-all">Kontakta oss</a>
                 </div>
 
                 {/* Hide for now

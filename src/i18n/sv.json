@@ -5,22 +5,22 @@
   },
   "about": {
     "title": "Om HalmstadLokaler",
-    "intro": "Vi är en digital mötesplats för företag, fastighetsägare och entreprenörer i Halmstad. Vår vision är att göra det enkelt och tryggt att hitta, hyra och hyra ut lokaler i hela kommunen.",
-    "missionTitle": "Vår Mission",
-    "mission": "Vi förenklar lokalmarknaden och skapar möjligheter för företag.",
-    "valuesTitle": "Våra Värderingar",
-    "values": "Transparens, trygghet och enkelhet i allt vi gör.",
-    "platformTitle": "Vår Plattform",
-    "platform": "En modern plattform som gör det enkelt att hitta och hyra lokaler i Halmstad.",
+    "intro": "Lediga lokaler i hela Halmstad: kontor, butik, lager, verkstad och industri. Vi gör det enkelt att hyra och hyra ut – med direktkontakt till hyresvärdar.",
+    "missionTitle": "Så fungerar HalmstadLokaler",
+    "mission": "HalmstadLokaler gör det enkelt att hitta rätt lokal. Företag kan söka bland lediga kontor, butiker, lager och industrilokaler i hela kommunen – och kontakta fastighetsägaren direkt. Fastighetsägare kan snabbt lägga upp sina objekt, nå fler lokalsökande och få kvalificerade intresseanmälningar.",
+    "valuesTitle": "För företag",
+    "values": "Sök lediga lokaler i Halmstad och hitta kontor, butik, lager eller verkstad som passar din verksamhet. Alltid gratis att använda.",
+    "platformTitle": "För fastighetsägare",
+    "platform": "Lägg upp din lokal och nå företag som vill växa i Halmstad.Vi hjälper dig att synas där företag letar kontor, butik, lager eller verkstad – med tydlig lokal räckvidd och enkel kontakt",
     "contactTitle": "Vill du veta mer?",
-    "contactText": "Tveka inte att kontakta oss om du har frågor, vill samarbeta eller bara är nyfiken på vad vi gör!",
+    "contactText": "Frågor om lokaler, annonsering eller samarbete? Vi hjälper dig.",
     "contactButton": "Kontakta oss"
   },
   "minsida": {
-    "denied": "Du har inte tillgång hit",
-    "loginRequired": "Logga in för att fortsätta.",
+    "denied": "Du saknar behörighet till denna sida.",
+    "loginRequired": "Logga in för att komma vidare.",
     "title": "Min sida",
-    "subtitle": "Hantera profil, annonser och statistik"
+    "subtitle": "Uppdatera profil, administrera annonser och se statistik och förfrågningar."
   },
 
   "allakontor": {
@@ -38,7 +38,7 @@
     "noDescription": "Ingen beskrivning finns",
     "features": "Egenskaper",
     "contactSeller": "Kontakta annonsör",
-    "otherOffices": "Fler lokaler från annonsören",
+    "otherOffices": "Fler lokaler från samma annonsör",
     "noOtherOffices": "Inga fler lokaler från denna annonsör"
   },
   "boxes": {
@@ -46,20 +46,20 @@
     "subtitle": "Från kontor och butiker till lager och industrilokaler – allt samlat på ett ställe.",
     "cta1": "Lägg upp din annons idag!",
     "header1": "Annonsera din lokal",
-    "text1": "Har du en ledig lokal i Halmstad? Lägg upp din annons och nå personer som letar efter butik, kontor, lager, verkstad eller industrilokal – direkt här hemma.",
-    "cta2": "Utforska lediga lokaler",
+    "text1": "Har du en ledig lokal i Halmstad? Publicera på några minuter. Din annons syns för företag som söker butik, kontor, lager, verkstad eller industrilokal – lokalt och utan krångel.",
+    "cta2": "Hitta lediga lokaler",
     "header2": "Alla typer av lokaler i Halmstad",
-    "text2": "Behöver du en butik, ett kontor, ett lager eller kanske en restauranglokal? På Halmstadlokaler.se hittar du allt samlat på ett ställe – enkelt och lokalt.",
-    "cta3": "Läs mer om oss",
+    "text2": "Behöver du en butik, ett kontor, ett lager, en verkstad eller en industrilokal? På HalmstadLokaler.se hittar du alla typer av kommersiella ytor i Halmstad.",
+    "cta3": "Om oss",
     "header3": "Varför välja oss?",
-    "text3": "Vi är Halmstads egen marknadsplats för lediga lokaler. Här ser du bara det som finns i Halmstad – utan brus från andra städer. Smidigt, lokalt och enkelt."
+    "text3": "Vi samlar Halmstads kommersiella lokaler på ett ställe: kontor, butik, lager, verkstad och industri. Allt är lokalt i Halmstad, vilket ger mer relevanta träffar och snabbare väg till rätt hyresvärd."
   },
 
   "home": {
     "heroTitle": "Hitta din lokal",
     "heroSubtitle": "i Halmstad",
-    "heroText": "Sök bland butiker, kontor, lager, verkstadslokaler, industrilokaler, restauranger, skolor och mer – allt samlat på ett ställe.",
-    "searchPlaceholder": "Sök efter lokaltyp eller område…",
+    "heroText": "Sök bland butiker, kontor, lager, verkstadslokaler, industrilokaler, restauranger och mer – allt samlat på ett ställe.",
+    "searchPlaceholder": "Sök efter lokaltyp…",
     "searchButton": "Sök",
     "selectType": "Välj lokaltyp",
     "oneSelected": "1 vald",
@@ -130,11 +130,11 @@
   "showAll": "Visa alla"
 },
 "listtoday": {
-  "owner": "Annonsör",
+  "owner": "För fastighetsägare",
   "title": "Annonsera din lokal",
   "today": "i dag",
-  "description1": "Kom igång direkt och nå hyresgäster på bara några minuter",
-  "description2": "Skapa konto i dag och lägg upp din lokal så att intressenter enkelt kan hitta den",
+  "description1": "Publicera din lokal i Halmstad och nå relevanta hyresgäster direkt.",
+  "description2": "Skapa konto i dag och lägg upp dina objekt – din annons blir synlig för företag som söker lokaler i Halmstad",
   "activeSeekers": "Aktiva intressenter",
   "avgResponse": "Snitt-svarstid",
   "readMore": "Läs mer",
@@ -148,16 +148,16 @@
   "showAll": "Visa alla lokaler"
 },
 "textsection": {
-  "title": "Hitta din nästa lokal i Halmstad",
-  "description": "På Halmstad Lokaler samlar vi lediga lokaler i Halmstad. Här hittar du allt från kontor och butiker till lagerlokal och verkstadslokaler.",
+  "title": "Lediga lokaler i Halmstad",
+  "description": "HalmstadLokaler samlar alla lediga lokaler i Halmstad: kontor, butikslokaler, lager och verkstads-/industrilokaler – på ett ställe.",
   "feature1Title": "Centralt läge",
-  "feature1Desc": "Lokaler nära stadens puls",
+  "feature1Desc": "Lokaler i city",
   "feature2Title": "Flexibla avtal",
   "feature2Desc": "Hyreslösningar som passar dig",
   "feature3Title": "Bra kommunikationer",
   "feature3Desc": "Enkelt att ta sig till och från",
   "feature4Title": "Olika typer av lokaler",
-  "feature4Desc": "Från kontor till butik och lager"
+  "feature4Desc": "Från kontor till verkstadslokal och lager"
 },
   "categorybutton": {
     "Kontor": "Kontor",
@@ -218,7 +218,7 @@
   "step1Title": "Steg 1: Grundinfo",
   "step2Title": "Steg 2: Detaljer",
   "step3Title": "Steg 3: Bilder",
-  "step4Title": "Steg 4: Granska & skicka",
+  "step4Title": "Steg 4: Granska & publicera",
   "preview": "Förhandsgranska",
   "previewDesc": "Förhandsvisning av din annons",
   "mainImage": "Huvudbild",
